@@ -1,36 +1,31 @@
 <template>
-  <div id="app">
+  <div>
     <header>
-      <Navbar></Navbar>
+      <top-navbar></top-navbar>
     </header>
-    <main>
-      <route-view></route-view>
+    <main class="container">
+      <router-view></router-view>
     </main>
-    <footer>
-      
-    </footer>
+    <bottom-footer></bottom-footer>
   </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue';
+import Navbar from '@/components/menu/Navbar.vue';
+import Footer from '@/components/layout/Footer.vue';
 
 export default {
   name: 'app',
   components: {
-    Navbar,
-    // BottomBar,
+    'top-navbar': Navbar,
+    'bottom-footer': Footer
   },
 };
 </script>
 
 <style>
-/* #app { */
-  /* font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px; */
-/* } */
+  main {
+    min-height: 100vh;
+    padding-top: 10vh;
+  }
 </style>

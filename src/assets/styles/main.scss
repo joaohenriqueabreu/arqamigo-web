@@ -1,1 +1,122 @@
-@import 'colors';
+
+
+body {
+    background-color: $darkWhite;
+}
+
+#app {
+    font-family: Raleway, 'Roboto', sans;
+
+    h1 {
+        font-family: Railey;
+        font-weight: 700;
+        font-size: 1.5em;
+    }
+
+    h1, h2, h3, h4, h5, a {
+        font-weight:    700;  
+        color:          $pink;
+    }
+
+    a {        
+        color: $pink;   
+        text-decoration: none;     
+        &:hover {
+            @extend .transition-ease;
+            color: transparentize($pink, 0.6);                        
+        }
+    }
+
+    // Bootstrap overrides
+    form {
+        .group {
+            @extend .shadow, .rounded-pill, .vertical;
+            // margin-bottom-20 full-width  shadow bg-white padding-10 padding-left-30 padding-right-30
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px 30px 10px 30px;            
+            
+            label {
+                font-weight: $bold;
+                margin-bottom: 5px;
+                color: $pink;
+            }
+          
+            input {
+                border: none;
+                min-width: 90%;
+                outline-color: transparent;
+                left: 0;
+                &:focus {
+                    outline-color: transparent;
+                }
+            }
+
+        }
+
+        button {
+            @extend .rounded-pill, .shadow;
+            padding: 10px;
+            min-width: 7vw;
+            background-color: $pink;
+            font-weight: $bold;
+            border: none;
+
+            &:hover {
+                @extend .transition-ease;
+                color: $darkWhite;
+            }
+        }
+    }
+
+    // Font Awesome override
+    .icon {
+        margin-right: 10px;
+    }
+
+    // General purpose classes
+    .shadow {
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .rounded-pill {        
+        border-radius: 50rem !important;
+    }
+
+    .vertical {
+        display: flex;
+        flex-direction: column;
+
+        &.center {
+            align-items: center;
+        }
+    }
+
+    .horizontal {
+        display: flex;
+        flex-direction: row;
+
+        &.center {
+            justify-content: center;
+        }
+    }
+
+    .transition-ease {
+        transition: all 0.5s ease;
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    $spaces: (5, 10, 20);
+    @each $space in $spaces {
+        .h-space-#{$space} {             
+            margin-right: #{$space}px; 
+        }
+
+        .v-space-#{$space} {             
+            margin-bottom: #{$space}px; 
+        }
+    }
+}

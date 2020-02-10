@@ -1,10 +1,15 @@
 module.exports = {
-  pluginOptions: {
-    'style-resources-loader': {
-      preProcessor: 'sass',
-      patterns: [
-          path.resolve(__dirname, './src/assets/styles/main.scss'),
-      ],
-    },
+  "devServer": {
+    "proxy": "http://localhost:8080/"
   },
-};
+  "css": {
+    "loaderOptions": {
+      "scss": {
+        "prependData": "@import \"@/assets/styles/lib.scss\";"
+      }
+    }
+  },
+  "transpileDependencies": [
+    "vuetify"
+  ]
+}
