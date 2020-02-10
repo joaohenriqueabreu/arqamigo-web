@@ -11,6 +11,9 @@ import router from '@/router.js';
 import Bootstrap from 'bootstrap-vue';
 import Carousel from 'vue-carousel';
 import Modal from 'vue-js-modal';
+import Avatar from 'vue-avatar';
+
+import HoverOverlay from '@/components/layout/HoverOverlay';
 
 import app from '@/App.vue';
 
@@ -25,7 +28,10 @@ Vue.use(Carousel);
 Vue.use(Modal);
 
 library.add(faUserSecret, faGoogle, faFacebook)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('hover-overlay', HoverOverlay);
+Vue.component('avatar', Avatar);
 
 // Remove warning message at console
 Vue.config.productionTip = false;

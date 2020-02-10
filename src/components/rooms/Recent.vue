@@ -6,7 +6,7 @@
             <slide v-for="(room, id) in recentRooms" :key="room.id" class="clickable" @slideclick="openFeed(id)">
                 <div class="vertical middle center">
                     <hover-overlay icon="fas fa-search-location">
-                        <v-avatar :src="room.photo" :username="room.customer.public_name" :size="100"></v-avatar>
+                        <avatar :src="room.photo" :username="room.customer.public_name" :size="100"></avatar>
                     </hover-overlay>
                     <div class="slide-subtitle vertical middle center">
                         <span>{{ room.category.description }}</span>

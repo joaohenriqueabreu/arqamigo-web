@@ -23,9 +23,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss'>
+@import '@/assets/styles/main.scss';
+
+  header {
+    background: $white;
+  }
+
   main {
     min-height: 100vh;
     padding-top: 10vh;
+    padding-bottom: 10vh;
   }
 </style>
