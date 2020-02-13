@@ -54,7 +54,7 @@ const store = new Vuex.Store({
     set_consultings(state, consultings) {
       state.consultings = consultings;
     },
-    set_customers(state, customers) {
+    set_customers(state, customers) {      
       state.customers = customers;
     }
   },

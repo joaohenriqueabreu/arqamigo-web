@@ -19,7 +19,8 @@ import app from '@/App.vue';
 
 // Font awesome imports
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser, faSignOutAlt, faProjectDiagram, faRuler, faRulerHorizontal, faRulerVertical, faPhone } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -27,7 +28,10 @@ Vue.use(Bootstrap);
 Vue.use(Carousel); 
 Vue.use(Modal);
 
-library.add(faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser, faGoogle, faFacebook)
+library.add(
+  faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser, faSignOutAlt, faProjectDiagram, 
+  faRuler, faRulerHorizontal, faRulerVertical, faEnvelope, faPhone, faGoogle, faFacebook
+)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('hover-overlay', HoverOverlay);

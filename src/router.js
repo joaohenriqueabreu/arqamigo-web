@@ -16,7 +16,9 @@ import CustomerDash     from '@/views/customer/CustomerDash';
 
 import ProfessionalDash from '@/views/professional/Dashboard';
 import ProConsultings   from '@/views/professional/Consultings';
+import ProCustomers     from '@/views/professional/Customers';
 import ProRoom          from '@/views/professional/Room';
+import ProRoomsSearch   from '@/views/professional/RoomsSearch';
 
 import Profile          from '@/views/auth/Profile';
 
@@ -115,9 +117,19 @@ let router = new Router({
             component: ProRoom,            
           },
           {
-            path: 'customers/:id',
+            path: 'customers',
             name: 'professional.customers',
+            component: ProCustomers,
+          },
+          {
+            path: 'customers/:id',
+            name: 'professional.customer',
             component: ViewArea
+          },
+          {
+            path: 'rooms',
+            name: 'professional.rooms',
+            component: ProRoomsSearch
           }
         ]
       },      

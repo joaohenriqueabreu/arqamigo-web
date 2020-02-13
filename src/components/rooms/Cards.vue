@@ -1,10 +1,10 @@
 <template>
   <div>
       <div class="row" v-if="rooms.length > 0">
-        <div class="col-sm-4" v-for="room in rooms" :key="room.id">
+        <div class="col-sm-4 mb-4 d-flex align-items-stretch" v-for="room in rooms" :key="room.id">
           <div class="card shadow">
             <div class="card-header horizontal">
-              <router-link :to="{ name: 'professional.customers', params: { id: room.customer.id }}">
+              <router-link :to="{ name: 'professional.customer', params: { id: room.customer.id }}">
                 <hover-overlay rounded="true" icon="user">
                   <avatar :src="room.customer.photo" :username="room.customer.public_name"></avatar>
                 </hover-overlay>              
@@ -55,7 +55,7 @@ export default {
     h6 {
       font-weight: $bold;
       font-size: 13px;
-      color: $pink;
+      color: $gray;
     }
   }  
 
@@ -67,5 +67,9 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  .blockquote-footer {
+    font-size: 15px;
   }
 </style>

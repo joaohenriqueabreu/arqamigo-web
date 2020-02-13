@@ -9,45 +9,42 @@
                         <avatar :src="room.photo" :username="room.customer.public_name" :size="100"></avatar>
                     </hover-overlay>
                     <div class="slide-subtitle vertical middle center">
-                        <span>{{ room.category.description }}</span>
+                        <span>{{ room.category.name }}</span>
                         <span class="sub">{{ room.customer.location }}</span>
                     </div>
                 </div>
             </slide>
             <slide class="vertical top center">
                 <div class="vertical middle center rounded-circle shadow" style="height:100px;width:100px">
-                    <a class="vertical middle center no-decor fill clickable" href="/professional/rooms">
-                        <i class="arq icon text huge invert after fas fa-home margin-bottom"></i>
-                        <span class="text medium color-pink super-bold">Ver mais</span>
-                    </a>
+                    <router-link to="/professional/rooms">Ver mais</router-link>
                 </div>
             </slide>
         </carousel>
 
-        <modal name="feed" :adaptive="true" :clickToClose="true" @opened="slideToCurrent" @closed="closeModal" height="400">
+        <modal name="feed" :adaptive="true" :clickToClose="true" @opened="slideToCurrent" @closed="closeModal" height="auto">
             <carousel :adjustableHeight="false" :autoplayHoverPause="true" :loop="true"
                       :perPage="1" paginationColor="white" paginationActiveColor="#f63088"
                       :paginationPosition="'bottom-overlay'" :speed="1000" :autoplayTimeout="7000"
                       :autoplay="true" ref="feed">
-                <slide v-for="(room, id) in rooms" :key="id" style="height: 400px;" @slideclick="navigateToRoom(room.url)">
-                    <div class="fill position-relative clickable">
-                        <div class="position-absolute top-left vertical-center align-left bg-white shadow rounded-pill padding-20 margin-20 max-width-50">
-                            <small class="color-pink super-bold">
-                                {{ room.category.description }} em {{ room.customer.location }}
+                <slide v-for="room in rooms" :key="room.id" style="height: 400px;" @slideclick="navigateToRoom(room.id)">                                    
+                    <div class="fill position-relative clickable">                        
+                        <div class="position-absolute top-left vertical align-left shadow rounded-pill m-3 p-3 bg-white">
+                            <small>
+                                {{ room.category.name }} em {{ room.customer.location }}
                             </small>
-                            <small class="white-space-initial font-italic">
+                            <small class="font-italic">
                                 {{ room.title }}
                             </small>
                         </div>
                         <img :src="room.photo" class="fill"/>
-                    </div>
+                    </div>                    
                 </slide>
             </carousel>
         </modal>
     </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
     .recent-rooms-container {
         overflow: hidden;
         padding: 20px;
@@ -72,6 +69,13 @@
     /*Overriding modal css*/
     .v--modal-overlay[data-modal="feed"] {
         background: rgba(255, 255, 255, 0.98);
+    }
+
+    .VueCarousel-slide {
+        img { 
+            height: 400px; 
+            max-width: 100%;
+        }    
     }
 </style>
 
@@ -109,8 +113,9 @@ import { mapGetters } from 'vuex';
             closeModal: function () {
                 // $("#on-modal-open-heading").addClass('hide');
             },
-            navigateToRoom: function (url) {
-                window.location.href = url;
+            navigateToRoom: function (roomId) {    
+                // Need to use special slider function otherwise dragging will trigger redirect when router-link            
+                this.$router.push({ name: 'professional.room', params: { id: roomId }});
             }
         }
     }

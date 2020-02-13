@@ -18,12 +18,17 @@
           <h2>{{ getUsername }}</h2>
         </router-link>
         <div class="v-space-20"></div>
-        <customer-menu v-if="isCustomer"></customer-menu>
-        <professional-menu v-if="isProfessional"></professional-menu>
-        <div class="v-space-20"></div>
-        <a class="clickable" @click="logout">
-          <h2>Sair</h2>
-        </a>
+        <div class="text-left">
+          <customer-menu v-if="isCustomer"></customer-menu>
+          <professional-menu v-if="isProfessional"></professional-menu>
+          <div class="v-space-20"></div>
+          <a class="clickable" @click="logout">            
+            <h3>
+              <font-awesome-icon class="mr-3" icon="sign-out-alt"></font-awesome-icon>
+              Sair
+            </h3>
+          </a>
+        </div>        
       </div>
     </div>
   </div>

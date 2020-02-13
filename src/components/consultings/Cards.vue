@@ -2,7 +2,7 @@
   <div>
       <div class="card full-width shadow" v-for="consulting in consultings" :key="consulting.id">
         <div class="card-body ">
-          <div class="horizontal d-flex justify-content-sm-between">
+          <div class="horizontal d-flex justify-content-between">
             <div class="horizontal">
                 <div class="position-relative">
                   <hover-overlay :rounded="true" icon="home">
