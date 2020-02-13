@@ -25,14 +25,17 @@ export default {
 
 <style lang='scss'>
 @import '@/assets/styles/main.scss';
-
   header {
     background: $white;
+    position: fixed;
+    width: 100vw;    
+    z-index: 1020;
   }
 
-  main {
+  main {    
     min-height: 100vh;
-    padding-top: 10vh;
+    padding-top: 15vh;
     padding-bottom: 10vh;
+    z-index: 0;
   }
 </style>

@@ -19,9 +19,9 @@
         <a :href="baseUrl.concat('/privacy')" target="_blank">Privacy Policy</a>
       </div>
       <div>
-        <a href="#"><img src="assets/images/linkedin.png"/></a>
+        <!-- <a href="#"><img src="assets/images/linkedin.png"/></a>
         <a href="#"><img src="assets/images/facebook.png"/></a>
-        <a href="#"><img src="assets/images/twitter.png"/></a>
+        <a href="#"><img src="assets/images/twitter.png"/></a> -->
       </div>
     </section>
   </div>  

@@ -2,17 +2,33 @@
     <div>
         <div class="position-relative" @mouseover="hovering=true" @mouseleave="hovering=false">
             <slot></slot>
-            <div v-show="hovering" class="hover-overlay overlay-8-pink clickable vertical middle center" :class="rounded ? 'rounded-circle' : ''">
-                <i class="color-white super-bold" :class="icon"></i>
+            <div v-show="hovering" class="overlay clickable vertical middle center" :class="rounded ? 'rounded-circle' : ''">
+                <font-awesome-icon :icon="fontIcon"></font-awesome-icon>
             </div>
         </div>
     </div>
 </template>
 
-<style>
-    .hover-overlay {
-        transition: display 1s ease ;
+<style lang="scss" scoped>    
+.overlay {    
+    position:   absolute;
+    top:        0;
+    left:       0;
+    min-height: 100%;
+    width:      100%;   
+    color:      $white; 
+    &:hover {
+        @extend .transition-ease;
+        // transition: all 0.5s ease;
+        background-color: $pink;
+        z-index:          100;
+        opacity:          0.8;
+    }   
+    
+    .circle {
+        border-radius: 50%;
     }
+}
 </style>
 
 <script>
@@ -22,12 +38,11 @@
                 hovering: false
             }
         },
-        mounted () { },
-        props: {
-            icon:       String,
-            rounded:    {type: Boolean, default: true}
-        },
-        methods: { },
-        computed: { },
+        props: ['rounded', 'icon'],
+        computed: {
+            fontIcon() {
+                return this.icon;
+            }
+        }
     }
 </script>

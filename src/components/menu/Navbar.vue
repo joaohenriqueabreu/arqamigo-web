@@ -16,8 +16,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import UserMenu from './User.vue';
-import GuestMenu from './Guest.vue';
+import UserMenu from './UserMenu.vue';
+import GuestMenu from './GuestMenu.vue';
 
 export default {
   data() {
@@ -32,10 +32,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  nav {
-    position: sticky;
+  nav {    
     top: 0;
     left: 0;    
-    width: 100%;
+    // width: 100%;
+    padding-right: 30px;    
+    padding-left: 30px;    
+    z-index: 1020;
   }
 </style>

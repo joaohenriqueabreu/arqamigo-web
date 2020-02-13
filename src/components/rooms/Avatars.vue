@@ -1,11 +1,11 @@
 <template>
-    <div class="recent-rooms-container horizontal middle">
+    <div class="recent-rooms horizontal middle">
         <div v-show="! ready" class="horizontal-fill">Loading...</div>
         <carousel v-show="ready" class="horizontal-fill" :perPageCustom="[[768, 3], [1024, 6]]" 
             :paginationEnabled="false" ref="carousel">
-            <slide v-for="(room, id) in recentRooms" :key="room.id" class="clickable" @slideclick="openFeed(id)">
+            <slide v-for="(room, id) in rooms" :key="room.id" class="clickable" @slideclick="openFeed(id)">
                 <div class="vertical middle center">
-                    <hover-overlay icon="fas fa-search-location">
+                    <hover-overlay :rounded="true" icon="search">
                         <avatar :src="room.photo" :username="room.customer.public_name" :size="100"></avatar>
                     </hover-overlay>
                     <div class="slide-subtitle vertical middle center">
@@ -29,7 +29,7 @@
                       :perPage="1" paginationColor="white" paginationActiveColor="#f63088"
                       :paginationPosition="'bottom-overlay'" :speed="1000" :autoplayTimeout="7000"
                       :autoplay="true" ref="feed">
-                <slide v-for="(room, id) in recentRooms" :key="id" style="height: 400px;" @slideclick="navigateToRoom(room.url)">
+                <slide v-for="(room, id) in rooms" :key="id" style="height: 400px;" @slideclick="navigateToRoom(room.url)">
                     <div class="fill position-relative clickable">
                         <div class="position-absolute top-left vertical-center align-left bg-white shadow rounded-pill padding-20 margin-20 max-width-50">
                             <small class="color-pink super-bold">
@@ -76,18 +76,22 @@
 </style>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
     export default {
+        props: {
+            rooms: {
+                name: "rooms",
+                type: Array
+            }
+        },
         data: function () {
-            return {
-                room:           {},                
+            return {                
                 currentSlide:   0,
-                ready:          false,
+                ready:          true, // TODO Create loadings
             }
         },        
-        methods: {
-            ...mapActions(['loadRooms']),
+        methods: {            
             openFeed: function (index) {
                 this.currentSlide = index;
                 this.slideToCurrent();
@@ -108,16 +112,6 @@ import { mapActions, mapGetters } from 'vuex';
             navigateToRoom: function (url) {
                 window.location.href = url;
             }
-        },
-        created: function () {                        
-          this.loadRooms().then(() => {            
-            this.$refs.carousel.goToPage(0);
-            this.$refs.carousel.dragging = true;
-            this.ready = true;
-          })            
-        },
-        computed: {            
-            ...mapGetters(['recentRooms'])
-        },
+        }
     }
 </script>

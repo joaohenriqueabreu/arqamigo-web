@@ -4,15 +4,22 @@ import store        from '@/store';
 
 import Home         from '@/views/info/Home';
 import About        from '@/views/info/About';
+import ViewArea     from '@/components/layout/ViewArea';
+
 import Login        from '@/views/auth/Login';
 import Register     from '@/views/auth/Register';
 
 import Admin        from '@/views/admin/Admin';
 
-import Dash             from '@/views/dashboard/Dash';
-import AdminDash        from '@/views/admin/Dashboard';
-import CustomerDash     from '@/views/dashboard/Customer';
-import ProfessionalDash from '@/views/dashboard/Professional';
+import AdminDash        from '@/views/admin/AdminDash';
+import CustomerDash     from '@/views/customer/CustomerDash';
+
+import ProfessionalDash from '@/views/professional/Dashboard';
+import ProConsultings   from '@/views/professional/Consultings';
+import ProRoom          from '@/views/professional/Room';
+
+import Profile          from '@/views/auth/Profile';
+
 import Unauthorized     from '@/views/error/404';
 
 Vue.use(Router);
@@ -31,18 +38,21 @@ const preventAuthMiddleware = {
 
 const customerMiddleware = {
   meta: {
+    requiresAuth: true,
     requiresCustomerAuth: true
   }
 };
 
 const professionalMiddleware = {
   meta: {
+    requiresAuth: true,
     requiresProfessionalAuth: true
   }
 };
 
 const adminMiddleware = {
   meta: {
+    requiresAuth: true,
     requiresAdminAuth: true
   }
 };
@@ -73,30 +83,55 @@ let router = new Router({
         component: Register
       },
       {
-        path: '/dash',
-        name: 'dash',
-        component: Dash,
-        ...authMiddleware,        
+        path: '/customer',        
+        component: ViewArea,
+        ...customerMiddleware,
         children: [
           {
-            path: 'customer',
+            path: '',
             name: 'customer.dash',
-            component: CustomerDash,
-            ...customerMiddleware
-          },
+            component: CustomerDash,            
+          }          
+        ]
+      },
+      {
+        path: '/professional',        
+        component: ViewArea,
+        ...professionalMiddleware,        
+        children: [
           {
-            path: 'professional',
+            path: '',
             name: 'professional.dash',
             component: ProfessionalDash,
-            ...professionalMiddleware
-          },      
+          },
+          {
+            path: 'consultings',
+            name: 'professional.consultings',
+            component: ProConsultings
+          },
+          {
+            path: 'rooms/:id',
+            name: 'professional.room',
+            component: ProRoom,            
+          },
+          {
+            path: 'customers/:id',
+            name: 'professional.customers',
+            component: ViewArea
+          }
         ]
+      },      
+      {
+        path: '/user/profile',
+        name: 'user',
+        component: Profile,
+        ...authMiddleware,
+        children: []
       },
       {
         path: '/admin',
         name: 'admin',
-        component: Admin,
-        ...authMiddleware,
+        component: Admin,        
         ...adminMiddleware,
         children: [
           {
@@ -120,29 +155,22 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log(to.path)
-    if (to.matched.some(page => page.meta.requiresAuth)) {      
-      console.log(`requires login ${store.getters.isLoggedIn}`)
-      if (! store.getters.isLoggedIn) {
-        next('/404')
-        return
-      }
-      
-      if (to.path === '/dash') {
-        console.log('we are here')
-        next(getDashRedirect())
-        return
-      }
-        
+  // When route changes, close menu if opened  
+  if (store.getters.isMenuOpened) {
+      store.dispatch('closeMenu');  
+    }    
+
+    if (to.matched.some(page => page.meta.requiresAuth)) {  
+      console.log('requires auth');
       if (to.matched.some(page => page.meta.requiresAdminAuth)) {
         if (! store.getters.isAdmin) {
           next('/404')
           return
         }      
       }
-      
+
       if (to.matched.some(page => page.meta.requiresCustomerAuth)) {
-        console.log(`requires customer ${store.getters.isCustomer}`)
+        console.log('requires customer auth');
         if (! store.getters.isCustomer) {
           next('/404')
           return
@@ -150,12 +178,24 @@ router.beforeEach((to, from, next) => {
       }
       
       if (to.matched.some(page => page.meta.requiresProfessionalAuth)) {
-        console.log(`requires pro ${store.getters.isProfessional}`)
+        console.log('requires pros auth');
         if (! store.getters.isProfessional) {
           next('/404')
           return
         }          
       }
+
+      console.log('requires auth');
+      if (! store.getters.isLoggedIn) {
+        console.log('is logged in');
+        next('/404')
+        return
+      }
+      
+      if (to.path === '/dash') {        
+        next(getDashRedirect())
+        return
+      }                         
     }
     
     if (to.matched.some(page => page.meta.redirectWhenAuth)) {
@@ -165,7 +205,6 @@ router.beforeEach((to, from, next) => {
       }          
     }
 
-    console.log('authorized')
     next() 
 })
 
@@ -176,11 +215,11 @@ const getDashRedirect = function () {
   }
 
   if (store.getters.isCustomer) {
-    return('/dash/customer')    
+    return('/customer')    
   }
 
   if (store.getters.isProfessional) {
-    return('/dash/professional')    
+    return('/professional')    
   }  
 }
 

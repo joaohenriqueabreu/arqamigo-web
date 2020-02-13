@@ -17,7 +17,7 @@
                 <input type="password" v-model="password" name="password">
               </div>      
               <div class="form-group">
-                <button type="submit" @click.prevent="customerLogin" class="btn btn-primary">Submit</button>                                  
+                <button type="submit" @click.prevent="customerLogin">Submit</button>                                  
                 <span class="h-space-10"></span>
                 <router-link to="forgot-password">Esqueceu sua senha?</router-link>
               </div>                         
