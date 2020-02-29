@@ -1,16 +1,23 @@
 <template>
     <div class="horizontal middle center">
-        <div v-if="showCamera" class="media-button clickable" v-on:click="openImageUploader('camera')" v-tooltip.top-center="'Tirar uma fota'">
-            <i class="fas fa-camera"></i>
-        </div>
-        <div v-if="showVideo" class="media-button clickable" v-on:click="openImageUploader('local')" v-tooltip.top-center="'Enviar um video'">
-            <i class="fas fa-video"></i>
-        </div>
-        <div class="media-button clickable" :class="docmode ? 'dark' : ''" v-on:click="openImageUploader('local')" v-tooltip.top-center="docmode ? '' : 'Enviar uma imagem'">
-            <i class="fas" :class="docmode ? 'fa-arrow-circle-up' : 'fa-images'"></i>
-        </div>
-        <div v-if="showInstagram" class="media-button clickable" v-on:click="openImageUploader('instagram')" v-tooltip.top-center="'Adicione uma imagem do seu instagram'">
-            <i class="fab fa-instagram"></i>
+        <!-- <div v-if="showCamera" class="media-button clickable" v-on:click="openImageUploader('camera')" v-tooltip.top-center="'Tirar uma fota'"> -->
+        <div v-if="showCamera" class="horizontal media-button clickable" v-on:click="openImageUploader('camera')">
+            <font-awesome-icon icon="camera"></font-awesome-icon>            
+            <div class="h-space-10"></div>
+        </div>        
+        <!-- <div v-if="showVideo" class="media-button clickable" v-on:click="openImageUploader('local')" v-tooltip.top-center="'Enviar um video'"> -->
+        <div v-if="showVideo" class="horizontal media-button clickable" v-on:click="openImageUploader('local')">
+            <font-awesome-icon icon="video"></font-awesome-icon>            
+            <div class="h-space-10"></div>
+        </div>        
+        <!-- <div class="media-button clickable" :class="docmode ? 'dark' : ''" v-on:click="openImageUploader('local')" v-tooltip.top-center="docmode ? '' : 'Enviar uma imagem'"> -->
+        <div class="horizontal media-button clickable" :class="docmode ? 'dark' : ''" v-on:click="openImageUploader('local')">
+            <font-awesome-icon :icon="docmode ? ['far', 'arrow-circle-up'] : ['fas', 'images']"></font-awesome-icon>            
+            <div class="h-space-10"></div>
+        </div>        
+        <!-- <div v-if="showInstagram" class="media-button clickable" v-on:click="openImageUploader('instagram')" v-tooltip.top-center="'Adicione uma imagem do seu instagram'"> -->
+        <div v-if="showInstagram" class="horizontal media-button clickable" v-on:click="openImageUploader('instagram')">
+            <font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon>                            
         </div>
 
         <input type="hidden" name="images" v-model="images">
@@ -44,6 +51,8 @@
 </style>
 
 <script>
+    let cloudinary = window.cloudinary;    
+
     const CLOUD_NAME = 'arquiamigo';
     const ALLOWED_MEDIA_FORMATS = [
         '3gp', 'png', 'jpg', 'jpeg', 'tiff', 'gif', 'avi', 'flv', 'wmv', 'mp4', 'mov', 'ogg', 'pdf'
@@ -57,11 +66,6 @@
                 videos: [],
                 media:  {},
             }
-        },
-        mounted () {            
-            let cloudinaryScript = document.createElement('script');
-            cloudinaryScript.setAttribute('src', 'https://widget.cloudinary.com/v2.0/global/all.js');
-            document.body.appendChild(cloudinaryScript)
         },
         props: { 
             video:      { type: Boolean, default: true },
@@ -86,7 +90,6 @@
                 },
                 (error, result) => {
                     if (result && result.event === "success") {
-                        console.log(result.info);
                         this.media = {
                             'name':             result.info.original_filename + '.' + result.info.format,
                             'public_id':        result.info.public_id,
@@ -97,19 +100,19 @@
                             'thumbnail_url':    result.info.thumbnail_url
                         };
 
-                        if (result.info.resource_type === IMAGE_TYPE) {                            
+                        if (result.info.resource_type === this.$config.IMAGE_TYPE) {                            
                             this.images.push(JSON.stringify([this.media]));
                             if (this.docmode) { this.docs = this.images; }
                         }
 
-                        if (result.info.resource_type === VIDEO_TYPE) {
+                        if (result.info.resource_type === this.$config.VIDEO_TYPE) {
                             this.videos.push(JSON.stringify([this.media]));
-                            this.$parent.$emit(VIDEO_UPLOADED, result.info);
+                            this.$parent.$emit(this.$config.VIDEO_UPLOADED, result.info);
                         }
                     }
 
                     if (result && result.event === "close" && this.images.length > 0) {
-                        this.$parent.$emit(IMAGE_UPLOADED, this.media);
+                        this.$parent.$emit(this.$config.IMAGE_UPLOADED, this.media);
                     }                    
                 });
             },

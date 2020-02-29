@@ -56,6 +56,9 @@ const store = new Vuex.Store({
     },
     set_customers(state, customers) {      
       state.customers = customers;
+    },
+    change_profile_image(state, img) {
+      state.user.profile_img_url = img;
     }
   },
   actions: {
@@ -94,6 +97,10 @@ const store = new Vuex.Store({
     },
     loadCustomers({ commit, getters }) {
       api.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data.customers));
+    },
+    changeProfileImage({ commit }, img_url) {    
+      console.log(img_url);  
+      commit('change_profile_image', img_url);
     }
   },
   getters: {
