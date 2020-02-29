@@ -1,29 +1,26 @@
 <template>  
   <div>
-    <section class="left">
-      <div class="main-items">
-        <a v-for="(option, index) in footerOptions" :key="option.label"
-          :href="baseUrl.concat(option.action)" target="_blank">
-          {{ option.label }}
-          <span v-if="index !== footerOptions.length - 1">|</span>
-        </a>
-      </div>
-      <div>
-        © Copyright {{ currentYear }}, Intricately, Inc. All rights reserved.
-      </div>
-    </section>
-    <section class="right">
-      <div class="main-items">
-        <a :href="baseUrl.concat('/terms')" target="_blank">Terms and Conditions</a>
-        <span>|</span>
-        <a :href="baseUrl.concat('/privacy')" target="_blank">Privacy Policy</a>
-      </div>
-      <div>
-        <!-- <a href="#"><img src="assets/images/linkedin.png"/></a>
-        <a href="#"><img src="assets/images/facebook.png"/></a>
-        <a href="#"><img src="assets/images/twitter.png"/></a> -->
-      </div>
-    </section>
+    <div class="d-flex justify-content-between p-5 shadow">
+      <section class="left">
+        <div class="main-items">
+          <a v-for="(option, index) in footerOptions" :key="option.label"
+            :href="baseUrl.concat(option.action)" target="_blank">
+            {{ option.label }}
+            <span v-if="index !== footerOptions.length - 1" class="m-1">|</span>
+          </a>
+        </div>
+        <div>
+          © Copyright {{ currentYear }}, Arqui-Amigo, a VDev Company. All rights reserved.
+        </div>
+      </section>
+      <section class="right">
+        <div class="main-items">          
+          <a :href="baseUrl.concat('/terms')" target="_blank">Terms and Conditions</a>
+          <span class="m-2">|</span>
+          <a :href="baseUrl.concat('/privacy')" target="_blank">Privacy Policy</a>
+        </div>        
+      </section>
+    </div>        
   </div>  
 </template>
 
@@ -31,13 +28,13 @@
 export default {
   data() {
     return {
-      baseUrl: 'https://www.intrincately.com',
+      baseUrl: 'http://localhost:8080',
       footerOptions: [
-        { action: '/demo', label: 'Pricing' },
-        { action: '/blog', label: 'Blog' },
-        { action: '/blog', label: 'Webinars' },
-        { action: '/blog', label: 'Events' },
-        { action: '/how-it-works', label: 'Help Center' },
+        { action: '/about', label: 'Pricing' },
+        { action: '/about', label: 'Blog' },
+        { action: '/about', label: 'Webinars' },
+        { action: '/about', label: 'Events' },
+        { action: '/about', label: 'Help Center' },
       ],
     };
   },
@@ -50,5 +47,5 @@ export default {
 <style lang="scss" scoped>
   div {
     background-color: $white;
-  }  
+  }    
 </style>

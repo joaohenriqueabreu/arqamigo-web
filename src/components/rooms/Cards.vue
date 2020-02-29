@@ -18,7 +18,7 @@
             <router-link :to="{ name: 'professional.room', params: { id: room.id }}">
               <img class="card-img-top" :src="room.photo">              
               <div class="card-subtitle">
-                {{ room.title }} {{ room.title }}
+                {{ room.title }}
               </div>
             </router-link>
             <div class="card-body">
@@ -70,6 +70,6 @@ export default {
   }
 
   .blockquote-footer {
-    font-size: 15px;
+    font-size: 12px;
   }
 </style>

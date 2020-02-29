@@ -95,53 +95,6 @@ const store = new Vuex.Store({
     loadCustomers({ commit, getters }) {
       api.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data.customers));
     }
-    // login({commit}, user){
-    //     return new Promise((resolve, reject) => {
-    //       commit('auth_request')
-    //       axios({url: 'http://localhost:3000/login', data: user, method: 'POST' })
-    //       .then(resp => {
-    //         const token = resp.data.token
-    //         const user = resp.data.user
-    //         localStorage.setItem('token', token)
-    //         axios.defaults.headers.common['Authorization'] = token
-    //         commit('auth_success', token, user)
-    //         resolve(resp)
-    //       })
-    //       .catch(err => {
-    //         commit('auth_error')
-    //         localStorage.removeItem('token')
-    //         reject(err)
-    //       })
-    //     })
-    // },
-    // register({commit}, user){
-    //     return new Promise((resolve, reject) => {
-    //       commit('auth_request')
-    //       axios({url: 'http://localhost:3000/register', data: user, method: 'POST' })
-    //       .then(resp => {
-    //         const token = resp.data.token
-    //         const user = resp.data.user
-    //         localStorage.setItem('token', token)
-    //         axios.defaults.headers.common['Authorization'] = token
-    //         commit('auth_success', token, user)
-    //         resolve(resp)
-    //       })
-    //       .catch(err => {
-    //         commit('auth_error', err)
-    //         localStorage.removeItem('token')
-    //         reject(err)
-    //       })
-    //     })
-    //   },
-    //   logout({commit}){
-    //     return new Promise(resolve => {
-    //       commit('logout')
-    //       localStorage.removeItem('token')
-    //       delete axios.defaults.headers.common['Authorization']
-    //       router.push('/login')          
-    //       // resolve();
-    //     })
-    //   }
   },
   getters: {
     // Layout getters
@@ -154,6 +107,7 @@ const store = new Vuex.Store({
     isProfessional: state => state.token === 'professional',    
     getProfileImgUrl: state => state.user.profile_img_url,
     getUsername: state => state.user.name,
+    getUserProfileRoute: (state, getters) => getters.isProfessional ? '/professional/profile' : '/customer/profile',
 
     // Rooms getters
     allRooms: state => state.rooms,

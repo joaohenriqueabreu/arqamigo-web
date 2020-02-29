@@ -1,15 +1,15 @@
-import Vue          from 'vue';
-import Router       from 'vue-router';
-import store        from '@/store';
+import Vue              from 'vue';
+import Router           from 'vue-router';
+import store            from '@/store';
 
-import Home         from '@/views/info/Home';
-import About        from '@/views/info/About';
-import ViewArea     from '@/components/layout/ViewArea';
+import Home             from '@/views/info/Home';
+import About            from '@/views/info/About';
+import ViewArea         from '@/components/layout/ViewArea';
 
-import Login        from '@/views/auth/Login';
-import Register     from '@/views/auth/Register';
+import Login            from '@/views/auth/Login';
+import Register         from '@/views/auth/Register';
 
-import Admin        from '@/views/admin/Admin';
+import Admin            from '@/views/admin/Admin';
 
 import AdminDash        from '@/views/admin/AdminDash';
 import CustomerDash     from '@/views/customer/CustomerDash';
@@ -19,6 +19,7 @@ import ProConsultings   from '@/views/professional/Consultings';
 import ProCustomers     from '@/views/professional/Customers';
 import ProRoom          from '@/views/professional/Room';
 import ProRoomsSearch   from '@/views/professional/RoomsSearch';
+import ProProfile       from '@/views/professional/Profile';
 
 import Profile          from '@/views/auth/Profile';
 
@@ -130,6 +131,11 @@ let router = new Router({
             path: 'rooms',
             name: 'professional.rooms',
             component: ProRoomsSearch
+          },
+          {
+            path: 'profile',
+            name: 'professional.profile',
+            component: ProProfile
           }
         ]
       },      

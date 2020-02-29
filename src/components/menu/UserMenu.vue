@@ -12,10 +12,12 @@
         </span>
       </div>
       <div class="text-center vertical center">
-        <avatar :src="getProfileImgUrl" :username="getUsername" :size="200"></avatar>
-        <div class="v-space-20"></div>
-        <router-link to="/user/profile">
-          <h2>{{ getUsername }}</h2>
+        <router-link :to="getUserProfileRoute" class="vertical center">
+          <avatar :src="getProfileImgUrl" :username="getUsername" :size="200" class="mb-4"></avatar>                
+          <div class="horizontal middle">
+            <h5 class="mr-2"><font-awesome-icon icon="edit"></font-awesome-icon></h5>
+            <h2>{{ getUsername }}</h2>
+          </div>          
         </router-link>
         <div class="v-space-20"></div>
         <div class="text-left">
@@ -51,7 +53,7 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu';
       'professional-menu': ProfessionalMenu
     },
     computed: {
-      ...mapGetters(['getProfileImgUrl', 'getUsername', 'isMenuOpened', 'isCustomer', 'isProfessional'])
+      ...mapGetters(['getProfileImgUrl', 'getUsername', 'getUserProfileRoute', 'isMenuOpened', 'isCustomer', 'isProfessional'])
     }
   }
 </script>
@@ -78,6 +80,10 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu';
             opacity: 0;
             a { font-size: 25px; }
             &.fade { opacity: 1; }
+        }
+
+        h5 {
+          color: $white;
         }
 
         .close {

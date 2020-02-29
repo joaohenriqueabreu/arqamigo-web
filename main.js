@@ -18,20 +18,30 @@ import HoverOverlay from '@/components/layout/HoverOverlay';
 import app from '@/App.vue';
 
 // Font awesome imports
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser, faSignOutAlt, faProjectDiagram, faRuler, faRulerHorizontal, faRulerVertical, faPhone } from '@fortawesome/free-solid-svg-icons'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
-import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser, faSignOutAlt, faProjectDiagram, faRuler, faRulerHorizontal, faRulerVertical, faEdit, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Cloudinary from 'cloudinary-vue';
+import cloudinary from 'cloudinary-core';
+const cloudinaryCore = new cloudinary.Cloudinary({cloud_name: 'demo'});
+
 
 Vue.use(Bootstrap);
 Vue.use(Carousel); 
 Vue.use(Modal);
 
+Vue.use(Cloudinary, {
+  configuration: {
+    cloudName: "arquiamigo"
+  }
+});
+
 library.add(
   faUserSecret, faSearch, faBars, faTimes, faHome, faMapMarkerAlt, faCoffee, faUser, faSignOutAlt, faProjectDiagram, 
-  faRuler, faRulerHorizontal, faRulerVertical, faEnvelope, faPhone, faGoogle, faFacebook
-)
+  faRuler, faRulerHorizontal, faRulerVertical, faEnvelope, faPhone, faEdit, faGoogle, faFacebook
+);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('hover-overlay', HoverOverlay);

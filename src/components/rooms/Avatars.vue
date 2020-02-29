@@ -28,7 +28,7 @@
                       :autoplay="true" ref="feed">
                 <slide v-for="room in rooms" :key="room.id" style="height: 400px;" @slideclick="navigateToRoom(room.id)">                                    
                     <div class="fill position-relative clickable">                        
-                        <div class="position-absolute top-left vertical align-left shadow rounded-pill m-3 p-3 bg-white">
+                        <div class="position-absolute top-left vertical align-left shadow rounded-pill m-3 p-3 bg-white shadow">
                             <small>
                                 {{ room.category.name }} em {{ room.customer.location }}
                             </small>
