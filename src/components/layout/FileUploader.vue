@@ -1,22 +1,28 @@
 <template>
     <div class="horizontal middle center">
         <!-- <div v-if="showCamera" class="media-button clickable" v-on:click="openImageUploader('camera')" v-tooltip.top-center="'Tirar uma fota'"> -->
-        <div v-if="showCamera" class="horizontal media-button clickable" v-on:click="openImageUploader('camera')">
+        <div v-if="showCamera" class="clickable horizontal center middle" v-on:click="openImageUploader('camera')">
             <font-awesome-icon icon="camera"></font-awesome-icon>            
-            <div class="h-space-10"></div>
+            <div class="h-space-5"></div>
+            <span>{{ label }}</span>
+            <div class="h-space-5"></div>
         </div>        
         <!-- <div v-if="showVideo" class="media-button clickable" v-on:click="openImageUploader('local')" v-tooltip.top-center="'Enviar um video'"> -->
-        <div v-if="showVideo" class="horizontal media-button clickable" v-on:click="openImageUploader('local')">
+        <div v-if="showVideo" class="clickable horizontal center middle" v-on:click="openImageUploader('local')">
             <font-awesome-icon icon="video"></font-awesome-icon>            
-            <div class="h-space-10"></div>
+            <div class="h-space-5"></div>
+            <span>{{ label }}</span>
+            <div class="h-space-5"></div>
         </div>        
         <!-- <div class="media-button clickable" :class="docmode ? 'dark' : ''" v-on:click="openImageUploader('local')" v-tooltip.top-center="docmode ? '' : 'Enviar uma imagem'"> -->
-        <div class="horizontal media-button clickable" :class="docmode ? 'dark' : ''" v-on:click="openImageUploader('local')">
-            <font-awesome-icon :icon="docmode ? ['far', 'arrow-circle-up'] : ['fas', 'images']"></font-awesome-icon>            
-            <div class="h-space-10"></div>
+        <div class="clickable horizontal center middle" v-on:click="openImageUploader('local')">
+            <font-awesome-icon :icon="docmode ? 'arrow-circle-up' : 'images'"></font-awesome-icon>            
+            <div class="h-space-5"></div>
+            <span>{{ label }}</span>
+            <div class="h-space-5"></div>
         </div>        
         <!-- <div v-if="showInstagram" class="media-button clickable" v-on:click="openImageUploader('instagram')" v-tooltip.top-center="'Adicione uma imagem do seu instagram'"> -->
-        <div v-if="showInstagram" class="horizontal media-button clickable" v-on:click="openImageUploader('instagram')">
+        <div v-if="showInstagram" class="clickable horizontal center middle" v-on:click="openImageUploader('instagram')">
             <font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon>                            
         </div>
 
@@ -25,30 +31,7 @@
     </div>
 </template>
 
-<style lang="scss">    
-
-    .media-button {
-        color:          white;
-        background:     transparent;
-
-        &.dark {
-            color: $pink;
-
-            &:hover {
-                color:  $pink;
-            }
-        }
-
-        &:hover {
-            color: purple;
-        }
-
-        i {
-            margin-right:   20px;
-            font-size:      20px;
-        }
-    }
-</style>
+<style lang="scss" scoped></style>
 
 <script>
     let cloudinary = window.cloudinary;    
@@ -71,7 +54,8 @@
             video:      { type: Boolean, default: true },
             instagram:  { type: Boolean, default: true },
             camera:     { type: Boolean, default: true },
-            docmode:    { type: Boolean, default: false }
+            docmode:    { type: Boolean, default: false },
+            label:      { type: String}
         },
         methods: {
             openImageUploader: function (source) {

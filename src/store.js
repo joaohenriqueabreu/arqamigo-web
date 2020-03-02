@@ -59,6 +59,9 @@ const store = new Vuex.Store({
     },
     change_profile_image(state, img) {
       state.user.profile_img_url = img;
+    },
+    set_pinterest_token(state, token) {
+      state.user.pinterest_token = token;
     }
   },
   actions: {
@@ -98,9 +101,11 @@ const store = new Vuex.Store({
     loadCustomers({ commit, getters }) {
       api.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data.customers));
     },
-    changeProfileImage({ commit }, img_url) {    
-      console.log(img_url);  
+    changeProfileImage({ commit }, img_url) {          
       commit('change_profile_image', img_url);
+    },
+    setPinterestToken({ commit }, token) {
+      commit('set_pinterest_token', token);
     }
   },
   getters: {
@@ -114,6 +119,7 @@ const store = new Vuex.Store({
     isProfessional: state => state.token === 'professional',    
     getProfileImgUrl: state => state.user.profile_img_url,
     getUsername: state => state.user.name,
+    hasPinterest: state => state.user.pinterest_token !== undefined,    
     getUserProfileRoute: (state, getters) => getters.isProfessional ? '/professional/profile' : '/customer/profile',
 
     // Rooms getters
