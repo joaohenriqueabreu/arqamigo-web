@@ -1,3 +1,5 @@
+@import 'transitions';
+
 body {
     background-color: $darkWhite;
     font-family: Raleway, 'Roboto', sans;
@@ -34,9 +36,9 @@ div {
 // Bootstrap overrides
 form {
     .group {
-        @extend .shadow, .rounded-pill, .vertical;
-        // margin-bottom-20 full-width  shadow bg-white padding-10 padding-left-30 padding-right-30
-        margin-bottom: 20px;
+        @extend .shadow, .rounded-pill, .vertical;        
+        position: relative;
+        margin-bottom: 30px;
         width: 100%;
         padding: 10px 30px 10px 30px;            
         
@@ -51,11 +53,16 @@ form {
             min-width: 90%;
             outline-color: transparent;
             left: 0;
+            font-size: medium;
             &:focus {
                 outline-color: transparent;
-            }
+            }            
         }
 
+        div.error {
+            position: absolute;
+            bottom: -30px;            
+        }        
     }
 
     button {
@@ -66,12 +73,23 @@ form {
         color: $white;
         font-weight: $bold;
         border: none;
+        outline: none;
+
+        &:focus, &:active {
+            outline: none;
+        }
 
         &:hover {
             @extend .transition-ease;
             color: $darkWhite;
         }
     }
+}
+
+.error {
+    font-size: small;
+    color: red;
+    font-weight: bold;
 }
 
 // Font Awesome override
@@ -82,6 +100,11 @@ form {
 // General purpose classes
 .shadow {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.fullscreen {
+    height: 100vh;
+    width: 100vw;
 }
 
 .rounded-pill {        
@@ -118,6 +141,10 @@ form {
     width: 100%;
 }
 
+.vertical-fill {
+    height: 100%;
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -137,3 +164,4 @@ $spaces: (5, 10, 20, 30, 50);
 .card {
     border: none;
 }
+

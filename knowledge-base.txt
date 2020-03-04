@@ -1,0 +1,1 @@
+2020-03-03: Use ngrok to test pinterest api ngrok http -bind-tls=true --host-header="localhost" 8080

@@ -9,7 +9,9 @@ export default {
     TOGGLE_SLIDER:      'toggle-slide',
     
     SENDER_CUSTOMER:     'customer',
-    SENDER_PROFESSIONAL: 'professional'
+    SENDER_PROFESSIONAL: 'professional',
+
+    FORM_SUBMIT:         'form-submit',
 };
 
 // const IMAGE_UPLOADED =     'image-uploaded';

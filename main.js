@@ -13,11 +13,14 @@ import Bootstrap from 'bootstrap-vue';
 import Carousel from 'vue-carousel';
 import Modal from 'vue-js-modal';
 import Avatar from 'vue-avatar';
+import SweetAlert from 'vue-sweetalert2';
+import Vuelidate from 'vuelidate';
 import VueCsrf from 'vue-csrf';
+import VueMask from 'v-mask'
 
-// import Tooltip from 'v-tooltip';
-
+// Global components
 import HoverOverlay from '@/components/layout/HoverOverlay';
+import SubmitButton from'@/components/layout/SubmitButton';
 
 import app from '@/App.vue';
 
@@ -34,9 +37,10 @@ import Cloudinary, { CldImage,CldTransformation,CldVideo,CldContext }  from 'clo
 Vue.use(Bootstrap);
 Vue.use(Carousel); 
 Vue.use(Modal);
+Vue.use(Vuelidate);
 Vue.use(VueCsrf);
-// Vue.use(Tooltip);
-
+Vue.use(SweetAlert);
+Vue.use(VueMask);
 
 Vue.use(Cloudinary, {
   configuration: { cloudName: 'arquiamigo' },
@@ -51,6 +55,7 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('hover-overlay', HoverOverlay);
 Vue.component('avatar', Avatar);
+Vue.component('submit-button', SubmitButton);
 
 // Remove warning message at console
 Vue.config.productionTip = false;

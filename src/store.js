@@ -21,8 +21,14 @@ const store = new Vuex.Store({
     token: localStorage.getItem('token') || '',
     user : {
       id: 123,
-      name: "Tony Stark",      
-      profile_img_url: 'https://imagens.canaltech.com.br/celebridades/78.400.jpg'
+      name: "Tony Stark",    
+      company_name: "Stark industries",  
+      cnpj: "",
+      phone: "",
+      profile_img_url: 'https://imagens.canaltech.com.br/celebridades/78.400.jpg',
+      pinterest_token: localStorage.getItem('p_token') || '',
+      // pinterest_board: localStorage.getItem('p_board') || 'https://br.pinterest.com/joaohenriqueabreu/endgame/'
+      pinterest_board: localStorage.getItem('p_board') || ''
     },
     rooms: [],
     consultings: [],
@@ -60,8 +66,11 @@ const store = new Vuex.Store({
     change_profile_image(state, img) {
       state.user.profile_img_url = img;
     },
-    set_pinterest_token(state, token) {
-      state.user.pinterest_token = token;
+    set_pinterest_token(state, token) {      
+      state.user.pinterest_token = token;            
+    },
+    set_pinterest_board(state, board) {      
+      state.user.pinterest_board = board;            
     }
   },
   actions: {
@@ -105,7 +114,18 @@ const store = new Vuex.Store({
       commit('change_profile_image', img_url);
     },
     setPinterestToken({ commit }, token) {
+      const board = 'https://www.pinterest.com/joaohenriqueabreu/endgame/';
+      // need to store token on storage as pinterest refreshes screen after successful login
+      localStorage.setItem('p_token', token);      
       commit('set_pinterest_token', token);
+    },
+    setPinterestBoard({ commit }, board) {                  
+      localStorage.setItem('p_board', board);     
+      commit('set_pinterest_board', board);
+    },
+    async updateUserProfile({ commit }, data) {
+      // TODO here we call backend and persist user profile data
+      return new Promise(resolve => setTimeout(resolve, 3000));
     }
   },
   getters: {
@@ -119,8 +139,10 @@ const store = new Vuex.Store({
     isProfessional: state => state.token === 'professional',    
     getProfileImgUrl: state => state.user.profile_img_url,
     getUsername: state => state.user.name,
-    hasPinterest: state => state.user.pinterest_token !== undefined,    
-    getUserProfileRoute: (state, getters) => getters.isProfessional ? '/professional/profile' : '/customer/profile',
+    isConnectedToPinterest: (state, getters) => getters.isProfessional && state.user.pinterest_token !== undefined && state.user.pinterest_token.length > 0,    
+    hasPinterestBoard: (state, getters) => getters.isProfessional && getters.isConnectedToPinterest && state.user.pinterest_board !== undefined && state.user.pinterest_board.length > 0,
+    getPinterestBoard: state => state.user.pinterest_board,
+    getUserProfileRoute: (state, getters) => getters.isProfessional ? '/professional/profile' : '/customer/profile',    
 
     // Rooms getters
     allRooms: state => state.rooms,
