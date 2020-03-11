@@ -16,8 +16,10 @@ const ROOMS_DAYS_THRESHOLD  = 30;
 
 const store = new Vuex.Store({
   state: {
+    apiLoaded: true,
     status: false,
     showMenu: false,
+    pageSubtitle: '',
     token: localStorage.getItem('token') || '',
     user : {
       id: 123,
@@ -31,16 +33,26 @@ const store = new Vuex.Store({
       pinterest_board: localStorage.getItem('p_board') || ''
     },
     rooms: [],
+    room: {},
     consultings: [],
     professionals: [],
     customers: [],
   },
   mutations: {
+    start_api(state) {
+      state.apiLoaded = false;
+    },
+    api_loaded(state) {
+      state.apiLoaded = true;
+    },
     toggle_menu(state) {
       state.showMenu = !state.showMenu;
     },
     close_menu(state) {
       state.showMenu = false;
+    },
+    set_page_subtitle(state, subtitle) {
+      state.pageSubtitle = subtitle;
     },
     login_success(state, user) {
       state.token  = user; 
@@ -56,6 +68,9 @@ const store = new Vuex.Store({
     },
     set_rooms(state, rooms) {
       state.rooms = rooms;
+    },
+    set_room(state, room) {
+      state.room = room;      
     },
     set_consultings(state, consultings) {
       state.consultings = consultings;
@@ -80,6 +95,9 @@ const store = new Vuex.Store({
     closeMenu({ commit }) {
       commit('close_menu');
     },
+    setPageSubtitle({ commit }, subtitle) {
+      commit('set_page_subtitle', subtitle);
+    },
     login({commit}, user) {
       localStorage.setItem('token', user);
       commit('login_success', user);
@@ -102,7 +120,15 @@ const store = new Vuex.Store({
       router.push('/login');
     },
     loadRooms({ commit }) {      
-        api.get('/rooms').then(res => commit('set_rooms', res.data.rooms));          
+      return api.get('/rooms').then(res => commit('set_rooms', res.data.rooms));          
+    },
+    loadRoom({ commit }, id) {      
+      commit('start_api');          
+      api.get(`/rooms/${id}`).then(res => {
+        commit('set_page_subtitle', res.data.room.title);
+        commit('set_room', res.data.room);
+        commit('api_loaded');
+      });
     },
     loadConsultings({ commit, getters }) {
       api.get(`/professional/${getters.getUser.id}/consultings`).then(res => commit('set_consultings', res.data.consultings));
@@ -129,8 +155,12 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    isApiLoaded: state => state.apiLoaded,
+
     // Layout getters
     isMenuOpened: state => state.showMenu,
+    hasPageSubtitle: state => state.pageSubtitle !== undefined && state.pageSubtitle.length > 0,
+    getPageSubtitle: state => state.pageSubtitle,    
 
     // Auth getters
     getUser: state => state.user,
@@ -144,7 +174,7 @@ const store = new Vuex.Store({
     getPinterestBoard: state => state.user.pinterest_board,
     getUserProfileRoute: (state, getters) => getters.isProfessional ? '/professional/profile' : '/customer/profile',    
 
-    // Rooms getters
+    // Rooms index
     allRooms: state => state.rooms,
     recentRooms: state => state.rooms.filter(room => {
       let roomDt  = new Date(room.created_dt);
@@ -158,6 +188,10 @@ const store = new Vuex.Store({
       let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
       return diff > ROOMS_DAYS_THRESHOLD;
     }),
+
+    // Single room
+    hasRoom: state => typeof state.room === 'object' && Object.keys(state.room).length > 0,
+    getRoom: state => state.room,
 
     // Consultings getters
     allConsultings: state => state.consultings,  

@@ -3,14 +3,15 @@
     <header>
       <top-navbar></top-navbar>
     </header>
-    <main class="container">
+    <main class="container" v-bind:class="{ 'extra-padding': hasPageSubtitle }">
       <router-view></router-view>
     </main>
-    <bottom-footer></bottom-footer>
+    <bottom-footer v-if="! isLoggedIn"></bottom-footer>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import Navbar from '@/components/menu/Navbar.vue';
 import Footer from '@/components/layout/Footer.vue';
 
@@ -20,6 +21,9 @@ export default {
     'top-navbar': Navbar,
     'bottom-footer': Footer
   },
+  computed: {
+    ...mapGetters(['hasPageSubtitle', 'isLoggedIn'])
+  }
 };
 </script>
 
@@ -35,7 +39,11 @@ export default {
   main {    
     min-height: 100vh;
     padding-top: 15vh;
-    padding-bottom: 10vh;
+    padding-bottom: 20vh;
     z-index: 0;
-  }
+
+    &.extra-padding {
+      padding-top: 20vh;
+    }
+  }  
 </style>

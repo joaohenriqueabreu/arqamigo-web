@@ -17,8 +17,8 @@
             <div class="group">
               <label for="name">Nome da completo</label>
               <input type="text" v-model="getUser.name" @keyup="setName($event.target.value)">
-              <div v-if="$v.name.$error">
-                <div class="error" v-if="! $v.name.required">Entre com um nome</div>
+              <div v-if="$v.getUser.name.$error">
+                <div class="error" v-if="! $v.getUser.name.required">Entre com um nome</div>
               </div>
             </div>            
             <div class="group">
@@ -29,10 +29,17 @@
               </div>
             </div>
             <div class="group">
-              <label for="name">Telefone</label>
-              <input type="text" v-model="getUser.phone" @keyup="setPhone($event.target.value)" v-mask="'(##) #####-####'">
-              <div v-if="$v.phone.$error">
-                <div class="error" v-if="! $v.phone.required">Entre com um nome</div>
+              <label for="phone">Telefone</label>
+              <input type="text" v-model="getUser.phone" v-on:blur="$v.getUser.phone.$touch();" v-mask="'(##) #####-####'">
+              <div v-if="$v.getUser.phone.$error">
+                <div class="error" v-if="! $v.getUser.phone.required && ! $v.getUser.phone.phoneValidator">Telefone inválido</div>
+              </div>
+            </div>
+            <div class="group">
+              <label for="name">Endereço Comercial</label>
+              <input type="text" v-model="getUser.address" v-on:blur="$v.getUser.address.$touch();" v-mask="'(##) #####-####'">
+              <div v-if="$v.getUser.address.$error">
+                <div class="error" v-if="! $v.getUser.address.required && ! $v.getUser.address.phoneValidator">Entre com um endereço</div>
               </div>
             </div>
             <div class="vertical center middle">
@@ -51,6 +58,7 @@
     </div>   
     <div class="v-space-50"></div>
     <div class="shadow section text-center">
+      // TODO fix lg screen btns overlapping with each other
       <send-docs></send-docs>
     </div>
   </div>
@@ -63,32 +71,29 @@ import SendDocuments from '@/components/professional/SendDocuments';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
 
-const phoneValidator = value => {          
-  
-} 
-
 export default {
     components: {
         'profile-img': MediaManager,
         'social-connect': SocialConnect,        
         'send-docs': SendDocuments,        
     },
-    validations: {
-      name: { required },
+    validations: {      
       getUser: {
+        name: { required },
+        address: { required },
         cnpj: { 
-          CNPJValidator: (value) => {            
-            // if (typeof value === 'undefined' || value === null || value === '') { return true; }
+          CNPJValidator: (value) => {                        
+            return /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(value);
+          } 
+        },
+        phone: { 
+          required, 
+          phoneValidator: (value) => {
+            //TODO allow mobile and other phones          
             return /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(value);
           } 
         }
-       },
-      phone: { required, 
-        phoneValidator: (value) => {
-          if (typeof value === 'undefined' || value === null || value === '') { return true; }
-          return /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(value);
-        } 
-      }
+      },
     },   
     methods: {
       async saveProfile() {

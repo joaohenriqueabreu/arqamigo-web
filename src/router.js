@@ -28,36 +28,23 @@ import Unauthorized     from '@/views/error/404';
 Vue.use(Router);
 
 const authMiddleware = {
-    meta: { 
-        requiresAuth: true
-    }
+  requiresAuth: true    
 };
 
-const preventAuthMiddleware = {
-  meta: {
-    redirectWhenAuth: true
-  }
+const preventAuthMiddleware = {  
+  redirectWhenAuth: true  
 }
 
-const customerMiddleware = {
-  meta: {
-    requiresAuth: true,
-    requiresCustomerAuth: true
-  }
+const customerMiddleware = {      
+  requiresCustomerAuth: true  
 };
 
-const professionalMiddleware = {
-  meta: {
-    requiresAuth: true,
-    requiresProfessionalAuth: true
-  }
+const professionalMiddleware = {      
+  requiresProfessionalAuth: true  
 };
 
-const adminMiddleware = {
-  meta: {
-    requiresAuth: true,
-    requiresAdminAuth: true
-  }
+const adminMiddleware = {    
+  requiresAdminAuth: true  
 };
 
 let router = new Router({
@@ -67,7 +54,10 @@ let router = new Router({
         path: '/',
         name: 'home',
         component: Home,
-        ...preventAuthMiddleware
+        meta: {
+          ...preventAuthMiddleware
+        }
+        
       },
       {
         path: '/about',
@@ -88,7 +78,10 @@ let router = new Router({
       {
         path: '/customer',        
         component: ViewArea,
-        ...customerMiddleware,
+        meta: {
+          ...authMiddleware,
+          ...customerMiddleware,
+        },        
         children: [
           {
             path: '',
@@ -100,7 +93,10 @@ let router = new Router({
       {
         path: '/professional',        
         component: ViewArea,
-        ...professionalMiddleware,        
+        meta: {
+          ...authMiddleware,
+          ...professionalMiddleware,        
+        },
         children: [
           {
             path: '',
@@ -143,14 +139,19 @@ let router = new Router({
         path: '/user/profile',
         name: 'user',
         component: Profile,
-        ...authMiddleware,
+        meta: {
+          ...authMiddleware
+        },
         children: []
       },
       {
         path: '/admin',
         name: 'admin',
         component: Admin,        
-        ...adminMiddleware,
+        meta: {
+          ...authMiddleware,
+          ...adminMiddleware
+        },
         children: [
           {
             path: 'dash',
@@ -173,6 +174,8 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  store.dispatch('setPageSubtitle', '');
+
   // When route changes, close menu if opened  
   if (store.getters.isMenuOpened) {
       store.dispatch('closeMenu');  

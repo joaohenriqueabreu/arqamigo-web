@@ -19,6 +19,13 @@ h1, h2, h3, h4, h5, h6, a {
     text-transform: capitalize;
 }
 
+// hr {
+    // border-top: 10px solid transparentize($pink, 0.5); 
+    // border-radius: 40px;
+    // margin-right: 10vw;
+    // margin-left: 10vw;
+// }
+
 a {        
     color: $pink;   
     text-decoration: none;     
@@ -157,6 +164,16 @@ $spaces: (5, 10, 20, 30, 50);
 
     .v-space-#{$space} {             
         margin-bottom: #{$space}px; 
+    }
+}
+
+@each $key, $color in $colors {
+    .bg-#{$key} {
+        background-color: #{$color};
+    }
+
+    .color-#{$key} {
+        color: #{$color};
     }
 }
 

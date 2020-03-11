@@ -25,8 +25,7 @@
                             <div class="group">
                                 <input type="text" v-model="$v.pinterestBoardUrl.$model">
                                 <div v-if="$v.pinterestBoardUrl.$error">
-                                    <div class="error" v-if="!$v.pinterestBoardUrl.required">Entre com um endereço válido</div>
-                                    <div class="error" v-if="!$v.pinterestBoardUrl.url">Deve ser formato de url: https://www.arquiamigos.com.br/...</div>
+                                    <div class="error" v-if="! $v.pinterestBoardUrl.required && ! $v.pinterestBoardUrl.url">Entre com uma URL válida (ex.:https://www.arquiamigos.com.br/...)</div>                                    
                                 </div>
                             </div>                                                
                             <div class="h-space-10"></div>
@@ -37,7 +36,7 @@
                 <div v-else class="rounded-pill connected-pinterest horizontal middle" key="connected">
                     <font-awesome-icon class="social connected float-left" :icon="['fab', 'pinterest']" size="2x" v-b-tooltip.hover title="Connected"></font-awesome-icon>
                     <div class="h-space-10"></div>
-                    Connected
+                    <div class="horizontal center horizontal-fill">Connected</div>                    
                 </div>
             </transition>
         </div>

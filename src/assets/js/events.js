@@ -2,6 +2,8 @@ export default {
     IMAGE_UPLOADED:     'image-uploaded',
     VIDEO_UPLOADED:     'video-uploaded',
     CONTENT_UPDATED:    'content-updated',
+
+    UNIT_OF_MEASURE:    'm',
     
     IMAGE_TYPE:         'image',
     VIDEO_TYPE:         'video',

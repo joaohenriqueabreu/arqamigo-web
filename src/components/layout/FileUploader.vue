@@ -1,33 +1,36 @@
 <template>
-    <div class="horizontal middle center">
-        <!-- <div v-if="showCamera" class="media-button clickable" v-on:click="openImageUploader('camera')" v-tooltip.top-center="'Tirar uma fota'"> -->
-        <div v-if="showCamera" class="clickable horizontal center middle" v-on:click="openImageUploader('camera')">
-            <font-awesome-icon icon="camera"></font-awesome-icon>            
-            <div class="h-space-5"></div>
-            <span>{{ label }}</span>
-            <div class="h-space-5"></div>
-        </div>        
-        <!-- <div v-if="showVideo" class="media-button clickable" v-on:click="openImageUploader('local')" v-tooltip.top-center="'Enviar um video'"> -->
-        <div v-if="showVideo" class="clickable horizontal center middle" v-on:click="openImageUploader('local')">
-            <font-awesome-icon icon="video"></font-awesome-icon>            
-            <div class="h-space-5"></div>
-            <span>{{ label }}</span>
-            <div class="h-space-5"></div>
-        </div>        
-        <!-- <div class="media-button clickable" :class="docmode ? 'dark' : ''" v-on:click="openImageUploader('local')" v-tooltip.top-center="docmode ? '' : 'Enviar uma imagem'"> -->
-        <div class="clickable horizontal center middle" v-on:click="openImageUploader('local')">
-            <font-awesome-icon :icon="docmode ? 'arrow-circle-up' : 'images'"></font-awesome-icon>            
-            <div class="h-space-5"></div>
-            <span>{{ label }}</span>
-            <div class="h-space-5"></div>
-        </div>        
-        <!-- <div v-if="showInstagram" class="media-button clickable" v-on:click="openImageUploader('instagram')" v-tooltip.top-center="'Adicione uma imagem do seu instagram'"> -->
-        <div v-if="showInstagram" class="clickable horizontal center middle" v-on:click="openImageUploader('instagram')">
-            <font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon>                            
+    <div>
+        <div v-if="singlebtn">
+            <div class="clickable" v-on:click="openImageUploader('local')">
+                <font-awesome-icon class="ml-1" icon="paperclip"></font-awesome-icon>                                           
+            </div>     
         </div>
+        <div v-else class="horizontal middle center">            
+            <div v-if="showCamera" class="clickable horizontal center middle" v-on:click="openImageUploader('camera')">
+                <font-awesome-icon icon="camera"></font-awesome-icon>            
+                <div class="h-space-5"></div>
+                <span>{{ label }}</span>
+                <div class="h-space-5"></div>
+            </div>                    
+            <div v-if="showVideo" class="clickable horizontal center middle" v-on:click="openImageUploader('local')">
+                <font-awesome-icon icon="video"></font-awesome-icon>            
+                <div class="h-space-5"></div>
+                <span>{{ label }}</span>
+                <div class="h-space-5"></div>
+            </div>                    
+            <div class="clickable horizontal center middle" v-on:click="openImageUploader('local')">
+                <font-awesome-icon :icon="docmode ? 'arrow-circle-up' : 'images'"></font-awesome-icon>            
+                <div class="h-space-5"></div>
+                <span>{{ label }}</span>
+                <div class="h-space-5"></div>
+            </div>                    
+            <div v-if="showInstagram" class="clickable horizontal center middle" v-on:click="openImageUploader('instagram')">
+                <font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon>                            
+            </div>
 
-        <input type="hidden" name="images" v-model="images">
-        <input type="hidden" name="videos" v-model="videos">
+            <input type="hidden" name="images" v-model="images">
+            <input type="hidden" name="videos" v-model="videos">
+        </div>        
     </div>
 </template>
 
@@ -55,6 +58,7 @@
             instagram:  { type: Boolean, default: true },
             camera:     { type: Boolean, default: true },
             docmode:    { type: Boolean, default: false },
+            singlebtn:  { type: Boolean, default: false },
             label:      { type: String}
         },
         methods: {
