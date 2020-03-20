@@ -1,7 +1,5 @@
 <template>
-  <div>
-      <h1>This is the customer dash</h1>
-  </div>
+  <div><h1>Create Room</h1></div>
 </template>
 
 <script>

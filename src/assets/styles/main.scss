@@ -2,11 +2,11 @@
 
 body {
     background-color: $darkWhite;
-    font-family: Raleway, 'Roboto', sans;
+    font-family: Sen, Montserrat, Raleway, 'Roboto', sans;
 }
 
 h1 {
-    font-family: Railey;
+    font-family: Montserrat;
     font-weight: 700;
     font-size: 1.5em;
     text-decoration: none;
@@ -17,6 +17,16 @@ h1, h2, h3, h4, h5, h6, a {
     font-weight:    700;  
     color:          $pink;
     text-transform: capitalize;
+}
+
+// [data-icon] {    
+.icon {
+    color: $pink;
+    font-weight: $bold;
+    margin-right: 10px;
+    &:hover {
+        color: $lightPink;
+    }
 }
 
 // hr {
@@ -144,11 +154,25 @@ form {
     }
 }
 
-.horizontal-fill {
+.bold {
+    font-weight: $bold;
+}
+
+.negative {
+    &:hover {
+        @extend .transition-ease;
+        &.bg-pink       { background: $white; }
+        &.bg-white      { background: $lightPink !important; }
+        &.color-white   { color: $pink; }        
+        &.color-pink    { color: $white; }
+    }    
+}
+
+.full-width {
     width: 100%;
 }
 
-.vertical-fill {
+.full-height {
     height: 100%;
 }
 
@@ -182,3 +206,14 @@ $spaces: (5, 10, 20, 30, 50);
     border: none;
 }
 
+.single-line {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.font {
+    @each $key, $size in $sizes {
+        &.#{$key} { font-size: #{$size}; }    
+    }    
+}

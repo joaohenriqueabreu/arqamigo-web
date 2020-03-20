@@ -1,15 +1,19 @@
 <template>
   <div>
-      <rooms-cards :rooms="allRooms"></rooms-cards>
+      <div class="row">
+          <div class="col-sm-4" v-for="room in allRooms" :key="room.id">
+              <room-card :room="room"></room-card>
+          </div>
+      </div>      
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import RoomsCards from '@/components/rooms/Cards';
+import RoomCard from '@/components/rooms/Card';
 export default {
     components: {
-        'rooms-cards': RoomsCards
+        'room-card': RoomCard
     },
     methods: {
         ...mapActions(['loadRooms'])

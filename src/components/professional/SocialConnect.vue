@@ -36,7 +36,7 @@
                 <div v-else class="rounded-pill connected-pinterest horizontal middle" key="connected">
                     <font-awesome-icon class="social connected float-left" :icon="['fab', 'pinterest']" size="2x" v-b-tooltip.hover title="Connected"></font-awesome-icon>
                     <div class="h-space-10"></div>
-                    <div class="horizontal center horizontal-fill">Connected</div>                    
+                    <div class="horizontal center full-width">Connected</div>                    
                 </div>
             </transition>
         </div>

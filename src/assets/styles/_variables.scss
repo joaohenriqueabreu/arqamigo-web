@@ -1,4 +1,11 @@
 $bold: 700;
+$large: 20px;
+$veryLarge: 32px;
+
+$sizes: (
+    large: $large,
+    very-large: $veryLarge
+);
 
 .transition-ease {
     transition: all 0.5s ease;

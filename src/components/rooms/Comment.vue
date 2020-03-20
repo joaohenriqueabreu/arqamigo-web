@@ -2,11 +2,17 @@
     <div>
         <div class="full-width room-reply-container" :class="getDirection">
             <div class="mr-3" v-if="sentFromCustomer">
-                <avatar :username="name" :src="photo"></avatar>
+                <router-link v-if="showLink" :to="getUserUrl">
+                    <hover-overlay :rounded="true" icon="user">
+                        <avatar :username="name" :src="photo"></avatar>
+                    </hover-overlay>                    
+                </router-link>                
             </div>
             <div class="arrow-box vertical shadow p-2 pt-3 pl-4" :class="getDirection">
                 <p class="mb-2 small d-flex justify-content-between">
-                    <span class="name">{{ name }}</span>
+                    <router-link v-if="showLink" :to="getUserUrl">
+                        <span class="name">{{ name }}</span>
+                    </router-link>                    
                     <span class="date mr-1">{{ date }}</span>
                 </p>
                 <p class="color-black special">
@@ -15,7 +21,7 @@
                 <!-- TODO reply functionality -->        
                 <!-- TODO Lazy load -->
                 <div v-if="medias && medias.length > 0">
-                    <carousel class="horizontal-fill row" :perPage="3" paginationColor="white" paginationActiveColor="pink" :loop="true">
+                    <carousel class="full-width row" :perPage="3" paginationColor="white" paginationActiveColor="pink" :loop="true">
                         <slide v-for="media in medias" :key="media.id" class="col-sm-4 room-gallery-media">
                                 <img v-if="media.type === 'image'" :src="media.url" class="fill"/>
                                 <video v-if="media.type === 'video'" width="100%" height="100%" class="fill" controls :src="media.url" type="video/mp4">
@@ -34,10 +40,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
     export default {
         props: {
             special:    { type: Boolean, default: false },
-            photo:      String,
+            userId:     String,
+            photo:      String,            
             name:       String,
             date:       String,
             sender:     String,
@@ -46,9 +54,12 @@
         },
         methods: { },
         computed: {
+            ...mapGetters(['isCustomer', 'isProfessional']),
             sentFromCustomer:       function () { return this.sender === this.$config.SENDER_CUSTOMER; },
             sentFromProfessional:   function () { return this.sender === this.$config.SENDER_PROFESSIONAL; },
-            getDirection:           function () { return this.sentFromCustomer ? 'left' : 'right'; }
+            getDirection:           function () { return this.sentFromCustomer ? 'left' : 'right'; },
+            getUserUrl:             function () { return `/${this.viewer}/${this.sender}s/${this.userId}`; },
+            showLink:               function () { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional); }
         },
     }
 </script>

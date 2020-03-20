@@ -22,8 +22,15 @@
         // transition: all 0.5s ease;
         background-color: $pink;
         z-index:          100;
-        opacity:          0.8;
-    }   
+        opacity:          0.7;
+    }
+    
+    [data-icon] {    
+        color: $white;
+        font-weight: $bold;    
+        margin-right: 0;
+        opacity: 1;
+    }
     
     .circle {
         border-radius: 50%;

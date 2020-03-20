@@ -1,7 +1,7 @@
 <template>
     <div class="recent-rooms horizontal middle">
-        <div v-show="! ready" class="horizontal-fill">Loading...</div>
-        <carousel v-show="ready" class="horizontal-fill" :perPageCustom="[[768, 3], [1024, 6]]" 
+        <div v-show="! ready" class="full-width">Loading...</div>
+        <carousel v-show="ready" class="full-width" :perPageCustom="[[768, 3], [1024, 6]]" 
             :paginationEnabled="false" ref="carousel">
             <slide v-for="(room, id) in rooms" :key="room.id" class="clickable" @slideclick="openFeed(id)">
                 <div class="vertical middle center">

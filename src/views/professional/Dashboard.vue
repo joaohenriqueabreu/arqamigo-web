@@ -8,14 +8,18 @@
       <div>
         <h4>Meus Clientes</h4>
         <div class="v-space-10"></div>
-        <consultings-cards :consultings="mainConsultings"></consultings-cards>
+        <consulting-card v-for="consulting in mainConsultings" :key="consulting.id" :consulting="consulting"></consulting-card>
         <router-link to="/professional/consultings">Ver mais</router-link>
         <div class="v-space-30"></div>
       </div>            
       <div>
         <h4>Outros Ambientes</h4>      
         <div class="v-space-10"></div>
-        <rooms-cards :rooms="allRooms"></rooms-cards>
+        <div class="row">
+          <div class="col-sm-4 mb-4 d-flex align-items-stretch" v-for="room in allRooms" :key="room.id">
+            <room-card :room="room"></room-card>
+          </div>
+        </div>        
         <div class="v-space-30"></div>
       </div>      
   </div>
@@ -24,15 +28,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import RoomsAvatars               from "@/components/rooms/Avatars"
-import RoomsCards                 from '@/components/rooms/Cards'
-import ConsultingsCards           from '@/components/consultings/Cards'
+import RoomCard                   from '@/components/rooms/Card'
+import ConsultingCard             from '@/components/consultings/Card'
 
 export default {    
     name: 'professionalDash',
     components: {
-        'rooms-avatars': RoomsAvatars,
-        'consultings-cards': ConsultingsCards,
-        'rooms-cards': RoomsCards
+        'rooms-avatars':      RoomsAvatars,
+        'consulting-card':    ConsultingCard,
+        'room-card':          RoomCard
     },
     methods: {
       ...mapActions(['loadConsultings', 'loadRooms']),

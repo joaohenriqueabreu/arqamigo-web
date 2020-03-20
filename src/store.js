@@ -12,7 +12,7 @@ const api   = axios.create({
 Vue.use(Vuex);
 
 const MS_IN_DAY             = 1000 * 60 * 60 * 24;
-const ROOMS_DAYS_THRESHOLD  = 30;
+const ROOMS_DAYS_THRESHOLD  = 365;
 
 const store = new Vuex.Store({
   state: {
@@ -34,9 +34,11 @@ const store = new Vuex.Store({
     },
     rooms: [],
     room: {},
-    consultings: [],
-    professionals: [],
+    consultings: [],    
     customers: [],
+    customer: {},   
+    professionals: [], 
+    professional: {}
   },
   mutations: {
     start_api(state) {
@@ -77,6 +79,15 @@ const store = new Vuex.Store({
     },
     set_customers(state, customers) {      
       state.customers = customers;
+    },
+    set_customer(state, customer) {
+      state.customer = customer;
+    },  
+    set_professionals(state, professionals) {      
+      state.professionals = professionals;
+    },
+    set_professional(state, professional) {
+      state.professional = professional;
     },
     change_profile_image(state, img) {
       state.user.profile_img_url = img;
@@ -120,24 +131,53 @@ const store = new Vuex.Store({
       router.push('/login');
     },
     loadRooms({ commit }) {      
-      return api.get('/rooms').then(res => commit('set_rooms', res.data.rooms));          
+      return api.get('/rooms').then(res => commit('set_rooms', res.data));          
     },
     loadRoom({ commit }, id) {      
       commit('start_api');          
       api.get(`/rooms/${id}`).then(res => {
-        commit('set_page_subtitle', res.data.room.title);
-        commit('set_room', res.data.room);
+        commit('set_page_subtitle', res.data.title);
+        commit('set_room', res.data);
         commit('api_loaded');
       });
     },
     loadConsultings({ commit, getters }) {
-      api.get(`/professional/${getters.getUser.id}/consultings`).then(res => commit('set_consultings', res.data.consultings));
+      commit('start_api');          
+      api.get('/consultings').then(res => {        
+        commit('set_consultings', res.data);
+        commit('api_loaded');
+      });
     },
     loadCustomers({ commit, getters }) {
-      api.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data.customers));
+      api.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data));
+    },
+    loadCustomer({ commit, getters }, id) {
+      commit('start_api');
+      api.get(`/customers/${id}`).then(res => {
+        commit('set_customer', res.data);
+        commit('api_loaded');
+      });
     },
     changeProfileImage({ commit }, img_url) {          
       commit('change_profile_image', img_url);
+    },
+    searchProfessionals({ commit }, term) {
+      commit('start_api');          
+      api.get(`/professionals?term=${term}`
+      //   { url: '/customer/professionals/',
+      //   data: term
+      // })
+      ).then(res => {            
+        commit('set_professionals', res.data);
+        commit('api_loaded');
+      });
+    },
+    loadProfessional({ commit }, id) {
+      commit('start_api');
+      api.get(`professionals/${id}`).then(res => {
+        commit('set_professional', res.data);
+        commit('api_loaded');
+      });
     },
     setPinterestToken({ commit }, token) {
       const board = 'https://www.pinterest.com/joaohenriqueabreu/endgame/';
@@ -201,6 +241,17 @@ const store = new Vuex.Store({
     allCustomers: state => state.customers.consulted.concat(state.custemers.interested),
     consultedCustomers: state => state.customers.consulted,
     interestedCustomers: state => state.customers.interested,    
+    
+    hasCustomer: state => typeof state.customer === 'object' && Object.keys(state.customer).length > 0,
+    getCustomer: state => state.customer,
+    hasPrivateAccessToCustomer: state => state.customer.has_private_access && typeof state.customer.private === 'object' && Object.keys(state.customer.private).length > 0,
+    hasConsultedWithProfessional: state => state.customer.has_consulted_with_professional && typeof state.customer.consultings === 'object' && Object.keys(state.customer.consultings.length > 0),
+    getCustomerConsultings: state => state.customer.consultings,
+
+    hasProfessionals: state => state.professionals.length > 0,
+    hasProfessional: state => typeof state.professional === 'object' && Object.keys(state.professional).length > 0,
+    allProfessionals: state => state.professionals,
+    getProfessional: state => state.professional    
   }
 })
 

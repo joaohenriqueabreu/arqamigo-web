@@ -6,7 +6,9 @@
           <h2>{{ getRoom.title }}</h2>          
         </div>        
         <hr class="mb-5">
-        <room-comment :sender="$config.SENDER_CUSTOMER" :viewer="$config.SENDER_PROFESSIONAL" special
+        <room-comment :userId="getRoom.customer.id"          
+          :sender="$config.SENDER_CUSTOMER" 
+          :viewer="$config.SENDER_PROFESSIONAL"
           :name="getRoom.customer.public_name"
           :photo="getRoom.customer.photo"
           date="05/03/2020">
@@ -15,7 +17,9 @@
            <font-awesome-icon icon="map-marker-alt" class="icon mr-2"></font-awesome-icon> {{ getRoom.location }}
         </room-comment>
         <div class="v-space-20"></div>
-        <room-comment :sender="$config.SENDER_CUSTOMER" :viewer="$config.SENDER_PROFESSIONAL"
+        <room-comment :userId="getRoom.customer.id"
+          :sender="$config.SENDER_CUSTOMER" 
+          :viewer="$config.SENDER_PROFESSIONAL"
           :name="getRoom.customer.public_name"
           :photo="getRoom.customer.photo"
           :medias="getRoom.medias"
@@ -23,7 +27,9 @@
            {{ getRoom.description }}           
         </room-comment>
         <div class="v-space-20"></div>
-        <room-comment v-for="comment in getRoom.comments" :key="comment.id" :sender="comment.user.category"
+        <room-comment v-for="comment in getRoom.comments" :key="comment.id" 
+          :userId="comment.user.id"
+          :sender="comment.user.category"
           :name="comment.user.public_name"
           :photo="comment.user.photo"
           :medias="comment.medias"
@@ -61,10 +67,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .icon {
-    color: $pink;
-  }
-
   .reply {
     position: fixed;
     bottom: 0;

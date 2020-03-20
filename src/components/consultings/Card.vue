@@ -1,25 +1,28 @@
 <template>
   <div>
-      <div class="card full-width shadow" v-for="consulting in consultings" :key="consulting.id">
+      <div class="card full-width shadow">
         <div class="card-body ">
-          <div class="horizontal d-flex justify-content-between">
+          <div class="d-flex justify-content-between">
             <div class="horizontal">
                 <div class="position-relative">
                   <hover-overlay :rounded="true" icon="home">
-                    <avatar :src="consulting.room.photo" :username="consulting.room.customer.name"></avatar>
+                    <avatar :src="otherUser.photo" :username="'abc'"></avatar>
                   </hover-overlay>              
                 </div>                          
               <div class="h-space-20"></div>
-              <div class="vertical consulting-info">
-                <h5>{{ consulting.room.category.name }}</h5>
-                <h6>{{ consulting.room.description }}</h6>
-                <p>
-                  <font-awesome-icon class="location-icon" icon="map-marker-alt"></font-awesome-icon> {{ consulting.room.location }}
-                </p>
+              <div class="vertical consulting-info">                
+                <div v-if="isProfessional">
+                  <h5 class="mb-1">{{ user.name }}</h5>
+                </div>
+                <div v-else>
+                  <professional-info :professional="otherUser" class="mb-1"></professional-info>
+                </div>
+                <small class="mb-2 color-light-gray bold">{{ consulting.room.category.name }} em {{ consulting.room.location }}</small>                                  
+                <blockquote>{{ consulting.room.description }}</blockquote>                                
               </div>
             </div>
             <div>
-              <router-link :to="{ name: 'professional.room', params: { id: consulting.room.id }}">
+              <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.room`, params: { id: consulting.room.id }}">
               <hover-overlay :rounded="true" icon="coffee">
                 <div class="rounded-circle vertical center middle shadow p-3">{{ consulting.num_comments }}</div>
               </hover-overlay>              
@@ -32,18 +35,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import ProfessionalInfo from '@/components/professional/Info';
 export default {    
-    props: {
-      mode: {
-        name: 'mode',
-        type: String,
-        default: 'all'
-      },
-      consultings: {
-        name: 'consultings',
-        type: Array
-      }
-    },    
+    components: {
+      'professional-info': ProfessionalInfo
+    },
+    props: {      
+      consulting: Object
+    },        
     methods: {        
         openFeed: function (index) {
             this.currentSlide = index;
@@ -65,6 +65,11 @@ export default {
         navigateToRoom: function (url) {
             window.location.href = url;
         }
+    },
+    computed: {
+      ...mapGetters(['isProfessional', 'isCustomer']),
+      user() { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional; },
+      otherUser() { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional; }
     }    
 }
 </script>

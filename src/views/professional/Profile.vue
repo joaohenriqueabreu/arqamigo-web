@@ -58,7 +58,7 @@
     </div>   
     <div class="v-space-50"></div>
     <div class="shadow section text-center">
-      // TODO fix lg screen btns overlapping with each other
+      <!-- // TODO fix lg screen btns overlapping with each other -->
       <send-docs></send-docs>
     </div>
   </div>

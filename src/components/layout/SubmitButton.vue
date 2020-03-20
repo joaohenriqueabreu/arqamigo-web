@@ -1,8 +1,8 @@
 <template>
   <div ref="parent">
-      <button type="submit" @click="loading = true" ref="btn">
-        <slot v-if="!loading"></slot>
-        <roller-loader v-else color="white" :size="size"/>
+      <button class="bg-pink color-white negative" type="submit" @click="loading = true" ref="btn">
+        <slot v-if="! loading"></slot>
+        <roller-loader v-else color="white" :size="loaderSize"/>
       </button>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
     }
   },  
   mounted () {
-    this.size = Math.floor(this.$refs.parent.clientHeight / 2.5);    
+    this.loaderSize = Math.floor(this.$refs.parent.clientHeight / 2.5);    
   },
   methods: {
     disable() {

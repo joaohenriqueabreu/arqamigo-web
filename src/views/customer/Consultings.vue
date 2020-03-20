@@ -20,8 +20,8 @@ export default {
     computed: {            
         ...mapGetters(["allConsultings"])
     },
-    created: function () {
-        this.loadConsultings();
+    async created() {
+        await this.loadConsultings();
     },    
 }
 </script>

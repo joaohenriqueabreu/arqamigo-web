@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>Enviar documents</h4>
+    <h4>Enviar documentos</h4>
     <div class="v-space-20"></div>
     <div class="row">          
         <div class="col-sm-2"></div>

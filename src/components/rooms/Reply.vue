@@ -1,27 +1,33 @@
 <template>
     <div>           
         <form v-on:submit.prevent="reply">     
-            <div class="text-container horizontal middle justify-content-between">                     
-                <div class="col-sm-1 shadow horizontal middle center rounded-pill p-2 bg-pink color-white">
-                    <file-uploader singlebtn></file-uploader>
-                </div>
-                <div class="vertical col-sm-10">
-                    <div v-if="displayTitle" class="full-width">
-                        <input class="" type="text" name="title" placeholder="Dê um título para seu pedido" v-model="title">
+            <div class="text-container">                     
+                <div class="horizontal middle justify-content-between">
+                    <div class="col-sm-1 shadow horizontal middle center rounded-pill p-2 bg-pink color-white">
+                        <file-uploader singlebtn></file-uploader>
                     </div>
-                    <div class="position-relative">                                                         
-                        <textarea v-model="content" name="content" :rows="displayTitle ? 3 : 1" title="content"></textarea>
-                        <div v-if="displayTitle" class="character-counter">{{ charCount }}</div>                                        
-                        <div class="d-flex justify-content-between horizontal middle">                                                                                                                                                                
+                    <div class="vertical col-sm-10">
+                        <div v-if="displayTitle" class="full-width">
+                            <input class="" type="text" name="title" placeholder="Dê um título para seu pedido" v-model="title">
                         </div>
+                        <div class="position-relative">                                                         
+                         <textarea v-model="content" name="content" :rows="displayTitle ? 3 : 1" title="content"></textarea>
+                            <div v-if="displayTitle" class="character-counter">{{ charCount }}</div>                                                                
+                        </div>
+                    </div>   
+                    <div class="col-sm-1">
+                        <submit-button ref="submit">
+                            <font-awesome-icon icon="paper-plane"></font-awesome-icon>
+                        </submit-button>                        
                     </div>
-                </div>   
-                <div class="col-sm-1">
-                    <submit-button ref="submit">
-                        <font-awesome-icon icon="paper-plane"></font-awesome-icon>
-                    </submit-button>                        
-                </div>             
-            </div>        
+                </div>                                
+                <div class="row mt-3"> 
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <thumbnails :thumbs="thumbs"></thumbnails>
+                    </div>                    
+                </div>     
+            </div>                     
             <input v-if="sender" type="hidden" name="sender" :value="sender">
         </form>
     </div>
@@ -29,11 +35,13 @@
 
 <script>
 import FileUploader from '@/components/layout/FileUploader';
+import Thumbnails from '@/components/layout/Thumbnails';
 
 const MAX_CHARACTERS = 1000;
 export default {
     components: {
-        'file-uploader': FileUploader  
+        'file-uploader': FileUploader,
+        'thumbnails': Thumbnails  
     },
     data: function () {
         return {
@@ -55,7 +63,7 @@ export default {
     },
     mounted() {
       this.$on(this.$config.IMAGE_UPLOADED, ({ url }) => {        
-        this.$swal(url);
+        this.thumbs.push(url);
       }); 
     },      
     methods: {
@@ -101,7 +109,12 @@ export default {
             &:focus {
                 outline: none;
             }
-        }        
+        }
+        
+        [data-icon] {
+            color: $white;
+            margin-right: 0;
+        }
 
         .character-counter {
             position: absolute;
