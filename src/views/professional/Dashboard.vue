@@ -29,7 +29,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import RoomsAvatars               from "@/components/rooms/Avatars"
 import RoomCard                   from '@/components/rooms/Card'
-import ConsultingCard             from '@/components/consultings/Card'
+import ConsultingCard             from '@/components/consulting/Card'
 
 export default {    
     name: 'professionalDash',

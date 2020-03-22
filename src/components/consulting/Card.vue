@@ -5,24 +5,32 @@
           <div class="d-flex justify-content-between">
             <div class="horizontal">
                 <div class="position-relative">
-                  <hover-overlay :rounded="true" icon="home">
-                    <avatar :src="otherUser.photo" :username="'abc'"></avatar>
-                  </hover-overlay>              
+                  <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.room`, params: {id: consulting.room.id }}">
+                    <hover-overlay :rounded="true" icon="home">
+                      <avatar :src="otherUser.photo" :username="'abc'"></avatar>
+                    </hover-overlay>              
+                  </router-link>
                 </div>                          
               <div class="h-space-20"></div>
               <div class="vertical consulting-info">                
                 <div v-if="isProfessional">
-                  <h5 class="mb-1">{{ user.name }}</h5>
+                  <div class="horizontal middle">
+                  <h5 class="mb-1 mr-2">{{ user.name }}</h5> em <h5 class="single-line">{{ consulting.room.title }}</h5>
+                  </div>
+                  <small class="mb-2 color-light-gray bold">{{ consulting.room.category.name }} em {{ consulting.room.location }}</small>                                                  
                 </div>
-                <div v-else>
-                  <professional-info :professional="otherUser" class="mb-1"></professional-info>
-                </div>
-                <small class="mb-2 color-light-gray bold">{{ consulting.room.category.name }} em {{ consulting.room.location }}</small>                                  
-                <blockquote>{{ consulting.room.description }}</blockquote>                                
+                <div v-else class="horizontal middle">
+                  <professional-info :professional="otherUser" class="mb-1 mr-2"></professional-info> 
+                  <small class="mr-2">sobre</small>
+                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
+                    <h5 class="single-line mb-0">{{ consulting.room.title }}</h5>
+                  </router-link>
+                </div>                
+                <small class="single-line">{{ consulting.last_comment_content }}</small>                                                  
               </div>
             </div>
             <div>
-              <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.room`, params: { id: consulting.room.id }}">
+              <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.rooms.consulting`, params: { id: consulting.room.id }}">
               <hover-overlay :rounded="true" icon="coffee">
                 <div class="rounded-circle vertical center middle shadow p-3">{{ consulting.num_comments }}</div>
               </hover-overlay>              
@@ -68,8 +76,9 @@ export default {
     },
     computed: {
       ...mapGetters(['isProfessional', 'isCustomer']),
-      user() { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional; },
-      otherUser() { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional; }
+      user()              { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional; },
+      otherUser()         { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional; },
+      getRoomRouteName()  { return this.isCustomer ? 'customer.room.edit' : 'professional.room'; }
     }    
 }
 </script>

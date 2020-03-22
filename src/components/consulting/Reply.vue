@@ -1,7 +1,13 @@
 <template>
     <div>           
         <form v-on:submit.prevent="reply">     
-            <div class="text-container">                     
+            <div class="text-container">
+                <div v-if="hasUploadedMedias > 0" class="row mb-3"> 
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <thumbnails></thumbnails>                                              
+                    </div>                    
+                </div>                          
                 <div class="horizontal middle justify-content-between">
                     <div class="col-sm-1 shadow horizontal middle center rounded-pill p-2 bg-pink color-white">
                         <file-uploader singlebtn></file-uploader>
@@ -11,7 +17,7 @@
                             <input class="" type="text" name="title" placeholder="Dê um título para seu pedido" v-model="title">
                         </div>
                         <div class="position-relative">                                                         
-                         <textarea v-model="content" name="content" :rows="displayTitle ? 3 : 1" title="content"></textarea>
+                         <textarea v-model="getComment.content" name="content" :rows="displayTitle ? 3 : 1" title="content"></textarea>
                             <div v-if="displayTitle" class="character-counter">{{ charCount }}</div>                                                                
                         </div>
                     </div>   
@@ -20,13 +26,7 @@
                             <font-awesome-icon icon="paper-plane"></font-awesome-icon>
                         </submit-button>                        
                     </div>
-                </div>                                
-                <div class="row mt-3"> 
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
-                        <thumbnails :thumbs="thumbs"></thumbnails>
-                    </div>                    
-                </div>     
+                </div>                                                
             </div>                     
             <input v-if="sender" type="hidden" name="sender" :value="sender">
         </form>
@@ -34,8 +34,9 @@
 </template>
 
 <script>
-import FileUploader from '@/components/layout/FileUploader';
-import Thumbnails from '@/components/layout/Thumbnails';
+import { mapActions, mapGetters }   from 'vuex';
+import FileUploader     from '@/components/layout/FileUploader';
+import Thumbnails       from '@/components/layout/Thumbnails';
 
 const MAX_CHARACTERS = 1000;
 export default {
@@ -47,6 +48,7 @@ export default {
         return {
             title:      '',
             content:    '',
+            medias:     [],
             images:     [],
             links:      [],
             videos:     [],
@@ -61,28 +63,26 @@ export default {
         placeholder:    String,
         sender:         String,        
     },
-    mounted() {
-      this.$on(this.$config.IMAGE_UPLOADED, ({ url }) => {        
-        this.thumbs.push(url);
-      }); 
-    },      
+    mounted() { },      
     methods: {
+        ...mapActions(['replyComment']),
         reply() {
-            this.$swal("Submitted");
+            this.replyComment();
             this.$refs.submit.disable();
         }
     },  
     computed: {
+        ...mapGetters(['hasComment', 'getComment', 'hasUploadedMedias', 'getUploadedMedias']),
         charCount() {
-            return this.content.length + '/' + MAX_CHARACTERS;
+            return this.getComment.content.length + '/' + MAX_CHARACTERS;
         },
 
         charCountColor() {
-            return this.content.length < MAX_CHARACTERS ? 'color-light-gray' : 'color-red';
+            return this.getComment.content.length < MAX_CHARACTERS ? 'color-light-gray' : 'color-red';
         },
 
-        hasTitle() { return this.title.length > 0; },
-        hasContent() { return this.content.length > 0; },
+        hasTitle() { return this.getComment.title.length > 0; },
+        hasContent() { return this.getComment.content.length > 0; },
     },
 }
 </script>

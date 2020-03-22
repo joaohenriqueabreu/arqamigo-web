@@ -206,7 +206,8 @@ $spaces: (5, 10, 20, 30, 50);
     border: none;
 }
 
-.single-line {
+.single-line {    
+    max-width: 900px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

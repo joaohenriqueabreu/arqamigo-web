@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import ConsultingCard from "@/components/consultings/Card";
+import ConsultingCard from "@/components/consulting/Card";
 import RoomCard from "@/components/rooms/Card";
 import { mapGetters, mapActions } from 'vuex';
 export default {

@@ -11,20 +11,21 @@ import Register         from '@/views/auth/Register';
 
 import Admin            from '@/views/admin/Admin';
 
-import AdminDash        from '@/views/admin/AdminDash';
-import CustomerDash     from '@/views/customer/Dashboard';
-import SearchProfessionals from '@/views/customer/SearchProfessionals';
-import CreateRoom       from '@/views/customer/CreateRoom';
-import CustomerRoom     from '@/views/customer/Room';
-import CustomerConsultings from '@/views/customer/Consultings';
-import ShowProfessional from '@/views/customer/Professional';
+import AdminDash            from '@/views/admin/AdminDash';
+import CustomerDash         from '@/views/customer/Dashboard';
+import SearchProfessionals  from '@/views/customer/SearchProfessionals';
+import CreateRoom           from '@/views/customer/CreateRoom';
+import RoomConsulting       from '@/views/customer/Consulting';
+import CustomerConsultings  from '@/views/customer/Consultings';
+import EditRoom         from '@/views/customer/Room';
+import ShowProfessional     from '@/views/customer/Professional';
 
 import ProfessionalDash from '@/views/professional/Dashboard';
 import ProConsultings   from '@/views/professional/Consultings';
 import CustomerIndex    from '@/views/professional/Customers';
 import ShowCustomer     from '@/views/professional/Customer';
-import ProRoom          from '@/views/professional/Room';
-import ProRoomsSearch   from '@/views/professional/RoomsSearch';
+import ProConsulting    from '@/views/professional/Consulting';
+import SearchRooms      from '@/views/professional/SearchRooms';
 import ProProfile       from '@/views/professional/Profile';
 
 import Profile          from '@/views/auth/Profile';
@@ -110,9 +111,14 @@ let router = new Router({
             component: CreateRoom
           },
           {
-            path: 'rooms/:id',
-            name: 'customer.room',
-            component: CustomerRoom
+            path:'rooms/:id',
+            name: 'customer.room.edit',
+            component: EditRoom
+          },
+          {
+            path: 'rooms/consultings/:id',
+            name: 'customer.rooms.consulting',
+            component: RoomConsulting
           },
           {
             path: 'consultings',
@@ -142,7 +148,7 @@ let router = new Router({
           {
             path: 'rooms/:id',
             name: 'professional.room',
-            component: ProRoom,            
+            component: ProConsulting,            
           },
           {
             path: 'customers',
@@ -157,7 +163,7 @@ let router = new Router({
           {
             path: 'rooms',
             name: 'professional.rooms',
-            component: ProRoomsSearch
+            component: SearchRooms
           },
           {
             path: 'profile',

@@ -2,38 +2,38 @@
     <div>
         <div class="full-width room-reply-container" :class="getDirection">
             <div class="mr-3" v-if="sentFromCustomer">
-                <router-link v-if="showLink" :to="getUserUrl">
+                <router-link :to="getUserUrl">
                     <hover-overlay :rounded="true" icon="user">
-                        <avatar :username="name" :src="photo"></avatar>
+                        <avatar :username="comment.sender.name" :src="comment.sender.photo"></avatar>
                     </hover-overlay>                    
                 </router-link>                
             </div>
             <div class="arrow-box vertical shadow p-2 pt-3 pl-4" :class="getDirection">
                 <p class="mb-2 small d-flex justify-content-between">
-                    <router-link v-if="showLink" :to="getUserUrl">
-                        <span class="name">{{ name }}</span>
+                    <router-link :to="getUserUrl">
+                        <span class="name">{{ comment.sender.name }}</span>
                     </router-link>                    
-                    <span class="date mr-1">{{ date }}</span>
+                    <span class="date mr-1">{{ comment.sender.date }}</span>
                 </p>
                 <p class="color-black special">
                     <slot></slot>
                 </p>                
                 <!-- TODO reply functionality -->        
                 <!-- TODO Lazy load -->
-                <div v-if="medias && medias.length > 0">
-                    <carousel class="full-width row" :perPage="3" paginationColor="white" paginationActiveColor="pink" :loop="true">
-                        <slide v-for="media in medias" :key="media.id" class="col-sm-4 room-gallery-media">
-                                <img v-if="media.type === 'image'" :src="media.url" class="fill"/>
-                                <video v-if="media.type === 'video'" width="100%" height="100%" class="fill" controls :src="media.url" type="video/mp4">
-                                    <!--<source :src="media.url" :type="'video/'+media.format">-->
-                                    <!--<source :src="media.url">-->
-                                </video>
+                <div v-if="comment.medias && comment.medias.length > 0" class="mb-3">
+                    <carousel class="full-width row" :perPage="99" paginationColor="white" paginationActiveColor="pink" :loop="true">
+                        <slide v-for="media in comment.medias" :key="media.id" class="col-sm-4 room-gallery-media">
+                            <img v-if="media.type === $config.IMAGE_TYPE" :src="media.url" class="fill"/>
+                            <video v-if="media.type === $config.VIDEO_TYPE" width="100%" height="100%" class="fill" controls :src="media.url" type="video/mp4">
+                                <!--<source :src="media.url" :type="'video/'+media.format">-->
+                                <!--<source :src="media.url">-->
+                            </video>
                         </slide>
                     </carousel>                    
                 </div>
             </div>
             <div class="ml-3" v-if="sentFromProfessional">
-                <avatar :username="name" :src="photo"></avatar>
+                <avatar :username="comment.sender.name" :src="comment.sender.photo"></avatar>
             </div>
         </div>
     </div>
@@ -42,24 +42,20 @@
 <script>
 import { mapGetters } from 'vuex';
     export default {
-        props: {
-            special:    { type: Boolean, default: false },
-            userId:     String,
-            photo:      String,            
-            name:       String,
-            date:       String,
-            sender:     String,
-            viewer:     String,            
-            medias:     Array,
+        props: {    
+            comment: Object,
         },
-        methods: { },
+        methods: {
+
+         },
         computed: {
             ...mapGetters(['isCustomer', 'isProfessional']),
-            sentFromCustomer:       function () { return this.sender === this.$config.SENDER_CUSTOMER; },
-            sentFromProfessional:   function () { return this.sender === this.$config.SENDER_PROFESSIONAL; },
-            getDirection:           function () { return this.sentFromCustomer ? 'left' : 'right'; },
-            getUserUrl:             function () { return `/${this.viewer}/${this.sender}s/${this.userId}`; },
-            showLink:               function () { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional); }
+            sentFromCustomer()      { return this.comment.sender.type === this.$config.SENDER_CUSTOMER; },
+            sentFromProfessional()  { return this.comment.sender.type === this.$config.SENDER_PROFESSIONAL; },
+            getOtherUserType()      { return this.sentFromCustomer ? this.$config.SENDER_PROFESSIONAL : this.$config.SENDER_CUSTOMER },
+            getDirection()          { return this.sentFromCustomer ? 'left' : 'right'; },
+            getUserUrl()            { return `/${this.getOtherUserType}/${this.comment.sender.type}s/${this.comment.sender.id}`; },
+            showLink()              { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional); }
         },
     }
 </script>

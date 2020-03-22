@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import utils from '@/plugins/utils';
 
 import router from '@/router.js';
 
@@ -32,13 +33,16 @@ const store = new Vuex.Store({
       // pinterest_board: localStorage.getItem('p_board') || 'https://br.pinterest.com/joaohenriqueabreu/endgame/'
       pinterest_board: localStorage.getItem('p_board') || ''
     },
-    rooms: [],
+    rooms: [],    
     room: {},
     consultings: [],    
+    consulting: {},
     customers: [],
     customer: {},   
     professionals: [], 
-    professional: {}
+    professional: {},
+    medias: [],
+    comment: {}    
   },
   mutations: {
     start_api(state) {
@@ -72,7 +76,10 @@ const store = new Vuex.Store({
       state.rooms = rooms;
     },
     set_room(state, room) {
-      state.room = room;      
+      state.room = room;
+    },
+    set_consulting(state, consulting) {
+      state.consulting = consulting;      
     },
     set_consultings(state, consultings) {
       state.consultings = consultings;
@@ -97,6 +104,29 @@ const store = new Vuex.Store({
     },
     set_pinterest_board(state, board) {      
       state.user.pinterest_board = board;            
+    },
+    new_comment(state) {
+      state.comment = {
+        id: 0,
+        sender: {
+          type: state.token,
+          name: state.user.name,
+          photo: state.user.profile_img_url,
+        },        
+        medias: []
+      };
+      state.medias  = [];
+    },
+    upload_media(state, media) {
+      state.medias.push(media);
+    },  
+    remove_media(state, index) {      
+      state.medias.splice(index, 1);      
+    },
+    comment_sent(state, id) {  
+      state.comment.id      = id;
+      state.comment.medias  = state.medias;          
+      state.consulting.comments.push(state.comment);
     }
   },
   actions: {
@@ -133,11 +163,18 @@ const store = new Vuex.Store({
     loadRooms({ commit }) {      
       return api.get('/rooms').then(res => commit('set_rooms', res.data));          
     },
-    loadRoom({ commit }, id) {      
+    loadRoom({commit}, id) {
       commit('start_api');          
-      api.get(`/rooms/${id}`).then(res => {
-        commit('set_page_subtitle', res.data.title);
+      api.get(`/rooms/${id}`).then(res => {        
         commit('set_room', res.data);
+        commit('api_loaded');
+      });
+    },
+    loadConsulting({ commit }, id) {      
+      commit('start_api');          
+      api.get(`/consultings/${id}`).then(res => {
+        commit('set_page_subtitle', res.data.title);
+        commit('set_consulting', res.data);
         commit('api_loaded');
       });
     },
@@ -192,6 +229,23 @@ const store = new Vuex.Store({
     async updateUserProfile({ commit }, data) {
       // TODO here we call backend and persist user profile data
       return new Promise(resolve => setTimeout(resolve, 3000));
+    },
+    newComment({ commit }) {
+      commit('new_comment');
+    },
+    uploadMedia({ commit }, media) {
+      commit('upload_media', media)
+    },
+    removeMedia({ commit }, index) {      
+      commit('remove_media', index);
+    },
+    replyComment({ commit, getters }, comment) {
+      commit('start_api');
+      api.post('comments', { comment: getters.getComment, medias: getters.getUploadedMedias }).then(res => {
+        commit('comment_sent', res.data.id);
+        commit('new_comment');
+        commit('api_loaded');
+      });
     }
   },
   getters: {
@@ -229,9 +283,9 @@ const store = new Vuex.Store({
       return diff > ROOMS_DAYS_THRESHOLD;
     }),
 
-    // Single room
-    hasRoom: state => typeof state.room === 'object' && Object.keys(state.room).length > 0,
-    getRoom: state => state.room,
+    // Consulting chat page
+    hasConsulting: state => typeof state.consulting === 'object' && Object.keys(state.consulting).length > 0,
+    getConsulting: state => state.consulting,
 
     // Consultings getters
     allConsultings: state => state.consultings,  
@@ -251,7 +305,15 @@ const store = new Vuex.Store({
     hasProfessionals: state => state.professionals.length > 0,
     hasProfessional: state => typeof state.professional === 'object' && Object.keys(state.professional).length > 0,
     allProfessionals: state => state.professionals,
-    getProfessional: state => state.professional    
+    getProfessional: state => state.professional,
+    
+    hasComment: state => typeof state.comment === 'object' && Object.keys(state.comment).length > 0,
+    getComment: state => state.comment,
+    hasUploadedMedias: state => state.medias.length > 0,
+    getUploadedMedias: state => state.medias,
+    
+    hasRoom: state => typeof state.room === 'object' && Object.keys(state.room).length > 0,
+    getRoom: state => state.room
   }
 })
 

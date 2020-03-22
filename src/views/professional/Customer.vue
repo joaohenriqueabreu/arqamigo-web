@@ -66,7 +66,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import PrivateInfo from '@/components/customer/PrivateInfo';
 import RatingStars from '@/components/layout/RatingStars';
-import ConsultingCard from "@/components/consultings/Card";
+import ConsultingCard from "@/components/consulting/Card";
 
 export default {
     components: {

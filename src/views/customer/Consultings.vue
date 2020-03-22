@@ -8,7 +8,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import ConsultingCard from "@/components/consultings/Card";
+import ConsultingCard from "@/components/consulting/Card";
 
 export default {
     components: {

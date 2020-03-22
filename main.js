@@ -8,6 +8,7 @@ import store from '@/store.js';
 import router from '@/router.js';
 import config from '@/assets/js/events.js';
 import icons from '@/assets/js/icons.js';
+import utils from '@/plugins/utils.js';
 
 // UI componentes
 import Bootstrap from 'bootstrap-vue';
@@ -49,6 +50,7 @@ Vue.component('loading-gif', LoadingGif);
 Vue.config.productionTip = false;
 
 Vue.prototype.$config = config;
+Vue.prototype.$utils  = utils;
 
 new Vue({
   store,

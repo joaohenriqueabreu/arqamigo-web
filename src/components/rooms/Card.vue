@@ -14,9 +14,11 @@
             <h6 v-if="isProfessional">{{ room.location }}</h6>
           </div>
         </div>
-        <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}" class="vertical middle center rounded-circle py-3 px-4 color-pink bg-white negative clickable shadow bold">
-          {{ room.num_comments }}
-        </router-link>        
+        <hover-overlay icon="home" :rounded="true">
+          <router-link v-if="room.num_consultings > 0" :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}" class="vertical middle center rounded-circle py-3 px-4 color-pink bg-white clickable shadow bold">
+            {{ room.num_consultings }}
+          </router-link> 
+        </hover-overlay>       
       </div>
       <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}">
         <img class="card-img-top" :src="room.photo">              
