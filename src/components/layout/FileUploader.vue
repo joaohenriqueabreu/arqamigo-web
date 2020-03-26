@@ -33,9 +33,6 @@
         </div>        
     </div>
 </template>
-
-<style lang="scss" scoped></style>
-
 <script>
 import { mapActions } from 'vuex';
 
@@ -127,3 +124,11 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+    [data-icon] {
+        &:hover {
+            color: $lightGray;
+        }
+    }
+</style>

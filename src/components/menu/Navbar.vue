@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar" v-bind:class="{ shadow: ! hasPageSubtitle, alt: hasPageSubtitle }" role="navigation">    
+    <nav class="navbar" v-bind:class="[getNavbarStyle]" role="navigation">    
       <aside class="float-left">
         <router-link to="/" class="navbar-brand horizontal-center align-left">
           <h1 class="color-pink">Reforma Aí</h1>
@@ -32,17 +32,20 @@ export default {
     'user-menu': UserMenu,
     'guest-menu': GuestMenu,
   },
-  computed: mapGetters(['isLoggedIn','hasPageSubtitle', 'getPageSubtitle']),
+  computed: {
+    ...mapGetters(['isLoggedIn','hasPageSubtitle', 'getPageSubtitle', 'getNavbarStyle'])
+  }
 };
 </script>
 
 <style lang="scss" scoped>
   nav {    
-    top: 0;
-    left: 0;        
-    padding-right: 30px;    
-    padding-left: 30px;    
-    z-index: 1020;
+    @extend .shadow;
+    top:            0;
+    left:           0;        
+    padding-right:  30px;    
+    padding-left:   30px;    
+    z-index:        $above;
 
     &.alt {
       background: $pink;
@@ -50,6 +53,14 @@ export default {
       h1, h2 {
         color: $white !important;
       }      
+    }
+
+    &.transparent {
+      position:   relative;
+      background: $darkWhite;
+      border:     none;
+      box-shadow: none;      
+      z-index:    0;
     }
 
     &.subtitle {

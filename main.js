@@ -6,7 +6,7 @@ import '@/assets/styles/main.scss';
 import Vue from 'vue';
 import store from '@/store.js';
 import router from '@/router.js';
-import config from '@/assets/js/events.js';
+import config from '@/assets/js/config.js';
 import icons from '@/assets/js/icons.js';
 import utils from '@/plugins/utils.js';
 
@@ -18,7 +18,9 @@ import Avatar from 'vue-avatar';
 import SweetAlert from 'vue-sweetalert2';
 import Vuelidate from 'vuelidate';
 import VueCsrf from 'vue-csrf';
-import VueMask from 'v-mask'
+import VueMask from 'v-mask';
+import VueSmoothScroll from 'vue2-smooth-scroll';
+
 
 // Global components
 import HoverOverlay from '@/components/layout/HoverOverlay';
@@ -35,6 +37,7 @@ Vue.use(Vuelidate);
 Vue.use(VueCsrf);
 Vue.use(SweetAlert);
 Vue.use(VueMask);
+Vue.use(VueSmoothScroll);
 
 Vue.use(Cloudinary, {
   configuration: { cloudName: 'arquiamigo' },

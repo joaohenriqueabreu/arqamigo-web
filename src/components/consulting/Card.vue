@@ -5,7 +5,7 @@
           <div class="d-flex justify-content-between">
             <div class="horizontal">
                 <div class="position-relative">
-                  <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.room`, params: {id: consulting.room.id }}">
+                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
                     <hover-overlay :rounded="true" icon="home">
                       <avatar :src="otherUser.photo" :username="'abc'"></avatar>
                     </hover-overlay>              
@@ -14,17 +14,19 @@
               <div class="h-space-20"></div>
               <div class="vertical consulting-info">                
                 <div v-if="isProfessional">
-                  <div class="horizontal middle">
-                  <h5 class="mb-1 mr-2">{{ user.name }}</h5> em <h5 class="single-line">{{ consulting.room.title }}</h5>
+                  <div class="horizontal middle" v-if="! noTitle">
+                    <h5 class="mb-1 mr-2">{{ user.name }}</h5> em <h5 class="single-line">{{ consulting.room.title }}</h5>
                   </div>
                   <small class="mb-2 color-light-gray bold">{{ consulting.room.category.name }} em {{ consulting.room.location }}</small>                                                  
                 </div>
                 <div v-else class="horizontal middle">
                   <professional-info :professional="otherUser" class="mb-1 mr-2"></professional-info> 
-                  <small class="mr-2">sobre</small>
-                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
-                    <h5 class="single-line mb-0">{{ consulting.room.title }}</h5>
-                  </router-link>
+                  <div v-if="! noTitle">
+                    <small class="mr-2">sobre</small>
+                    <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
+                      <h5 class="single-line mb-0">{{ consulting.room.title }}</h5>
+                    </router-link>
+                  </div>                  
                 </div>                
                 <small class="single-line">{{ consulting.last_comment_content }}</small>                                                  
               </div>
@@ -50,7 +52,8 @@ export default {
       'professional-info': ProfessionalInfo
     },
     props: {      
-      consulting: Object
+      consulting: Object,
+      noTitle: { type: Boolean, default: false }
     },        
     methods: {        
         openFeed: function (index) {

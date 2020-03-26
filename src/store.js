@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import utils from '@/plugins/utils';
+import config from '@/assets/js/config';
 
 import router from '@/router.js';
 
@@ -14,13 +15,19 @@ Vue.use(Vuex);
 
 const MS_IN_DAY             = 1000 * 60 * 60 * 24;
 const ROOMS_DAYS_THRESHOLD  = 365;
+// Use from config
+const ROOM_STEPS            = ['main', 'categories', 'area', 'details', 'ready']
 
 const store = new Vuex.Store({
   state: {
+    // Layout states
     apiLoaded: true,
     status: false,
     showMenu: false,
+    navbarStyle: '',
     pageSubtitle: '',
+
+    //Auth states
     token: localStorage.getItem('token') || '',
     user : {
       id: 123,
@@ -30,19 +37,31 @@ const store = new Vuex.Store({
       phone: "",
       profile_img_url: 'https://imagens.canaltech.com.br/celebridades/78.400.jpg',
       pinterest_token: localStorage.getItem('p_token') || '',
-      // pinterest_board: localStorage.getItem('p_board') || 'https://br.pinterest.com/joaohenriqueabreu/endgame/'
       pinterest_board: localStorage.getItem('p_board') || ''
     },
-    rooms: [],    
-    room: {},
-    consultings: [],    
-    consulting: {},
-    customers: [],
-    customer: {},   
-    professionals: [], 
-    professional: {},
-    medias: [],
-    comment: {}    
+
+    // Model states
+    rooms:          [],    
+    room:           {},
+    consultings:    [],    
+    consulting:     {},
+    customers:      [],
+    customer:       {},   
+    professionals:  [], 
+    professional:   {},
+    medias:         [],
+    comment:        {},
+
+    // Room creation states
+    currentStep:    config.MAIN_STEP,
+    roomSteps:      [
+      {step: config.MAIN_STEP, completed: true}, 
+      {step: config.CATEGORIES_STEP, completed: false}, 
+      {step: config.AREA_STEP, completed: false}, 
+      {step: config.MEDIAS_STEP, completed: false}, 
+      {step: config.DETAILS_STEP, completed: false}, 
+      {step: config.READY_STEP, completed: false}, 
+    ],
   },
   mutations: {
     start_api(state) {
@@ -60,6 +79,9 @@ const store = new Vuex.Store({
     set_page_subtitle(state, subtitle) {
       state.pageSubtitle = subtitle;
     },
+    change_navbar_style(state, style) {
+      state.navbarStyle = style;
+    },
     login_success(state, user) {
       state.token  = user; 
       state.status = true;
@@ -72,14 +94,21 @@ const store = new Vuex.Store({
       state.token  = '';
       state.status = false;
     },
+    new_room(state) {
+      state.room          = {};
+      state.room.category = {};
+      state.room.area     = {};
+      state.medias        = [];
+    },
     set_rooms(state, rooms) {
       state.rooms = rooms;
     },
     set_room(state, room) {
-      state.room = room;
+      state.room    = room;
+      state.medias  = room.medias;
     },
     set_consulting(state, consulting) {
-      state.consulting = consulting;      
+      state.consulting = consulting;            
     },
     set_consultings(state, consultings) {
       state.consultings = consultings;
@@ -127,7 +156,30 @@ const store = new Vuex.Store({
       state.comment.id      = id;
       state.comment.medias  = state.medias;          
       state.consulting.comments.push(state.comment);
-    }
+    },
+    next_step(state) {
+      const nextStep = config.ROOM_STEPS.indexOf(state.currentStep) + 1;
+      state.currentStep = config.ROOM_STEPS[nextStep];
+    },
+    prev_step(state) {
+      const prevStep = config.ROOM_STEPS.indexOf(state.currentStep) - 1;
+      state.currentStep = config.ROOM_STEPS[prevStep];
+    },
+    go_to_step(state, step) {      
+      state.currentStep = step;
+    },
+    complete_step(state, step) {
+      const stepIndex = config.ROOM_STEPS.indexOf(step);
+      if (stepIndex > -1) {
+        state.roomSteps[stepIndex].completed = true;
+      }      
+    },
+    revert_step(state, step) {
+      const stepIndex = config.ROOM_STEPS.indexOf(step);
+      if (stepIndex > -1) {
+        state.roomSteps[stepIndex].completed = false;
+      }      
+    },
   },
   actions: {
     toggleMenu({ commit }) {
@@ -138,6 +190,9 @@ const store = new Vuex.Store({
     },
     setPageSubtitle({ commit }, subtitle) {
       commit('set_page_subtitle', subtitle);
+    },
+    changeNavbarStyle({ commit }, style) {
+      commit('change_navbar_style', style);
     },
     login({commit}, user) {
       localStorage.setItem('token', user);
@@ -159,6 +214,9 @@ const store = new Vuex.Store({
       localStorage.setItem('token', '');
       commit('logout');
       router.push('/login');
+    },
+    newRoom({commit}) {
+      commit('new_room');
     },
     loadRooms({ commit }) {      
       return api.get('/rooms').then(res => commit('set_rooms', res.data));          
@@ -246,6 +304,25 @@ const store = new Vuex.Store({
         commit('new_comment');
         commit('api_loaded');
       });
+    },
+    nextStep({ commit }) {
+      commit('next_step');       
+    },
+    prevStep({commit}) {
+      commit('prev_step');      
+    },
+    goToStep({commit}, step) {
+      commit('go_to_step', step);      
+    },   
+    completeStep({commit}, payload) {
+      commit('complete_step', payload.step);
+
+      if (payload.proceed) {
+        commit('next_step');
+      }      
+    }, 
+    revertStep({commit}, step) {
+      commit('revert_step', step);
     }
   },
   getters: {
@@ -254,7 +331,8 @@ const store = new Vuex.Store({
     // Layout getters
     isMenuOpened: state => state.showMenu,
     hasPageSubtitle: state => state.pageSubtitle !== undefined && state.pageSubtitle.length > 0,
-    getPageSubtitle: state => state.pageSubtitle,    
+    getPageSubtitle: state => state.pageSubtitle,  
+    getNavbarStyle: state => state.navbarStyle,  
 
     // Auth getters
     getUser: state => state.user,
@@ -313,7 +391,20 @@ const store = new Vuex.Store({
     getUploadedMedias: state => state.medias,
     
     hasRoom: state => typeof state.room === 'object' && Object.keys(state.room).length > 0,
-    getRoom: state => state.room
+    getRoom: state => state.room,
+
+    // Room creation steps
+    getCreateStep: state => state.currentStep,    
+    getCreateStepIndex: state => config.ROOM_STEPS.indexOf(state.currentStep),
+
+    // Need to do one-by-one to trigger bindings
+    isMainStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.MAIN_STEP)].completed,    
+    isCategoriesStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.CATEGORIES_STEP)].completed,
+    isAreaStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.AREA_STEP)].completed,
+    isMediasStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.MEDIAS_STEP)].completed,
+    isDetailsStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.DETAILS_STEP)].completed,
+    isReadyStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.READY_STEP)].completed,    
+    isCurrentStepComplete: (state, getters) => state.roomSteps[getters.getCreateStepIndex].completed,
   }
 })
 

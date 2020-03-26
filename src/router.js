@@ -17,7 +17,7 @@ import SearchProfessionals  from '@/views/customer/SearchProfessionals';
 import CreateRoom           from '@/views/customer/CreateRoom';
 import RoomConsulting       from '@/views/customer/Consulting';
 import CustomerConsultings  from '@/views/customer/Consultings';
-import EditRoom         from '@/views/customer/Room';
+import EditRoom             from '@/views/customer/Room';
 import ShowProfessional     from '@/views/customer/Professional';
 
 import ProfessionalDash from '@/views/professional/Dashboard';
@@ -52,6 +52,14 @@ const professionalMiddleware = {
 
 const adminMiddleware = {    
   requiresAdminAuth: true  
+};
+
+const altNavbar = {
+  navbarStyle: 'alt'
+};
+
+const noNavbar = {
+  navbarStyle: 'transparent'
 };
 
 let router = new Router({
@@ -108,12 +116,18 @@ let router = new Router({
           {
             path:'rooms/create',
             name: 'customer.rooms.create',
-            component: CreateRoom
+            component: CreateRoom, 
+            meta: {
+              ...noNavbar         
+            }              
           },
           {
             path:'rooms/:id',
             name: 'customer.room.edit',
-            component: EditRoom
+            component: EditRoom,
+            meta: {
+              ...altNavbar
+            }            
           },
           {
             path: 'rooms/consultings/:id',
@@ -207,7 +221,7 @@ let router = new Router({
         name: 'undefined',
         component: Unauthorized
       },
-    ]
+    ],
 });
 
 router.beforeEach((to, from, next) => {
@@ -216,54 +230,60 @@ router.beforeEach((to, from, next) => {
   // When route changes, close menu if opened  
   if (store.getters.isMenuOpened) {
       store.dispatch('closeMenu');  
-    }    
+  }    
 
-    if (to.matched.some(page => page.meta.requiresAuth)) {  
-      console.log('requires auth');
-      if (to.matched.some(page => page.meta.requiresAdminAuth)) {
-        if (! store.getters.isAdmin) {
-          next('/404')
-          return
-        }      
-      }
-
-      if (to.matched.some(page => page.meta.requiresCustomerAuth)) {
-        console.log('requires customer auth');
-        if (! store.getters.isCustomer) {
-          next('/404')
-          return
-        }      
-      }
-      
-      if (to.matched.some(page => page.meta.requiresProfessionalAuth)) {
-        console.log('requires pros auth');
-        if (! store.getters.isProfessional) {
-          next('/404')
-          return
-        }          
-      }
-
-      console.log('requires auth');
-      if (! store.getters.isLoggedIn) {
-        console.log('is logged in');
+  if (to.matched.some(page => page.meta.requiresAuth)) {  
+    console.log('requires auth');
+    if (to.matched.some(page => page.meta.requiresAdminAuth)) {
+      if (! store.getters.isAdmin) {
         next('/404')
         return
-      }
-      
-      if (to.path === '/dash') {        
-        next(getDashRedirect())
+      }      
+    }
+
+    if (to.matched.some(page => page.meta.requiresCustomerAuth)) {
+      console.log('requires customer auth');
+      if (! store.getters.isCustomer) {
+        next('/404')
         return
-      }                         
+      }      
     }
     
-    if (to.matched.some(page => page.meta.redirectWhenAuth)) {
-      if (store.getters.isLoggedIn) {        
-        next(getDashRedirect())
+    if (to.matched.some(page => page.meta.requiresProfessionalAuth)) {
+      console.log('requires pros auth');
+      if (! store.getters.isProfessional) {
+        next('/404')
         return
       }          
     }
 
-    next() 
+    console.log('requires auth');
+    if (! store.getters.isLoggedIn) {
+      console.log('is logged in');
+      next('/404')
+      return
+    }
+    
+    if (to.path === '/dash') {        
+      next(getDashRedirect())
+      return
+    }                         
+  }
+  
+  if (to.matched.some(page => page.meta.redirectWhenAuth)) {
+    if (store.getters.isLoggedIn) {        
+      next(getDashRedirect())
+      return
+    }          
+  }
+  
+  // Set default navbarStyle (or change)
+  store.dispatch('changeNavbarStyle', '');
+  if (to.meta.navbarStyle !== undefined) { 
+    store.dispatch('changeNavbarStyle', to.meta.navbarStyle);
+  }
+
+  next() 
 })
 
 const getDashRedirect = function () {

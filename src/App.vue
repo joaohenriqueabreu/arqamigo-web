@@ -1,9 +1,9 @@
 <template>
   <div>
-    <header>
+    <header v-bind:class="[getNavbarStyle]">
       <top-navbar></top-navbar>
     </header>
-    <main class="container" v-bind:class="{ 'extra-padding': hasPageSubtitle }">
+    <main class="container" v-bind:class="[getNavbarStyle]">
       <router-view></router-view>
     </main>
     <bottom-footer v-if="! isLoggedIn"></bottom-footer>
@@ -22,27 +22,32 @@ export default {
     'bottom-footer': Footer
   },
   computed: {
-    ...mapGetters(['hasPageSubtitle', 'isLoggedIn'])
+    ...mapGetters(['getNavbarStyle', 'isLoggedIn'])
   }
 };
 </script>
 
 <style lang='scss'>
-@import '@/assets/styles/main.scss';
+
   header {
-    background: $white;
-    position: fixed;
-    width: 100vw;    
-    z-index: 1020;
+    background:     $white;
+    position:       fixed;
+    width:          98.79vw;    
+    z-index:        $above;
+    padding-bottom: 15vh;
+
+    &.transparent {
+      position:       relative;
+      padding-bottom: 0vh;
+    }
   }
 
   main {    
-    min-height: 100vh;
-    padding-top: 15vh;
+    min-height: 100vh;    
     padding-bottom: 20vh;
     z-index: 0;
 
-    &.extra-padding {
+    &.alt {
       padding-top: 20vh;
     }
   }  
