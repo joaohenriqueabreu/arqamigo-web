@@ -25,6 +25,7 @@ const store = new Vuex.Store({
     status: false,
     showMenu: false,
     navbarStyle: '',
+    containerStyle: 'container',
     pageSubtitle: '',
 
     //Auth states
@@ -82,6 +83,9 @@ const store = new Vuex.Store({
     change_navbar_style(state, style) {
       state.navbarStyle = style;
     },
+    change_container_style(state, style) {
+      state.containerStyle = style;
+    },
     login_success(state, user) {
       state.token  = user; 
       state.status = true;
@@ -96,6 +100,7 @@ const store = new Vuex.Store({
     },
     new_room(state) {
       state.room          = {};
+      state.room.medias   = [];
       state.room.category = {};
       state.room.area     = {};
       state.medias        = [];
@@ -104,8 +109,16 @@ const store = new Vuex.Store({
       state.rooms = rooms;
     },
     set_room(state, room) {
-      state.room    = room;
-      state.medias  = room.medias;
+      state.room = room;
+    },
+    set_medias(state, medias) {
+      state.medias = medias;
+    },
+    prepare_room_for_saving(state) {
+      state.room.medias = state.medias;
+    },
+    room_created(state) {
+
     },
     set_consulting(state, consulting) {
       state.consulting = consulting;            
@@ -194,6 +207,9 @@ const store = new Vuex.Store({
     changeNavbarStyle({ commit }, style) {
       commit('change_navbar_style', style);
     },
+    changeContainerStyle({ commit }, style) {
+      commit('change_container_style', style);
+    },
     login({commit}, user) {
       localStorage.setItem('token', user);
       commit('login_success', user);
@@ -225,7 +241,17 @@ const store = new Vuex.Store({
       commit('start_api');          
       api.get(`/rooms/${id}`).then(res => {        
         commit('set_room', res.data);
+        commit('set_medias', res.data.medias);
         commit('api_loaded');
+      });
+    },
+    createRoom({commit, getters}) {
+      commit('start_api');          
+      commit('prepare_room_for_saving');
+      api.post('rooms', { room: getters.getRoom }).then(res => {        
+        commit('new_room');
+        commit('api_loaded');
+        router.push('/customer/rooms/created');
       });
     },
     loadConsulting({ commit }, id) {      
@@ -233,6 +259,7 @@ const store = new Vuex.Store({
       api.get(`/consultings/${id}`).then(res => {
         commit('set_page_subtitle', res.data.title);
         commit('set_consulting', res.data);
+        commit('set_room', res.data.room);
         commit('api_loaded');
       });
     },
@@ -323,6 +350,15 @@ const store = new Vuex.Store({
     }, 
     revertStep({commit}, step) {
       commit('revert_step', step);
+    },
+    async rateConsulting({commit}, consulting, rate) {
+
+    },
+    async authorizeProfessional({commit}, professional, customer) {
+      commit('start_api');
+      await api.post(`customers/${customer.id}/authorize/${professional.id}`).then(res => {        
+        commit('api_loaded');
+      });
     }
   },
   getters: {
@@ -332,7 +368,8 @@ const store = new Vuex.Store({
     isMenuOpened: state => state.showMenu,
     hasPageSubtitle: state => state.pageSubtitle !== undefined && state.pageSubtitle.length > 0,
     getPageSubtitle: state => state.pageSubtitle,  
-    getNavbarStyle: state => state.navbarStyle,  
+    getNavbarStyle: state => state.navbarStyle, 
+    getContainerStyle: state => state.containerStyle,
 
     // Auth getters
     getUser: state => state.user,
@@ -346,20 +383,24 @@ const store = new Vuex.Store({
     getPinterestBoard: state => state.user.pinterest_board,
     getUserProfileRoute: (state, getters) => getters.isProfessional ? '/professional/profile' : '/customer/profile',    
 
+    getUserDashRoute: (state, getters) => getters.isProfessional ? '/professional' : '/customer',    
+
     // Rooms index
     allRooms: state => state.rooms,
-    recentRooms: state => state.rooms.filter(room => {
-      let roomDt  = new Date(room.created_dt);
-      let now     = new Date();
-      let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
-      return diff <= ROOMS_DAYS_THRESHOLD;
-    }),
-    otherRooms: state => state.rooms.filter(room => {
-      let roomDt  = new Date(room.created_dt);
-      let now     = new Date();
-      let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
-      return diff > ROOMS_DAYS_THRESHOLD;
-    }),
+    // recentRooms: state => state.rooms.filter(room => {
+    //   let roomDt  = new Date(room.created_dt);
+    //   let now     = new Date();
+    //   let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
+    //   return diff <= ROOMS_DAYS_THRESHOLD;
+    // }),
+    recentRooms: state => state.rooms.slice(0, 5),
+    // otherRooms: state => state.rooms.filter(room => {
+    //   let roomDt  = new Date(room.created_dt);
+    //   let now     = new Date();
+    //   let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
+    //   return diff > ROOMS_DAYS_THRESHOLD;
+    // }),
+    otherRooms: state => state.rooms.slice(5, state.rooms.length),
 
     // Consulting chat page
     hasConsulting: state => typeof state.consulting === 'object' && Object.keys(state.consulting).length > 0,

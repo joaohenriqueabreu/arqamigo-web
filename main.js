@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 
 import '@/assets/styles/main.scss';
 
@@ -20,7 +21,7 @@ import Vuelidate from 'vuelidate';
 import VueCsrf from 'vue-csrf';
 import VueMask from 'v-mask';
 import VueSmoothScroll from 'vue2-smooth-scroll';
-
+import PerfectScrollbar from 'vue2-perfect-scrollbar';
 
 // Global components
 import HoverOverlay from '@/components/layout/HoverOverlay';
@@ -38,6 +39,7 @@ Vue.use(VueCsrf);
 Vue.use(SweetAlert);
 Vue.use(VueMask);
 Vue.use(VueSmoothScroll);
+Vue.use(PerfectScrollbar);
 
 Vue.use(Cloudinary, {
   configuration: { cloudName: 'arquiamigo' },

@@ -14,7 +14,7 @@
         <div class="horizontal center middle">
           <div class="col-sm-5"></div>
           <div class="col-sm-2">
-            <div class="bg-pink shadow rounded-pill color-white p-3 negative">
+            <div class="bg-brand shadow rounded-pill color-white p-3 negative">
               <file-uploader></file-uploader>
             </div>      
           </div>

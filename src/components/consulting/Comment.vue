@@ -92,7 +92,7 @@ import { mapGetters } from 'vuex';
         background: $white;
 
         .name {
-            color: $pink;
+            color: $brand;
             font-weight: $bold;
         }
 

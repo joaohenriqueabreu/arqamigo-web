@@ -39,7 +39,7 @@ export default {
 
 <style lang="scss" scoped>
   .upload {
-    background: $pink;
+    background: $brand;
     color: $white;
     padding: 10px;
   }

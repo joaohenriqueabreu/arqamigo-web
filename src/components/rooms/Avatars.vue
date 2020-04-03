@@ -1,7 +1,6 @@
 <template>
-    <div class="recent-rooms horizontal middle">
-        <div v-show="! ready" class="full-width">Loading...</div>
-        <carousel v-show="ready" class="full-width" :perPageCustom="[[768, 3], [1024, 6]]" 
+    <div class="recent-rooms horizontal middle">        
+        <carousel class="full-width" :perPageCustom="[[768, 3], [1024, 6]]" 
             :paginationEnabled="false" ref="carousel">
             <slide v-for="(room, id) in rooms" :key="room.id" class="clickable" @slideclick="openFeed(id)">
                 <div class="vertical middle center">
@@ -24,17 +23,14 @@
         <modal name="feed" :adaptive="true" :clickToClose="true" @opened="slideToCurrent" @closed="closeModal" height="auto">
             <carousel :adjustableHeight="false" :autoplayHoverPause="true" :loop="true"
                       :perPage="1" paginationColor="white" paginationActiveColor="#f63088"
-                      :paginationPosition="'bottom-overlay'" :speed="1000" :autoplayTimeout="7000"
+                      :paginationPosition="'top-overlay'" :speed="1000" :autoplayTimeout="7000"
                       :autoplay="true" ref="feed">
                 <slide v-for="room in rooms" :key="room.id" style="height: 400px;" @slideclick="navigateToRoom(room.id)">                                    
                     <div class="fill position-relative clickable">                        
-                        <div class="position-absolute top-left vertical align-left shadow rounded-pill m-3 p-3 bg-white shadow">
-                            <small>
-                                {{ room.category.name }} em {{ room.customer.location }}
-                            </small>
-                            <small class="font-italic">
-                                {{ room.title }}
-                            </small>
+                        <div class="story-pill p-3 m-2">                            
+                            <small class="color-brand bold">{{ room.category.name }}</small>                            
+                            <small class="color-light-gray bold">{{ room.customer.location }}</small>                                                                                    
+                            <small>{{ room.title }}</small>
                         </div>
                         <img :src="room.photo" class="fill"/>
                     </div>                    
@@ -44,50 +40,12 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
-    .recent-rooms-container {
-        overflow: hidden;
-        padding: 20px;
-        white-space: nowrap;
-        max-width: 100vw;
-    }
-
-    .slide-subtitle {
-        font-size: 10px;
-        font-weight: 1000;
-        max-width: 75%;
-        text-align: center;
-        white-space: initial;
-        margin-top: 10px;
-    }
-
-    .slide-subtitle .sub {
-        font-weight: 500;
-        font-size: 8px;
-    }
-
-    /*Overriding modal css*/
-    .v--modal-overlay[data-modal="feed"] {
-        background: rgba(255, 255, 255, 0.98);
-    }
-
-    .VueCarousel-slide {
-        img { 
-            height: 400px; 
-            max-width: 100%;
-        }    
-    }
-</style>
-
 <script>
 import { mapGetters } from 'vuex';
 
     export default {
         props: {
-            rooms: {
-                name: "rooms",
-                type: Array
-            }
+            rooms: Array            
         },
         data: function () {
             return {                
@@ -120,3 +78,51 @@ import { mapGetters } from 'vuex';
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    .recent-rooms-container {
+        overflow: hidden;
+        padding: 20px;
+        white-space: nowrap;
+        max-width: 100vw;
+    }
+
+    .story-pill {
+        @extend .vertical, .shadow;
+        max-width:  50%;
+        position:   absolute;
+        bottom:     5px;
+        left:       5px;
+        background: transparentize($white, 0.8);
+        border-radius: 10px;
+
+        small {
+            @extend .single-line;
+        }
+    }
+
+    .slide-subtitle {
+        font-size: 10px;
+        font-weight: 1000;
+        max-width: 75%;
+        text-align: center;
+        white-space: initial;
+        margin-top: 10px;
+    }
+
+    .slide-subtitle .sub {
+        font-weight: 500;
+        font-size: 8px;
+    }
+
+    .VueCarousel-slide {
+        img { 
+            height: 400px; 
+            max-width: 100%;
+        }    
+    }
+
+    .VueCarousel-dot-container {
+        max-width: 20px;
+    }
+</style>

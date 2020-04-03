@@ -59,7 +59,7 @@ export default {
 <style lang="scss" scoped>
     span {    
         padding: 10px;
-        background: $pink;    
+        background: $brand;    
         color: $white;
         min-width: 10vw;
         font-weight: $bold;
@@ -67,12 +67,12 @@ export default {
 
         &.pending {
             background: $white;
-            color: $pink;
-            border: 2px solid $pink;
+            color: $brand;
+            border: 2px solid $brand;
 
             &:hover {
                 @extend .transition-ease;
-                background: $pink;
+                background: $brand;
                 color: white;   
             }
         }

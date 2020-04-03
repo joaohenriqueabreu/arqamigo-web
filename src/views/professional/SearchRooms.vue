@@ -30,6 +30,11 @@ export default {
     components: {
         'room-card': RoomCard
     },
+    data() {
+        return {
+            term: ''
+        }
+    },
     methods: {
         ...mapActions(['loadRooms']),
         search() {

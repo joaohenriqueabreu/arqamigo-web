@@ -31,6 +31,7 @@
     "vue-masonry": "^0.11.8",
     "vue-router": "^3.1.5",
     "vue-sweetalert2": "^3.0.3",
+    "vue2-perfect-scrollbar": "^1.4.0",
     "vue2-smooth-scroll": "^1.2.0",
     "vue2-transitions": "^0.3.0",
     "vuelidate": "^0.7.5",

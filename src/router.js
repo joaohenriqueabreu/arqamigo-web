@@ -14,8 +14,9 @@ import Admin            from '@/views/admin/Admin';
 import AdminDash            from '@/views/admin/AdminDash';
 import CustomerDash         from '@/views/customer/Dashboard';
 import SearchProfessionals  from '@/views/customer/SearchProfessionals';
+import RoomsList            from '@/views/customer/RoomsList';
 import CreateRoom           from '@/views/customer/CreateRoom';
-import RoomConsulting       from '@/views/customer/Consulting';
+import RoomCreated          from '@/views/customer/RoomCreated';
 import CustomerConsultings  from '@/views/customer/Consultings';
 import EditRoom             from '@/views/customer/Room';
 import ShowProfessional     from '@/views/customer/Professional';
@@ -24,12 +25,12 @@ import ProfessionalDash from '@/views/professional/Dashboard';
 import ProConsultings   from '@/views/professional/Consultings';
 import CustomerIndex    from '@/views/professional/Customers';
 import ShowCustomer     from '@/views/professional/Customer';
-import ProConsulting    from '@/views/professional/Consulting';
 import SearchRooms      from '@/views/professional/SearchRooms';
 import ProProfile       from '@/views/professional/Profile';
 
-import Profile          from '@/views/auth/Profile';
+import RoomConsulting   from '@/views/room/Consulting';
 
+import Profile          from '@/views/auth/Profile';
 import Unauthorized     from '@/views/error/404';
 
 Vue.use(Router);
@@ -62,6 +63,14 @@ const noNavbar = {
   navbarStyle: 'transparent'
 };
 
+const fancyNavbar = {
+  navbarStyle: 'fancy'
+}
+
+const noContainer = {
+  containerStyle: 'no-container'
+}
+
 let router = new Router({
     mode: 'history',
     routes: [
@@ -70,20 +79,27 @@ let router = new Router({
         name: 'home',
         component: Home,
         meta: {
-          ...preventAuthMiddleware
+          ...preventAuthMiddleware,
+          ...fancyNavbar
         }
         
       },
       {
         path: '/about',
         name: 'about',
-        component: About
+        component: About,
+        meta: {
+          ...fancyNavbar
+        }
       },
       {
         path: '/login',
         name: 'login',
         component: Login,
-        ...preventAuthMiddleware
+        meta: {
+          ...preventAuthMiddleware,
+          ...fancyNavbar
+        }        
       },
       {
         path: '/register',
@@ -122,8 +138,21 @@ let router = new Router({
             }              
           },
           {
+            path: 'rooms/created',
+            name: 'customer.rooms.created',
+            component: RoomCreated,
+            meta: {
+              ...noNavbar
+            }
+          },
+          {
+            path: 'rooms',
+            name: 'customer.rooms.index',  
+            component: RoomsList          
+          },
+          {
             path:'rooms/:id',
-            name: 'customer.room.edit',
+            name: 'customer.rooms.edit',
             component: EditRoom,
             meta: {
               ...altNavbar
@@ -132,7 +161,10 @@ let router = new Router({
           {
             path: 'rooms/consultings/:id',
             name: 'customer.rooms.consulting',
-            component: RoomConsulting
+            component: RoomConsulting,
+            meta: {
+              ...noContainer
+            }
           },
           {
             path: 'consultings',
@@ -160,10 +192,13 @@ let router = new Router({
             component: ProConsultings
           },
           {
-            path: 'rooms/:id',
-            name: 'professional.room',
-            component: ProConsulting,            
-          },
+            path: 'rooms/consultings/:id',
+            name: 'professional.rooms.consulting',
+            component: RoomConsulting,
+            meta: {
+              ...noContainer
+            }
+          },          
           {
             path: 'customers',
             name: 'professional.customers',
@@ -270,17 +305,22 @@ router.beforeEach((to, from, next) => {
     }                         
   }
   
-  if (to.matched.some(page => page.meta.redirectWhenAuth)) {
-    if (store.getters.isLoggedIn) {        
-      next(getDashRedirect())
-      return
-    }          
-  }
+  // if (to.matched.some(page => page.meta.redirectWhenAuth)) {
+  //   if (store.getters.isLoggedIn) {        
+  //     next(getDashRedirect())
+  //     return
+  //   }          
+  // }
   
   // Set default navbarStyle (or change)
   store.dispatch('changeNavbarStyle', '');
   if (to.meta.navbarStyle !== undefined) { 
     store.dispatch('changeNavbarStyle', to.meta.navbarStyle);
+  }
+
+  store.dispatch('changeContainerStyle', 'container');
+  if (to.meta.containerStyle !== undefined) { 
+    store.dispatch('changeContainerStyle', to.meta.containerStyle);
   }
 
   next() 

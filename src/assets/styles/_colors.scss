@@ -1,20 +1,30 @@
+// Brand colors
+// $brand:         rgb(246, 48, 136);
+$brand:     darkblue;
+$brandAlt:     silver;    
+
+// Support colors
 $darkWhite:   rgb(255, 240, 240);
 $lightWhite:   rgb(252, 252, 252);
-$pink:         rgb(246, 48, 136);
 $lightPink:    rgb(246, 136, 186);
 $lightGreen:  rgb(52, 233, 222);
 $happyGreen:  rgb(20, 255, 100);
 $red:          rgb(239, 24, 88);
 $white:        rgb(255, 255, 255);
 $lightGray:   rgb(160, 180, 160);
-$lighterGray:   rgb(160, 180, 160);
+$lighterGray:   rgb(200, 220, 200);
 $gray:         rgb(60, 80, 60);
 $black:        rgb(20, 20, 20);
 $lightBlue:   light-blue;
 
+// Social
+$linkedin:    #0e76a8;
+$facebook:    #3b5998;
+$google:      #d34836;
+
 $colors: (
   dark-white:  $darkWhite,
-  pink:         $pink,
+  brand:         $brand,
   light-pink:   $lightPink,
   light-green:  $lightGreen,
   happy-green:  rgb(20, 255, 100),
@@ -29,4 +39,8 @@ $colors: (
 
 @function transparentize($color, $opacity) {
 	@return rgba($color, $opacity);
+}
+
+@function gradient($colorStart, $colorEnd) {
+  @return linear-gradient(90deg, $colorStart 20%, $colorEnd 100);
 }

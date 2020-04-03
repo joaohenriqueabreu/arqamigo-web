@@ -29,6 +29,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  a {
+    h3, h4 {
+      color: $white !important;
+    }
+  }
 </style>

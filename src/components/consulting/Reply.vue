@@ -1,25 +1,22 @@
 <template>
     <div>           
+        <!-- <form v-on:submit.prevent="reply" v-bind:style="{'width': largura}">      -->
         <form v-on:submit.prevent="reply">     
             <div class="text-container">
                 <div v-if="hasUploadedMedias > 0" class="row mb-3"> 
                     <div class="col-sm-1"></div>
                     <div class="col-sm-10">
                         <thumbnails></thumbnails>                                              
-                    </div>                    
+                    </div>    
+                    <div class="col-sm-1"></div>                
                 </div>                          
-                <div class="horizontal middle justify-content-between">
-                    <div class="col-sm-1 shadow horizontal middle center rounded-pill p-2 bg-pink color-white">
-                        <file-uploader singlebtn></file-uploader>
+                <div class="row horizontal middle">
+                    <div class="col-sm-1">
+                        <file-uploader singlebtn class="shadow horizontal middle center rounded-pill p-2 bg-brand color-white"></file-uploader>
                     </div>
-                    <div class="vertical col-sm-10">
-                        <div v-if="displayTitle" class="full-width">
-                            <input class="" type="text" name="title" placeholder="Dê um título para seu pedido" v-model="title">
-                        </div>
-                        <div class="position-relative">                                                         
-                         <textarea v-model="getComment.content" name="content" :rows="displayTitle ? 3 : 1" title="content"></textarea>
-                            <div v-if="displayTitle" class="character-counter">{{ charCount }}</div>                                                                
-                        </div>
+                    <!-- TODO Investigate why cant we use 10 here -->
+                    <div class="col-sm-10">                        
+                        <input type="text" v-model="getComment.content" name="content"/>
                     </div>   
                     <div class="col-sm-1">
                         <submit-button ref="submit">
@@ -60,8 +57,9 @@ export default {
     props: {
         displayTitle:  Boolean,
         displaySend:   Boolean,
-        placeholder:    String,
-        sender:         String,        
+        placeholder:   String,
+        sender:        String,        
+        largura:         String
     },
     mounted() { },      
     methods: {
@@ -92,14 +90,14 @@ export default {
         background:     transparentize($lightPink, 0.8);
         padding:        20px 50px 20px 50px;
 
-        input[type=text], textarea {
-            background: $white;            
-            border: none;
-            border-radius: 40px;
-            padding: 15px;
-            box-shadow: none;
-            width: 100%;
-            resize: none;
+        input[type=text] {
+            background:     $white;            
+            border:         none;
+            border-radius:  40px;
+            padding:        15px;
+            box-shadow:     none;
+            width:          100%;
+            resize:         none;
 
             &::placeholder, &::-webkit-input-placeholder, &:-ms-input-placeholder, &::-ms-input-placeholder {
                 font-size:  14px;
@@ -117,12 +115,12 @@ export default {
         }
 
         .character-counter {
-            position: absolute;
-            bottom: 10px;
-            right: 0px;      
-            color: $lightGray;
-            font-weight: $bold;
-            font-size: 10px;      
+            position:       absolute;
+            bottom:         10px;
+            right:          0px;      
+            color:          $lightGray;
+            font-weight:    $bold;
+            font-size:      10px;      
         }
     }
 </style>

@@ -3,15 +3,15 @@
       <div v-if="hasProfessional" class="vertical">
           <div>
               <div class="mb-4"></div>
-              <router-link to="/customer/professionals" 
-                class="p-4 rounded-pill shadow bg-pink color-white negative my-4">
+              <router-link to="/rooms/create" 
+                class="p-4 rounded-pill shadow bg-brand color-white negative my-4">
                 Pedir dica a este profissional
             </router-link>
           </div>
           <div class="vertical center middle">
             <avatar :src="getProfessional.photo" :size="200" :username="getProfessional.name" class="mb-3"></avatar>
             <professional-info norating :professional="getProfessional" :short="false" class="font very-large mb-5"></professional-info>
-            <div class="full-width bg-pink shadow color-white bold p-4 mb-3 horizontal center middle" v-if="getProfessional.has_interacted_with_me">
+            <div class="full-width bg-brand shadow color-white bold p-4 mb-3 horizontal center middle" v-if="getProfessional.has_interacted_with_me">
                 Este profissional já te enviou dicas!
             </div>
             <div class="bg-white shadow full-width p-4 mb-5 row">

@@ -4,7 +4,7 @@
       <div class="col-sm-6 offset-sm-3">
         <div class="card shadow">
           <div class="card-header text-center">
-            <h4>Login</h4>
+            <h4 class="color-white bold">Login</h4>
           </div>
           <div class="card-body text-center">
             <form>
@@ -13,24 +13,32 @@
                 <input type="email" v-model="email" name="email">
               </div>                     
               <div class="group text-left">
-                <label for="password">Password</label>
+                <label for="password">Senha</label>
                 <input type="password" v-model="password" name="password">
               </div>      
               <div class="form-group">
-                <button type="submit" @click.prevent="customerLogin">Submit</button>                                  
-                <span class="h-space-10"></span>
-                <router-link to="forgot-password">Esqueceu sua senha?</router-link>
+                <button type="submit" @click.prevent="customerLogin">Entrar</button>                                                  
+                <div class="mb-1"></div>
+                <router-link to="forgot-password"><small class="bold">Esqueceu sua senha?</small></router-link>
               </div>                         
-              <div class="form-group horizontal center">
-                <button @click.prevent="professionalLogin" class="facebook">
-                  <font-awesome-icon :icon="['fab', 'facebook']" class="icon alt"></font-awesome-icon>
-                  Facebook
-                </button>
-                <div class="h-space-10"></div>
-                <button @click.prevent="professionalLogin" class="google">
-                  <font-awesome-icon :icon="['fab', 'google']" class="icon alt"></font-awesome-icon>
-                  Google
-                </button>
+              <hr>              
+              <div class="form-group vertical">
+                <small>Ou se preferir, utilize uma de suas redes socias para entrar</small>
+                <div class="mb-2"></div>
+                <div class="horizontal center">
+                  <button @click.prevent="professionalLogin" class="facebook mr-2">
+                    <font-awesome-icon :icon="['fab', 'facebook']"></font-awesome-icon>
+                    Facebook
+                  </button>                  
+                  <button @click.prevent="professionalLogin" class="google mr-2">
+                    <font-awesome-icon :icon="['fab', 'google']"></font-awesome-icon>
+                    Google
+                  </button>
+                  <button @click.prevent="professionalLogin" class="linkedin">
+                    <font-awesome-icon :icon="['fab', 'linkedin']"></font-awesome-icon>
+                    Linkedin
+                  </button>
+                </div>                
               </div>
             </form>  
           </div>
@@ -64,22 +72,32 @@ import {mapGetters} from 'vuex';
   }
 </script>
 
-<style lang="scss">
-  .card-header {
-    background-color: $pink;
-    color: $white;
-    font-weight: $bold;
-  }
+<style lang="scss" scoped>
+.card-header {
+  background-color: $brand;
+  color: $white;
+  font-weight: $bold;
+}
+
+[data-icon] {
+  color:        $white;
+  margin-right: 10px;
+}
+
+button {
+  @extend .color-white, .shadower;
+  min-width: 10vw !important;  
+}
 
 .facebook {
-  background-color: darkslateblue !important;  
-  color: white;
-  min-width: 10vw !important;
+  background: $facebook !important;  
 }
 
 .google {
-  background-color:indianred !important;  
-  color: white;
-  min-width: 10vw !important;
+  background: $google !important;  
+}
+
+.linkedin {
+  background: $linkedin;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
       <div class="horizontal mb-5">
-        <router-link class="rounded-pill bold bg-pink color-white p-3 shadow mr-3 negative" to="/customer/rooms/create">Pedir dicas de um ambiente</router-link>
-        <router-link class="rounded-pill bold bg-pink color-white p-3 shadow negative" to="/customer/professionals">Conversar com um profissional</router-link>
+        <router-link class="rounded-pill bold bg-brand color-white p-3 shadow mr-3 negative" to="/customer/rooms/create">Pedir dicas de um ambiente</router-link>
+        <router-link class="rounded-pill bold bg-brand color-white p-3 shadow negative" to="/customer/professionals">Conversar com um profissional</router-link>
       </div>
       <div class="vertical mb-5">
         <h4 class="mb-3">Últimas Dicas recebidas</h4>
@@ -21,9 +21,10 @@
 </template>
 
 <script>
-import ConsultingCard from "@/components/consulting/Card";
-import RoomCard from "@/components/rooms/Card";
 import { mapGetters, mapActions } from 'vuex';
+import ConsultingCard             from "@/components/consulting/Card";
+import RoomCard                   from "@/components/rooms/Card";
+
 export default {
   components: {
     'consulting-card': ConsultingCard,

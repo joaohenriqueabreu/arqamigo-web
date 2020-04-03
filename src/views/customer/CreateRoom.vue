@@ -12,14 +12,14 @@
           <area-step></area-step>
         </div>   
         <div class="step horizontal center middle pt-0" :key="$config.MEDIAS_STEP" v-show="showMediasStep">
-          <area-step></area-step>
+          <medias-step></medias-step>
         </div>             
         <div class="step horizontal center middle pt-0" :key="$config.DETAILS_STEP" v-show="showDetailsStep">
           <details-step></details-step>           
         </div>              
         <div class="step vertical center middle pt-0" :key="$config.READY_STEP" v-show="showReadyStep">
             <h4 class="mb-4">Tudo pronto!</h4>          
-            <submit-button>Criar</submit-button>                              
+            <submit-button ref="submit">Criar</submit-button>                              
         </div>              
       </slide-transition>
       <div class="position-fixed full-width">        
@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import MainStep        from '@/views/customer/room/Main';
-import CategoriesStep  from '@/views/customer/room/Categories';
-import AreaStep        from '@/views/customer/room/Area';
-import MediasStep        from '@/views/customer/room/Area';
-import DetailsStep     from '@/views/customer/room/Details';
-import CreateSteps        from '@/views/customer/room/Steps';
-import { SlideYUpTransition }   from 'vue2-transitions'
+import MainStep                   from '@/views/customer/room/Main';
+import CategoriesStep             from '@/views/customer/room/Categories';
+import AreaStep                   from '@/views/customer/room/Area';
+import MediasStep                 from '@/views/customer/room/Medias';
+import DetailsStep                from '@/views/customer/room/Details';
+import CreateSteps                from '@/views/customer/room/Steps';
+import { SlideYUpTransition }     from 'vue2-transitions'
 import { mapGetters, mapActions } from 'vuex';
 
 export default {  
@@ -47,18 +47,19 @@ export default {
     'main-step':          MainStep,
     'categories-step':    CategoriesStep,
     'area-step':          AreaStep,
+    'medias-step':        MediasStep,
     'details-step':       DetailsStep,
     'create-steps':       CreateSteps,
     'slide-transition':   SlideYUpTransition 
   },       
   methods: {
-    ...mapActions(['newRoom', 'nextStep', 'prevStep']),
+    ...mapActions(['newRoom', 'createRoom', 'nextStep', 'prevStep']),
     showStep(id) {            
       return this.getCreateStep === id;
     },
     submit() {
       if (this.isCategoriesStepCompleted && this.isAreaStepCompleted && this.isDetailsStepCompleted) {
-        this.$swal("All right!");
+        this.createRoom();
       }
     }
   },
@@ -86,7 +87,7 @@ export default {
   .step {
     position: relative;
     padding-top: 20vh;
-    min-height: 65vh;
+    // min-height: 50vh;
     width: 100%;
     .bottom {
       position: absolute;

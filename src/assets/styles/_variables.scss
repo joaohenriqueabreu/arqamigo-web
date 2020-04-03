@@ -3,15 +3,20 @@ $bold: 700;
 
 // For fonts
 $small: 12px;
+$normal: 15px;
 $large: 20px;
 $veryLarge: 32px;
 
 // For z-index
-$above: 10;
-$below: -1;
+$above:     10;
+$moveToTop: 100;
+$below:     -1;
+
+// Spacing 
+$space: 0.5rem;
 
 $sizes: (
-    large: $large,
+    large:      $large,
     very-large: $veryLarge
 );
 

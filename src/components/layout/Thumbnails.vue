@@ -56,7 +56,7 @@ export default {
         font-size:      $small;        
         z-index:        $above;
         &:hover {
-            background: $pink;
+            background: $brand;
             color: $white;
         }
     }

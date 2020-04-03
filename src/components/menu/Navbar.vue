@@ -3,7 +3,7 @@
     <nav class="navbar" v-bind:class="[getNavbarStyle]" role="navigation">    
       <aside class="float-left">
         <router-link to="/" class="navbar-brand horizontal-center align-left">
-          <h1 class="color-pink">Reforma Aí</h1>
+          <h1 class="color-brand">Reforma Aí</h1>
         </router-link>
       </aside>
       <aside>
@@ -45,10 +45,10 @@ export default {
     left:           0;        
     padding-right:  30px;    
     padding-left:   30px;    
-    z-index:        $above;
+    z-index:        $above;    
 
     &.alt {
-      background: $pink;
+      background: $brand;
       border: none;
       h1, h2 {
         color: $white !important;
@@ -61,6 +61,12 @@ export default {
       border:     none;
       box-shadow: none;      
       z-index:    0;
+    }
+
+    &.fancy {
+      background: gradient($white, $brand);
+      box-shadow: none;
+      border: none;
     }
 
     &.subtitle {

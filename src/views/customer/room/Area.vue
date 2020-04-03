@@ -7,7 +7,7 @@
     <div class="horizontal middle center full-width d-flex align-items-stretch">      
       <div class="group">
         <label for="height">Comprimento (cm)</label>
-        <input type="text" v-model="$v.height.$model" v-on:blur="setHeight($event.target.value)">
+        <input type="text" v-model="$v.height.$model" @input="setHeight($event.target.value)">
         <div v-if="$v.height.$error">
           <div class="error" v-if="!$v.height.required">Entre com um valor válido para comprimento</div>
           <div class="error" v-if="!$v.height.numeric">Entre com um valor válido para comprimento</div>          
@@ -19,7 +19,7 @@
       </div>                   
       <div class="group">
         <label for="width">Largura (cm)</label>
-        <input type="text" v-model="$v.width.$model" v-on:blur="setWidth($event.target.value)">
+        <input type="text" v-model="$v.width.$model" @input="setWidth($event.target.value)">
         <div v-if="$v.width.$error">
           <div class="error mt-4" v-if="!$v.width.required">Entre com um valor válido para a largura</div>
           <div class="error mt-4" v-if="!$v.width.numeric">Entre com um valor válido para a largura</div>          
@@ -38,7 +38,7 @@ export default {
     return {
       height:     null,
       width:      null,
-      validaArea: false
+      validArea: false
     }
   },
   validations: {
@@ -49,12 +49,12 @@ export default {
     ...mapActions(['completeStep', 'revertStep']),
     setHeight(value) { 
       this.getRoom.area.height  = value;
-      this.validaArea           = ! this.$v.$invalid;
+      this.validArea            = ! this.$v.$invalid;
       this.$v.height.$touch();
     },
     setWidth(value) { 
       this.getRoom.area.width   = value;
-      this.validaArea           = ! this.$v.$invalid;
+      this.validArea            = ! this.$v.$invalid;
       this.$v.width.$touch();
     },
   },
@@ -62,8 +62,7 @@ export default {
     ...mapGetters(['getRoom'])    
   },
   watch: {
-    validaArea: function(valid) {
-      console.log(valid);
+    validArea: function(valid) {
       if (valid) { 
         this.completeStep({step: this.$config.AREA_STEP, proceed: false});        
       } else {

@@ -46,7 +46,7 @@ export default {
     }
 
     .icon {
-        color: $pink;
+        color: $brand;
         font-weight: $bold;
     }
 

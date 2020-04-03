@@ -13,22 +13,30 @@
                 </div>                          
               <div class="h-space-20"></div>
               <div class="vertical consulting-info">                
+                <div v-if="! noTitle" class="mb-2">                    
+                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
+                    <font-awesome-icon icon="home" class="icon"></font-awesome-icon>
+                    <small class="bold single-line">{{ consulting.room.title }}</small>
+                  </router-link>
+                </div>
                 <div v-if="isProfessional">
                   <div class="horizontal middle" v-if="! noTitle">
-                    <h5 class="mb-1 mr-2">{{ user.name }}</h5> em <h5 class="single-line">{{ consulting.room.title }}</h5>
+                    <h5 class="mb-1 mr-2">{{ user.name }}</h5>
                   </div>
-                  <small class="mb-2 color-light-gray bold">{{ consulting.room.category.name }} em {{ consulting.room.location }}</small>                                                  
+                  <small class="mb-2 color-light-gray bold">
+                    <font-awesome-icon icon="bars" class="icon"></font-awesome-icon><span class="mr-4">{{ consulting.room.category.name }}</span>
+                    <font-awesome-icon icon="map-marker-alt" class="icon"></font-awesome-icon>{{ consulting.room.location }}
+                  </small>                                                  
                 </div>
                 <div v-else class="horizontal middle">
-                  <professional-info :professional="otherUser" class="mb-1 mr-2"></professional-info> 
-                  <div v-if="! noTitle">
-                    <small class="mr-2">sobre</small>
-                    <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
-                      <h5 class="single-line mb-0">{{ consulting.room.title }}</h5>
-                    </router-link>
-                  </div>                  
+                  <professional-info :professional="otherUser" class="mb-1 mr-2"></professional-info>                                     
+                </div>
+                <div class="row">
+                  <div class="col-sm-8 single-line">
+                    <font-awesome-icon :icon="['far', 'comment']" class="mr-2"></font-awesome-icon>
+                    <small class="">{{ consulting.last_comment_content }}</small>                                                  
+                  </div>                                
                 </div>                
-                <small class="single-line">{{ consulting.last_comment_content }}</small>                                                  
               </div>
             </div>
             <div>
@@ -81,7 +89,7 @@ export default {
       ...mapGetters(['isProfessional', 'isCustomer']),
       user()              { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional; },
       otherUser()         { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional; },
-      getRoomRouteName()  { return this.isCustomer ? 'customer.room.edit' : 'professional.room'; }
+      getRoomRouteName()  { return this.isCustomer ? 'customer.rooms.edit' : 'professional.room'; }
     }    
 }
 </script>
@@ -96,7 +104,7 @@ export default {
 
   .rounded-circle {    
     font-weight: $bold;
-    color: $pink;
+    color: $brand;
     width: 50px;
     height: 50px;
   }
@@ -105,7 +113,11 @@ export default {
   h6, p { font-size: 13px; }  
 
   .location-icon {
-    color: $pink;
+    color: $brand;
     margin-right: 5px;
+  }
+
+  [data-icon] {
+    opacity: 0.5;
   }
 </style>

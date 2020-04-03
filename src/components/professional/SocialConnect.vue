@@ -108,7 +108,7 @@ export default {
         color: $lightGray;
         &:hover {
             @extend .transition-ease;
-            color: $pink;
+            color: $brand;
         }   
         
         &.connected {
@@ -126,7 +126,7 @@ export default {
     }
 
     .connected-pinterest {
-        background: $pink;
+        background: $brand;
         color: $white;
         min-width: 12vw;
         padding: 10px;

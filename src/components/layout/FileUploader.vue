@@ -58,7 +58,7 @@ export default {
         camera:     { type: Boolean, default: true },
         docmode:    { type: Boolean, default: false },
         singlebtn:  { type: Boolean, default: false },
-        label:      { type: String}
+        label:      { type: String},
     },
     methods: {
         ...mapActions(['uploadMedia']),

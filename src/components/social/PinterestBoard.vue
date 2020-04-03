@@ -6,7 +6,7 @@
            :data-pin-scale-height="height"
            data-pin-scale-width="200">
         </a>        
-        <div v-else class="color-pink super-bold horizontal center middle">        
+        <div v-else class="color-brand super-bold horizontal center middle">        
             <h2><i class="fab fa-pinterest margin-right-10"></i></h2>
             Este profissional ainda não conectou nenhum quadro.
         </div>

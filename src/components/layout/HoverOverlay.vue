@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div class="position-relative" 
-            @mouseover="hovering=true" @mouseleave="hovering=false">
+        <div class="position-relative" @mouseover="hovering=true" @mouseleave="hovering=false">
             <slot></slot>
             <div v-show="hovering || (radioMode && selected)" 
                 class="overlay clickable vertical middle center" :class="{'rounded-circle': rounded, 'selected': selected}">
@@ -28,12 +27,8 @@
             id:             { type: String }      
         },
         methods: {
-            select() {                                
-                this.selected = true;
-            },
-            unselect() {                 
-                this.selected = false;
-            }
+            select()    { this.selected = true; },
+            unselect()  { this.selected = false; }
         },
         computed: {
             fontIcon() {
@@ -53,7 +48,7 @@
     color:      $white; 
     &:hover, &.selected {
         @extend .transition-ease;        
-        background-color: $pink;
+        background-color: $brand;
         z-index:          100;
         opacity:          0.9;
         &:hover {

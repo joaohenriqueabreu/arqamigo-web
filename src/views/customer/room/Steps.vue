@@ -99,15 +99,15 @@ export default {
         margin:     -5px;
         z-index:    $below;
         &.complete {
-            border-top-color: $pink;            
+            border-top-color: $brand;            
         }
     }
 
     [data-icon] {        
-        @extend .clickable, .bg-white, .color-pink, .negative, .shadow;
+        @extend .clickable, .bg-white, .color-brand, .negative, .shadow;
 
         &[data-icon="check-circle"] {
-            @extend .bg-pink, .color-white, .negative, .shadow;
+            @extend .bg-brand, .color-white, .negative, .shadow;
         }
 
         width:          30px;
@@ -118,7 +118,7 @@ export default {
     }
 
     .btn {  
-        @extend .bg-white, .color-pink, .negative, .shadow;
+        @extend .bg-white, .color-brand, .negative, .shadow;
         height: 50px;
         width:  50px;        
 

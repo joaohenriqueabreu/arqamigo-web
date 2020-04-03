@@ -3,8 +3,8 @@
     <div class="card shadow full-height">
       <div class="card-header horizontal justify-content-between">
         <div class="horizontal">
-          <router-link v-if="isProfessional" :to="{ name: `${isCustomer ? 'customer.professional' : 'professional.customer'}`, params: { id: room.customer.id }}">
-            <hover-overlay rounded="true" icon="user">
+          <router-link v-if="isProfessional" :to="`/professional/customers/${room.customer.id}`">
+            <hover-overlay :rounded="true" icon="user">
               <avatar :src="room.customer.photo" :username="room.customer.name"></avatar>
             </hover-overlay>              
           </router-link>              
@@ -15,12 +15,12 @@
           </div>
         </div>
         <hover-overlay icon="home" :rounded="true">
-          <router-link v-if="room.num_consultings > 0" :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}" class="vertical middle center rounded-circle py-3 px-4 color-pink bg-white clickable shadow bold">
+          <router-link v-if="room.num_consultings > 0" :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}" class="vertical middle center rounded-circle py-3 px-4 color-brand bg-white clickable shadow bold">
             {{ room.num_consultings }}
           </router-link> 
         </hover-overlay>       
       </div>
-      <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}">
+      <router-link :to="{ name: `${isCustomer ? 'customer.rooms.edit' : 'professional.room' }`, params: { id: room.id }}">
         <img class="card-img-top" :src="room.photo">              
         <div class="card-subtitle">
           {{ room.title }}
@@ -66,7 +66,7 @@ export default {
   }
 
   .card-subtitle {
-    background: $pink;
+    background: $brand;
     color: $white;
     font-weight: $bold;
     padding: 10px;
@@ -81,7 +81,13 @@ export default {
     object-fit: contain;
   }
 
+  footer {
+    // Bootstrap card requires footer, but our footer has position absolute (for landing pages)
+    position: relative;
+  }
+
   .blockquote-footer {
-    font-size: 12px;
+    font-size:  12px;
+    height:     100%;
   }
 </style>

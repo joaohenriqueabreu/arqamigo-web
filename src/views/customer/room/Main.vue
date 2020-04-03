@@ -36,17 +36,17 @@ export default {
 <style lang="scss" scoped>
 .main-info {
     border-radius: 400px;
-    border: 10px solid $pink;      
+    border: 10px solid $brand;      
     height: 120px;
     width: 120px;
     background: $white;
-    color: $pink;
+    color: $brand;
     font-size: $veryLarge;
 
     &:hover {
       @extend .transition-ease;
       color: $white;
-      background: $pink;
+      background: $brand;
     }
   }
 </style>
