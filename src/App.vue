@@ -5,6 +5,9 @@
     </header>    
     <main v-bind:class="[getContainerStyle, getNavbarStyle]">
       <fade-transition :duration="500">
+        <div v-if="hasMessage" class="full-width bg-brand color-white p-4 shadow horizontal center middle">
+          {{ getMessage }}
+        </div>
         <router-view></router-view>
       </fade-transition>
     </main>
@@ -28,7 +31,7 @@ export default {
     'fade-transition':  FadeTransition
   },
   computed: {
-    ...mapGetters(['getNavbarStyle', 'getContainerStyle', 'isLoggedIn'])
+    ...mapGetters(['getNavbarStyle', 'getContainerStyle', 'isLoggedIn', 'hasMessage', 'getMessage'])
   }
 };
 </script>

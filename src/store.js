@@ -27,6 +27,7 @@ const store = new Vuex.Store({
     navbarStyle: '',
     containerStyle: 'container',
     pageSubtitle: '',
+    message: undefined,
 
     //Auth states
     token: localStorage.getItem('token') || '',
@@ -52,6 +53,7 @@ const store = new Vuex.Store({
     professional:   {},
     medias:         [],
     comment:        {},
+    feedback:       {},
 
     // Room creation states
     currentStep:    config.MAIN_STEP,
@@ -85,6 +87,12 @@ const store = new Vuex.Store({
     },
     change_container_style(state, style) {
       state.containerStyle = style;
+    },
+    set_message(state, message) {
+      state.message = message;      
+    },
+    show_message(state) {
+      setTimeout(() => state.message = undefined, 5000);      
     },
     login_success(state, user) {
       state.token  = user; 
@@ -193,6 +201,12 @@ const store = new Vuex.Store({
         state.roomSteps[stepIndex].completed = false;
       }      
     },
+    set_feedback(state, feedback) {
+      state.feedback.feedback = feedback;
+    },
+    set_rating(state, rating) {
+      state.feedback.rating = rating;
+    },    
   },
   actions: {
     toggleMenu({ commit }) {
@@ -354,11 +368,35 @@ const store = new Vuex.Store({
     async rateConsulting({commit}, consulting, rate) {
 
     },
-    async authorizeProfessional({commit}, professional, customer) {
+    async authorizeProfessional({commit}, professional) {
       commit('start_api');
-      await api.post(`customers/${customer.id}/authorize/${professional.id}`).then(res => {        
+      api.post(`customers/professionals/${professional.id}/authorize`).then(res => {        
         commit('api_loaded');
       });
+    },
+    async closeConsulting({commit}, payload) {
+      commit('start_api');
+      api.post(`customers/consultings/${payload.consulting.id}/close`, { feedback: payload.feedback }).then(res => {
+        commit('api_loaded');
+        router.push('/customer'); 
+        return;
+      })
+    },
+    async blockProfessional({commit}, professional) {
+      commit('start_api');
+      api.post(`customers/professionals/${professional.id}/block`).then(res => {
+        commit('api_loaded');
+        router.push('/customer');
+        commit('set_message', 'Profissional bloqueado');
+        commit('show_message');
+        return;
+      });
+    },
+    setFeedback({commit}, feedback) {
+      commit('set_feedback', feedback);
+    },
+    setRating({commit}, rating) {
+      commit('set_rating', rating);
     }
   },
   getters: {
@@ -370,6 +408,8 @@ const store = new Vuex.Store({
     getPageSubtitle: state => state.pageSubtitle,  
     getNavbarStyle: state => state.navbarStyle, 
     getContainerStyle: state => state.containerStyle,
+    hasMessage: state => state.message !== undefined,
+    getMessage: state => state.message,
 
     // Auth getters
     getUser: state => state.user,
@@ -446,7 +486,9 @@ const store = new Vuex.Store({
     isDetailsStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.DETAILS_STEP)].completed,
     isReadyStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.READY_STEP)].completed,    
     isCurrentStepComplete: (state, getters) => state.roomSteps[getters.getCreateStepIndex].completed,
-  }
+
+    getFeedback: state => state.feedback,
+  }  
 })
 
 export default store;

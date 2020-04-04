@@ -1,6 +1,6 @@
 <template>
     <div class="vertical middle center">
-        <p>Por favor, dedique um pequeno tempo para avaliar as dicas do profissional;</p>
+        <p>Por favor, dedique um pequeno tempo para avaliar as dicas do profissional.</p>
         <div class="horizontal middle center">
             <font-awesome-icon v-for="index in getMaxRate" :key="index" 
                 :icon="getIcon(index)" 
@@ -18,7 +18,7 @@
             <input type="hidden" v-model="$v.rating.$model">
             <div class="group text-left bg-white mb-5">    
                 <label for="feedback">Feedback <small class="color-light-gray bold">(opcional)</small></label>            
-                <textarea v-model="$v.feedback.$model" rows="3" placeholder="Como você avalia as dicas deste profissional"></textarea>
+                <textarea v-model="$v.feedback.$model" @input="setFeedback($event.target.value)" rows="3" placeholder="Como você avalia as dicas deste profissional"></textarea>
                 <font-awesome-icon icon="edit" class="color-light-gray right"></font-awesome-icon>
                 <div v-if="$v.feedback.$error">
                     <div class="error" v-if="! $v.feedback.required">Por favor avalie o profissional</div>                                    
@@ -30,7 +30,7 @@
 
 <script>
 import { required, requiredIf, between } from 'vuelidate/lib/validators';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 const MAX_RATE          = 5;
 const FILLED_STAR_ICON  = 'star';
 const EMPTY_STAR_ICON   = ['far', 'star'];
@@ -57,15 +57,21 @@ export default {
 
     },
     methods: {
-        ...mapActions(['rateConsulting']),
+        ...mapActions(['rateConsulting', 'setFeedback', 'setRating']),
         getIcon(index) {            
             return index <= this.rating ? FILLED_STAR_ICON : EMPTY_STAR_ICON;
         },
         rate(index) {
-            this.rating = index;
-        }
+            this.rating             = index;
+            this.setRating(index);
+        },
+        setFeedback(value) { 
+            this.setFeedback(value);
+            this.$v.feedback.$touch();
+        },
     },
     computed: {
+        ...mapGetters(['getFeedback']),
         getMaxRate() { return MAX_RATE; }
     }
 }
