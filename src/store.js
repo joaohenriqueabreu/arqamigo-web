@@ -128,6 +128,9 @@ const store = new Vuex.Store({
     room_created(state) {
 
     },
+    set_room_location(state, location) {
+      state.room.location = location;
+    },
     set_consulting(state, consulting) {
       state.consulting = consulting;            
     },
@@ -267,6 +270,10 @@ const store = new Vuex.Store({
         commit('api_loaded');
         router.push('/customer/rooms/created');
       });
+    },
+    setRoomLocation({commit}, payload) {
+      // TODO only grab necessary google places data
+      commit('set_room_location', payload);
     },
     loadConsulting({ commit }, id) {      
       commit('start_api');          

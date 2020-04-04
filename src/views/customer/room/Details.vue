@@ -1,6 +1,6 @@
 <template>
   <div class="vertical middle center full-width">
-      <h4 class="mb-5">Finalmente, nos conte como você quer transformar esse ambiente!</h4>       
+      <h4 class="mb-3">Nos conte como você quer transformar esse ambiente!</h4>       
       <div class="group bg-white col-sm-8">
         <label for="height">Nome</label>
         <input type="text" v-model="$v.title.$model" @input="setTitle($event.target.value);">
@@ -8,7 +8,16 @@
           <div class="error" v-if="!$v.title.required">Dê um nome para seu ambiente</div>            
         </div>        
       </div>
-      <div class="col-sm-2"></div>
+      <div class="col-sm-2"></div>    
+      <div class="group bg-white col-sm-8">
+        <label for="height">Localização</label>
+        <google-places :placeChangedCallback="setRoomLocation"></google-places>
+        <!-- <input type="text" v-model="$v.title.$model" @input="setTitle($event.target.value);"> -->
+        <!-- <div v-if="$v.location.$error">
+          <div class="error" v-if="!$v.location.required">Por favor inclua uma localização</div>            
+        </div>         -->
+      </div>  
+      <div class="col-sm-2"></div>    
       <!-- Need to place border radius on style to have precedence over main.scss -->
       <div class="group bg-white col-sm-8" style="border-radius: 50px !important">
         <label for="height">História</label>
@@ -24,7 +33,11 @@
 <script>
 import { required, minLength }    from 'vuelidate/lib/validators';
 import { mapGetters, mapActions } from 'vuex';
+import GooglePlaces               from '@/components/layout/GooglePlaces';
 export default {
+  components: {
+    'google-places': GooglePlaces
+  },
   data() {
     return {
       title:        null,
@@ -34,10 +47,11 @@ export default {
   },
   validations: {
     title:       { required },
-    description: { required, minLength: minLength(10) }
+    description: { required, minLength: minLength(10) },
+    location:    { required },
   },
   methods: {
-    ...mapActions(['completeStep', 'revertStep']),
+    ...mapActions(['completeStep', 'revertStep', 'setRoomLocation']),
     setTitle(value) {
       this.getRoom.title = value;
       this.validDetails  = ! this.$v.$invalid;
