@@ -58,7 +58,7 @@ export default {
       return this.getCreateStep === id
     },
     submit() {
-      if (this.isCategoriesStepCompleted && this.isAreaStepCompleted && this.isDetailsStepCompleted) {
+      if (this.isCategoriesStepCompleted && this.isAreaStepCompleted && this.isDetailsStepCompleted) {        
         this.createRoom()
       }
     }

@@ -1,24 +1,24 @@
 <template>
   <div>
     <router-link to="/professional">
-      <h3>
+      <h6>
         <font-awesome-icon class="mr-3" icon="project-diagram"></font-awesome-icon>        
         Painel
-      </h3>
+      </h6>
     </router-link>
     <div class="v-space-20"></div>
     <router-link to="/professional/customers">
-      <h3>
+      <h6>
         <font-awesome-icon class="mr-3" icon="coffee"></font-awesome-icon>
         Meus clientes
-      </h3>
+      </h6>
     </router-link>      
     <div class="v-space-20"></div>
     <router-link to="/professional/consultings">
-      <h3>
+      <h6>
         <font-awesome-icon class="mr-3" icon="ruler"></font-awesome-icon>
         Minhas consultorias
-      </h3>
+      </h6>
     </router-link>        
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
   a {
-    h3, h4 {
+    h6 {
       color: $white !important;
     }
   }

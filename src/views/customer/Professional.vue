@@ -2,11 +2,10 @@
   <div class="vertical">
       <div v-if="hasProfessional" class="vertical">
           <div>
-              <div class="mb-4"></div>
-              <router-link to="/customer/rooms/create" 
-                class="p-4 rounded-pill shadow bg-brand color-white negative my-4">
+            <div class="mb-4"></div>
+            <button class="p-4 rounded-pill shadow bg-brand color-white negative my-4" @click.prevent="newConsulting(getProfessional)">
                 Pedir dica a este profissional
-            </router-link>
+            </button>
           </div>
           <div class="vertical center middle">
             <avatar :src="getProfessional.photo" :size="200" :username="getProfessional.name" class="mb-3"></avatar>
@@ -92,7 +91,7 @@ export default {
         this.loadProfessional(this.$route.params.id)
     },
     methods: {
-        ...mapActions(['loadProfessional'])
+        ...mapActions(['loadProfessional', 'newConsulting']),        
     },
     computed: {
         ...mapGetters(['hasProfessional', 'getProfessional'])

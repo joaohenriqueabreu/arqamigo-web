@@ -2,8 +2,7 @@
   <div>
       <div class="full-width bg-brand vertical middle center shadow p-4">
         <h6 class="color-white horizontal">
-            Ótimas noticias! {{ customer.name }} autorizou seu contato.
-            <font-awesome-icon :icon="['far', 'question-circle']" class=" ml-2 clickable" @click="$modal.show('whatDoesItMean')"></font-awesome-icon>
+            Ótimas noticias! {{ customer.name }} autorizou seu contato.            
         </h6>
         <div class="horizontal middle">            
             <router-link :to="`/professional/customers/${customer.id}`">     
@@ -16,18 +15,7 @@
                 <span>Contine a conversa no WhatsApp</span>
             </a>                                                                           
         </div>                                        
-    </div>
-    <modal name="whatDoesItMean">
-        <div class="p-5 vertical center">
-        <p>
-            O cliente ainda não liberou o seu contato por isso essa informação continuará invisível por enquanto.
-            Continue se engajando com o cliente para que ele faça o contato offline com você!            
-        </p>
-        <p>
-            <a href="http://google.com.br" target="_blank">Veja mais dicas de como se engajar com os clientes</a>
-        </p>
-        </div>        
-    </modal>
+    </div>    
   </div>
 </template>
 

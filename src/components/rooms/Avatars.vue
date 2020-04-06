@@ -13,9 +13,9 @@
                     </div>
                 </div>
             </slide>
-            <slide class="vertical top center">
-                <div class="vertical middle center rounded-circle shadow" style="height:100pxwidth:100px">
-                    <router-link to="/professional/rooms">Ver mais</router-link>
+            <slide class="vertical top center">                
+                <div class="vertical middle center full-height full-width">   
+                    <router-link to="/professional/rooms" class="shadow bg-white rounded-pill p-4">Ver mais</router-link>
                 </div>
             </slide>
         </carousel>

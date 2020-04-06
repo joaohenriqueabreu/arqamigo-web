@@ -48,7 +48,7 @@ export default {
   validations: {
     title:       { required },
     description: { required, minLength: minLength(10) },
-    location:    { required },
+    // location:    { required },
   },
   methods: {
     ...mapActions(['completeStep', 'revertStep', 'setRoomLocation']),

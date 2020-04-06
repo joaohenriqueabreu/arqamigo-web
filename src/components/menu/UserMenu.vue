@@ -56,8 +56,8 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
       },          
     },
     components: {
-      'customer-menu': CustomerMenu,
-      'professional-menu': ProfessionalMenu
+      'customer-menu':      CustomerMenu,
+      'professional-menu':  ProfessionalMenu
     },
     computed: {
       ...mapGetters(['getProfileImgUrl', 'getUserDashRoute', 'getUsername', 'getUserProfileRoute', 'isMenuOpened', 'isCustomer', 'isProfessional'])
@@ -69,7 +69,7 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
   [data-icon] {  
     @extend .clickable;
     font-size:    $large;
-    margin-right: 30px !important    ;
+    margin-right: 30px !important;
   }
 
   [data-icon="times"] {

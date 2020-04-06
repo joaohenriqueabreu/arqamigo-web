@@ -51,6 +51,7 @@ const store = new Vuex.Store({
     customer:       {},   
     professionals:  [], 
     professional:   {},
+    withProfessional: {}, // Professional to start a consulting with
     medias:         [],
     comment:        {},
     feedback:       {},
@@ -123,7 +124,16 @@ const store = new Vuex.Store({
       state.medias = medias;
     },
     prepare_room_for_saving(state) {
-      state.room.medias = state.medias;
+      state.room.medias = state.medias;      
+      if (state.withProfessional) {
+        state.room.consultings = [];
+        state.room.consultings.push({
+          professional: state.withProfessional
+        })
+      }      
+    },
+    set_with_professional(state, professional) {
+      state.withProfessional = professional
     },
     room_created(state) {
 
@@ -271,6 +281,10 @@ const store = new Vuex.Store({
         router.push('/customer/rooms/created');
       });
     }, 
+    newConsulting({commit}, professional) {
+      commit('set_with_professional', professional)
+      router.push({ name: 'customer.professionals.consultings.create', params: { id: professional.id }})
+    },
     setRoomLocation({commit}, payload) {
       // TODO only grab necessary google places data
       commit('set_room_location', payload);

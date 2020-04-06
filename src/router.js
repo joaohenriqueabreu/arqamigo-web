@@ -138,6 +138,14 @@ let router = new Router({
             }              
           },
           {
+            path:'professionals/:id/consultings/create',
+            name: 'customer.professionals.consultings.create',
+            component: CreateRoom, 
+            meta: {
+              ...noNavbar         
+            }              
+          },
+          {
             path: 'rooms/created',
             name: 'customer.rooms.created',
             component: RoomCreated,

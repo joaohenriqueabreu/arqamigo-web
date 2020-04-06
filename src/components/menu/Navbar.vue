@@ -67,6 +67,9 @@ export default {
       background: gradient($white, $brand);
       box-shadow: none;
       border: none;
+      /deep/ [data-icon] {
+        color: $white;
+      }      
     }
 
     &.subtitle {
