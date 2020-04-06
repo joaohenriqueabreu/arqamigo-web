@@ -6,7 +6,7 @@
             <font-awesome-icon :icon="['far', 'question-circle']" class=" ml-2 clickable" @click="$modal.show('whatDoesItMean')"></font-awesome-icon>
         </h6>
         <div class="horizontal middle">            
-            <router-link :to="`/professional/customer/${customer.id}`">     
+            <router-link :to="`/professional/customers/${customer.id}`">     
                 <font-awesome-icon icon="user" class="mr-1 color-white"></font-awesome-icon>
                 <span>Clique aqui para ver o perfil do cliente</span>
             </router-link>

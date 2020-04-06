@@ -35,9 +35,8 @@
                   {{ comment.content }}           
                 </consulting-comment>
               </div>                
-            </perfect-scrollbar>             
-            <!-- <div class="reply"> -->
-            <div style="position: absolute width: 100% bottom: 0">
+            </perfect-scrollbar>                         
+            <div class="reply-area">
               <comment-reply></comment-reply>
             </div>
           </div>           
@@ -93,6 +92,12 @@ export default {
     bottom:     0;   
     left:       0;
     width:      100%;
+  }
+
+  .reply-area {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
   }
 
   .row {

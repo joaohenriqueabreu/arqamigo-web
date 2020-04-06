@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
     export default {
         props: {
@@ -55,6 +55,7 @@ import { mapGetters } from 'vuex'
             }
         },        
         methods: {            
+            ...mapActions(['navigateToRoom']),
             openFeed: function (index) {
                 this.currentSlide = index
                 this.slideToCurrent()
@@ -71,11 +72,7 @@ import { mapGetters } from 'vuex'
             },
             closeModal: function () {
                 // $("#on-modal-open-heading").addClass('hide')
-            },
-            navigateToRoom: function (roomId) {    
-                // Need to use special slider function otherwise dragging will trigger redirect when router-link            
-                this.$router.push({ name: 'professional.room', params: { id: roomId }})
-            }
+            },            
         }
     }
 </script>
