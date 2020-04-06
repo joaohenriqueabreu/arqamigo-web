@@ -2,9 +2,9 @@
   <perfect-scrollbar>
     <h6 class="p-2 color-brand bold">Outras dicas recebidas</h6>                
     <div class="mb-3"></div>
-    <div v-for="consulting in consultings" :key="consulting.id" class="mb-3 px-2 consulting-pill">
+    <div v-for="consulting in consultings" :key="consulting.id" class="consulting-pill">
         <router-link :to="{ name: 'customer.rooms.consulting', params: {id: consulting.id}}">
-        <div class="horizontal justify-content-between middle mb-2">
+        <div class="horizontal justify-content-between middle my-3 mx-1">
             <div class="horizontal middle single-line">
             <avatar :src="consulting.professional.photo" :username="consulting.professional.name" class="mr-2"></avatar>
             <span>{{ consulting.professional.name }}</span>
