@@ -27,12 +27,12 @@
             id:             { type: String }      
         },
         methods: {
-            select()    { this.selected = true; },
-            unselect()  { this.selected = false; }
+            select()    { this.selected = true },
+            unselect()  { this.selected = false }
         },
         computed: {
             fontIcon() {
-                return this.icon;
+                return this.icon
             }
         }
     }
@@ -44,10 +44,10 @@
     top:        0;
     left:       0;
     min-height: 100%;
-    width:      100%;   
-    color:      $white; 
+    width:      100%;  
+    color:      $white;
     &:hover, &.selected {
-        @extend .transition-ease;        
+        @extend .transition-ease;
         background-color: $brand;
         z-index:          100;
         opacity:          0.9;
@@ -58,7 +58,7 @@
     
     [data-icon] {    
         color: $white;
-        font-weight: $bold;    
+        font-weight: $bold;
         margin-right: 0;
         opacity: 1;
     }

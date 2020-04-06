@@ -198,7 +198,7 @@ let router = new Router({
             meta: {
               ...noContainer
             }
-          },          
+          },
           {
             path: 'customers',
             name: 'professional.customers',

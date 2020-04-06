@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import RatingStars from '@/components/layout/RatingStars';
+import RatingStars from '@/components/layout/RatingStars'
 export default {
     components: {
         'rating-stars': RatingStars

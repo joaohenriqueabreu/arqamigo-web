@@ -275,6 +275,12 @@ const store = new Vuex.Store({
       // TODO only grab necessary google places data
       commit('set_room_location', payload);
     },
+    navigateToRoom({ commit, getters }, id) {
+      const roomRouteName = getters.isCustomer() 
+        ? 'customer.rooms.edit'
+        : 'professional.rooms.consulting'
+      router.push({ name: roomRouteName, params: { id: id }})
+    },
     loadConsulting({ commit }, id) {      
       commit('start_api');          
       api.get(`/consultings/${id}`).then(res => {

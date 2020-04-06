@@ -29,7 +29,7 @@
                                 </div>
                             </div>                                                
                             <div class="h-space-10"></div>
-                            <submit-button ref="submit">Enviar</submit-button>
+                            <submit-button>Enviar</submit-button>
                         </form>                    
                     </div>                                
                 </div>
@@ -45,15 +45,15 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { required, url } from 'vuelidate/lib/validators';
+import { mapGetters, mapActions } from 'vuex'
+import { required, url } from 'vuelidate/lib/validators'
 
-let PDK = window.PDK;
+let PDK = window.PDK
 
 export default {
     mounted () {
         if (PDK !== undefined) {
-            PDK.init({ appId: '5028546460684165999'});
+            PDK.init({ appId: '5028546460684165999'})
         }        
     },
     data() {
@@ -69,35 +69,29 @@ export default {
     },
     methods: {        
         pinterestLogin: function () {   
-            if (this.isConnectedToPinterest) { return; }
-            PDK.login({ scope: 'read_public'}, this.pinterestSuccess);
+            if (this.isConnectedToPinterest) { return }
+            PDK.login({ scope: 'read_public'}, this.pinterestSuccess)
         },
         pinterestSuccess: function (result) {
-            console.log(result);
+            console.log(result)
             if (result.session.accessToken) {                              
-                this.$store.dispatch('setPinterestToken', result.session.accessToken);                                
+                this.$store.dispatch('setPinterestToken', result.session.accessToken)                                
             }
         },
         updatePinterestBoardUrl: function () {            
             try {
-                this.$v.$touch();     
-                if (this.$v.$invalid) { throw "Form contain errors"; }
-                this.$store.dispatch('setPinterestBoard', this.pinterestBoardUrl);                
+                this.$v.$touch()     
+                if (this.$v.$invalid) { throw "Form contain errors" }
+                this.$store.dispatch('setPinterestBoard', this.pinterestBoardUrl)                
             } catch (err) { 
              // do nothing for now
-            } finally {
-                // Turn off loading gif
-                let self = this;
-                setTimeout(function () {
-                    // self.$refs.submit.disable();
-                }, 1000);            
-            }                               
+            }                              
         }
     },
     computed: {
         ...mapGetters(['isConnectedToPinterest', 'hasPinterestBoard', 'getPinterestBoard']),
         hasBoard: function () {
-            return this.$$nextTick(this.hasPinterestBoard);
+            return this.$$nextTick(this.hasPinterestBoard)
         }
     }
 }
@@ -130,6 +124,6 @@ export default {
         color: $white;
         min-width: 12vw;
         padding: 10px;
-        font-weight: $bold
+        font-weight: $bold;
     }
 </style>

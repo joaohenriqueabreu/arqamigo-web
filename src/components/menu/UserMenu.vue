@@ -45,9 +45,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import CustomerMenu from '@/components/menu/CustomerMenu';
-import ProfessionalMenu from '@/components/menu/ProfessionalMenu';
+import { mapGetters, mapActions } from 'vuex'
+import CustomerMenu from '@/components/menu/CustomerMenu'
+import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
   export default {    
     methods: {          
       ...mapActions(['toggleMenu']),  
@@ -69,7 +69,7 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu';
   [data-icon] {  
     @extend .clickable;
     font-size:    $large;
-    margin-right: 30px !important;    
+    margin-right: 30px !important    ;
   }
 
   [data-icon="times"] {

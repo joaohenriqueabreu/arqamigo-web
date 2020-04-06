@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import UserMenu from './UserMenu.vue';
-import GuestMenu from './GuestMenu.vue';
+import { mapGetters } from 'vuex'
+import UserMenu from './UserMenu.vue'
+import GuestMenu from './GuestMenu.vue'
 
 export default {
   data() {
-    return { };
+    return { }
   },
   components: {
     'user-menu': UserMenu,
@@ -35,17 +35,17 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn','hasPageSubtitle', 'getPageSubtitle', 'getNavbarStyle'])
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
   nav {    
     @extend .shadow;
     top:            0;
-    left:           0;        
-    padding-right:  30px;    
+    left:           0 ;       
+    padding-right:  30px    ;
     padding-left:   30px;    
-    z-index:        $above;    
+    z-index:        $above    ;
 
     &.alt {
       background: $brand;

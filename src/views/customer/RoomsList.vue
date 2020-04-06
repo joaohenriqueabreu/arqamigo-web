@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import RoomCard from "@/components/rooms/Card";
-import { mapGetters, mapActions } from 'vuex';
+import RoomCard from "@/components/rooms/Card"
+import { mapGetters, mapActions } from 'vuex'
 export default {
     components: {
         'room-card': RoomCard
     },
     async created() {    
-        await this.loadRooms();
+        await this.loadRooms()
     },
     methods: {
         ...mapActions(['loadRooms'])

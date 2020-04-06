@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import FileUploader from "@/components/layout/FileUploader";
-import { mapGetters } from 'vuex';
+import FileUploader from "@/components/layout/FileUploader"
+import { mapGetters } from 'vuex'
 export default {
     components: {
       "file-uploader": FileUploader
@@ -24,7 +24,7 @@ export default {
     mounted () {
       this.$on(this.$config.IMAGE_UPLOADED, ({ url }) => {        
         this.$store.dispatch('changeProfileImage', url)
-      });      
+      })      
     },
     props: {
         img_url: { type: String }, 

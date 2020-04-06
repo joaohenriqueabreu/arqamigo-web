@@ -37,7 +37,7 @@
               </div>                
             </perfect-scrollbar>             
             <!-- <div class="reply"> -->
-            <div style="position: absolute; width: 100%; bottom: 0">
+            <div style="position: absolute width: 100% bottom: 0">
               <comment-reply></comment-reply>
             </div>
           </div>           
@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import ConsultingComment  from '@/components/consulting/Comment';
-import CommentReply       from '@/components/consulting/Reply';
-import OtherConsultings   from '@/components/rooms/OtherConsultings';
-import CustomerActions    from '@/components/rooms/CustomerActions';
-import PrivateAccessAlert from '@/components/professional/PrivateAccessBanner';
+import { mapGetters, mapActions } from 'vuex'
+import ConsultingComment  from '@/components/consulting/Comment'
+import CommentReply       from '@/components/consulting/Reply'
+import OtherConsultings   from '@/components/rooms/OtherConsultings'
+import CustomerActions    from '@/components/rooms/CustomerActions'
+import PrivateAccessAlert from '@/components/professional/PrivateAccessBanner'
 
 export default {
   components: {
@@ -63,8 +63,8 @@ export default {
     'customer-actions':     CustomerActions
   },  
   mounted() {      
-    this.loadConsulting(this.$route.params.id);
-    this.newComment();           
+    this.loadConsulting(this.$route.params.id)
+    this.newComment()           
   },
   methods: {
     ...mapActions(['setPageSubtitle', 'loadRoom', 'loadConsulting', 'newComment'])
@@ -91,8 +91,8 @@ export default {
   .reply {
     position:   fixed;
     bottom:     0;   
-    left:       0; 
-    width:      100%;    
+    left:       0;
+    width:      100%;
   }
 
   .row {

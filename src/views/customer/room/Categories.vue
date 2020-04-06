@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import baseCategories from '@/assets/images/categories/categories.js';
-import { mapActions, mapGetters } from 'vuex';
+import baseCategories from '@/assets/images/categories/categories.js'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     data() {
         return {
@@ -36,24 +36,24 @@ export default {
     methods: {
         ...mapActions(['completeStep', 'revertStep']),
         filterCategories() { 
-            let self = this;           
+            let self = this           
             // Need to refresh categories in every search            
-            this.categories = baseCategories;
+            this.categories = baseCategories
             this.categories = this.categories.filter(category => {                
-                return category.name.toLowerCase().includes(self.term.toLowerCase());
-            });
+                return category.name.toLowerCase().includes(self.term.toLowerCase())
+            })
         },
         selectCategory(index) {                        
-            this.clearSelection();            
-            const item = this.$refs.hover.filter(hoverItem => hoverItem.id === index);            
-            item[0].select();
-            this.categoryId = index;
-            this.completeStep({step: this.$config.CATEGORIES_STEP, proceed: true});                        
+            this.clearSelection()            
+            const item = this.$refs.hover.filter(hoverItem => hoverItem.id === index)            
+            item[0].select()
+            this.categoryId = index
+            this.completeStep({step: this.$config.CATEGORIES_STEP, proceed: true})                        
         },
         clearSelection() {
-            this.revertStep(this.$config.CATEGORIES_STEP);            
+            this.revertStep(this.$config.CATEGORIES_STEP)            
             for(let i = 0; i < this.categories.length; i++) { 
-                this.$refs.hover[i].unselect(); 
+                this.$refs.hover[i].unselect() 
             }
         }
     },
@@ -73,8 +73,4 @@ export default {
         font-size: $large;
         font-weight: $bold;
     }
-
-    // img {
-    //     opacity: 0.5;
-    // }    
 </style>

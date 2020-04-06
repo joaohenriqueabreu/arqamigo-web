@@ -24,6 +24,7 @@ import VueSmoothScroll from 'vue2-smooth-scroll';
 import PerfectScrollbar from 'vue2-perfect-scrollbar';
 
 // Global components
+import CustomModal  from '@/components/layout/CustomModal';
 import HoverOverlay from '@/components/layout/HoverOverlay';
 import SubmitButton from'@/components/layout/SubmitButton';
 import LoadingGif   from'@/components/layout/LoadingGif';
@@ -33,7 +34,7 @@ import Cloudinary, { CldImage,CldTransformation,CldVideo,CldContext }  from 'clo
 
 Vue.use(Bootstrap);
 Vue.use(Carousel); 
-Vue.use(Modal);
+Vue.use(Modal, { componentName: 'v-modal' });
 Vue.use(Vuelidate);
 Vue.use(VueCsrf);
 Vue.use(SweetAlert);
@@ -47,6 +48,7 @@ Vue.use(Cloudinary, {
 });
 
 Vue.component('hover-overlay', HoverOverlay);
+Vue.component('modal', CustomModal);
 Vue.component('avatar', Avatar);
 Vue.component('submit-button', SubmitButton);
 Vue.component('loading-gif', LoadingGif);

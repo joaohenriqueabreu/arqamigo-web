@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 .main-info {
     border-radius: 400px;
-    border: 10px solid $brand;      
+    border: 10px solid $brand;
     height: 120px;
     width: 120px;
     background: $white;

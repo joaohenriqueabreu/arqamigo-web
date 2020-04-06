@@ -8,7 +8,7 @@
                     <div class="group text-left bg-white mr-1">            
                         <input type="text" v-model="term" name="term" placeholder="Buscar Ambientes">
                     </div>
-                    <submit-button ref="submit">
+                    <submit-button>
                         <font-awesome-icon icon="search"></font-awesome-icon>
                     </submit-button>     
                 </form>
@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import RoomCard from '@/components/rooms/Card';
+import { mapGetters, mapActions } from 'vuex'
+import RoomCard from '@/components/rooms/Card'
 export default {
     components: {
         'room-card': RoomCard
@@ -38,18 +38,14 @@ export default {
     methods: {
         ...mapActions(['loadRooms']),
         search() {
-            this.loadRooms();
-            let self = this;
-            setTimeout(function () {
-                self.$refs.submit.disable();
-            }, 2000);
+            this.loadRooms()        
         }
     },
     computed: {
         ...mapGetters(['allRooms'])
     },
     created: function () {
-        this.loadRooms();
+        this.loadRooms()
     }
 }
 </script>

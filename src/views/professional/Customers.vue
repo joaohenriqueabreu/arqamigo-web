@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import CustomerCards from '@/components/customer/Cards';
+import { mapActions, mapGetters } from 'vuex'
+import CustomerCards from '@/components/customer/Cards'
 export default {
     components: {
         'customer-cards': CustomerCards
@@ -21,7 +21,7 @@ export default {
         ...mapGetters(['consultedCustomers', 'interestedCustomers'])
     },
     created: function () {
-        this.loadCustomers();
+        this.loadCustomers()
     }
 }
 </script>

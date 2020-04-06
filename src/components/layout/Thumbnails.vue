@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex'
 export default {
     props: {
         large: { type: Boolean, default: false },        
@@ -22,10 +22,10 @@ export default {
     methods: {
         ...mapActions(['removeMedia']),
         maximize(url) {
-            this.$swal(url);
+            this.$swal(url)
         },
         remove(index) {
-            this.removeMedia(index);
+            this.removeMedia(index)
         }
     },
     computed: {
@@ -53,7 +53,7 @@ export default {
         color:          $lightGray;
         padding:        5px 7px;  
         border-radius:  50px;
-        font-size:      $small;        
+        font-size:      $small        ;
         z-index:        $above;
         &:hover {
             background: $brand;

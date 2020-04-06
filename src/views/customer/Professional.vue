@@ -78,10 +78,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import ProfessionalInfo from '@/components/professional/Info';
-import PinterestBoard from '@/components/social/PinterestBoard';
-import RatingStars from '@/components/layout/RatingStars';
+import { mapActions, mapGetters } from 'vuex'
+import ProfessionalInfo from '@/components/professional/Info'
+import PinterestBoard from '@/components/social/PinterestBoard'
+import RatingStars from '@/components/layout/RatingStars'
 export default {
     components: {
         'professional-info': ProfessionalInfo,
@@ -89,7 +89,7 @@ export default {
         'rating-stars': RatingStars
     },
     mounted() {
-        this.loadProfessional(this.$route.params.id);
+        this.loadProfessional(this.$route.params.id)
     },
     methods: {
         ...mapActions(['loadProfessional'])

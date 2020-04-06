@@ -57,7 +57,7 @@
           </div>          
         </div>
         <div class="horizontal center middle mt-3">
-          <submit-button ref="submit">Atualizar</submit-button>
+          <submit-button>Atualizar</submit-button>
         </div>        
       </form>
       <h4 class="mb-4">Dicas recebidas deste ambiente</h4> 
@@ -68,13 +68,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Thumbnails from '@/components/layout/Thumbnails';
-import FileUploader from '@/components/layout/FileUploader';
-import ConsultingCard from '@/components/consulting/Card';
+import Thumbnails from '@/components/layout/Thumbnails'
+import FileUploader from '@/components/layout/FileUploader'
+import ConsultingCard from '@/components/consulting/Card'
 
 export default {
   async created() {
-    await this.loadRoom(this.$route.params.id);
+    await this.loadRoom(this.$route.params.id)
   },
   components: {
     'thumbnails': Thumbnails,
@@ -84,8 +84,7 @@ export default {
   methods: {
     ...mapActions(['loadRoom']),
     update() {
-      this.$swal("updating room");
-      this.$refs.submit.disable();
+      this.$swal("updating room")      
     }
   },
   computed: {

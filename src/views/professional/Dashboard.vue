@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex'
 import RoomsAvatars               from "@/components/rooms/Avatars"
 import RoomCard                   from '@/components/rooms/Card'
 import ConsultingCard             from '@/components/consulting/Card'
@@ -42,8 +42,8 @@ export default {
       ...mapActions(['loadConsultings', 'loadRooms']),
     },
     created: async function () {
-      await this.loadConsultings();
-      await this.loadRooms();
+      await this.loadConsultings()
+      await this.loadRooms()
     },
     computed: {            
         ...mapGetters(['mainConsultings', 'recentRooms', 'allRooms', 'otherRooms'])

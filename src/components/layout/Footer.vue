@@ -36,12 +36,12 @@ export default {
         { action: '/about', label: 'Events' },
         { action: '/about', label: 'Help Center' },
       ],
-    };
+    }
   },
   computed: {
     currentYear: () => (new Date()).getFullYear(),
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

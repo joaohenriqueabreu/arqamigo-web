@@ -7,7 +7,7 @@
           <div class="group text-left bg-white mr-1">            
             <input type="text" v-model="term" name="term" placeholder="Buscar profissionais">
           </div>
-          <submit-button ref="submit">
+          <submit-button>
             <font-awesome-icon icon="search"></font-awesome-icon>
           </submit-button>     
         </form>
@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import ProfessionalInfo from '@/components/professional/Info';
+import { mapActions, mapGetters } from 'vuex'
+import ProfessionalInfo from '@/components/professional/Info'
 export default {
   components: {
     'professional-info': ProfessionalInfo
@@ -55,8 +55,7 @@ export default {
   methods: {
     ...mapActions(['searchProfessionals']),
     async search() {      
-      await this.searchProfessionals(this.term);
-      this.$refs.submit.disable();
+      await this.searchProfessionals(this.term)
     }
   },
   computed: {

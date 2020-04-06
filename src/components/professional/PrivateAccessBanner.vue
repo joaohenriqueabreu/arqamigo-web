@@ -17,7 +17,7 @@
             </a>                                                                           
         </div>                                        
     </div>
-    <modal name="whatDoesItMean" :adaptive="true" :clickToClose="true" height="auto">
+    <modal name="whatDoesItMean">
         <div class="p-5 vertical center">
         <p>
             O cliente ainda não liberou o seu contato por isso essa informação continuará invisível por enquanto.

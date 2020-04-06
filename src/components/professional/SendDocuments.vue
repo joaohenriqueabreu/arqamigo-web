@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import FileUploader from '@/components/layout/FileUploader';
-const DOC_TYPES = ['CAU', 'Receita', 'Endereço', 'CNPJ'];
+import FileUploader from '@/components/layout/FileUploader'
+const DOC_TYPES = ['CAU', 'Receita', 'Endereço', 'CNPJ']
 export default {
         components: {
             'file-uploader': FileUploader
@@ -46,7 +46,7 @@ export default {
         mounted () {
             this.$on(this.$config.IMAGE_UPLOADED, ({ url }) => {
                 // TODO dispatch update document action
-                this.pending = this.pending.filter((docType) => docType !== this.lastClicked);
+                this.pending = this.pending.filter((docType) => docType !== this.lastClicked)
             })
         },
         methods: {
@@ -59,11 +59,11 @@ export default {
 <style lang="scss" scoped>
     span {    
         padding: 10px;
-        background: $brand;    
+        background: $brand;
         color: $white;
         min-width: 10vw;
         font-weight: $bold;
-        display: inline-block;        
+        display: inline-block;
 
         &.pending {
             background: $white;

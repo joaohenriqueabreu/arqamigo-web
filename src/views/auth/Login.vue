@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters} from 'vuex'
   export default {
     data(){
       return {
@@ -59,13 +59,13 @@ import {mapGetters} from 'vuex';
     },  
     methods: {
       customerLogin: function () {
-        this.login('customer');
+        this.login('customer')
       },
       professionalLogin: function () {
-        this.login('professional');
+        this.login('professional')
       },
       login: function (user) {
-       this.$store.dispatch('login', user);
+       this.$store.dispatch('login', user)
       }
     },
     computed: mapGetters(['isLoggedIn'])
@@ -86,7 +86,7 @@ import {mapGetters} from 'vuex';
 
 button {
   @extend .color-white, .shadower;
-  min-width: 10vw !important;  
+  min-width: 10vw !important;
 }
 
 .facebook {

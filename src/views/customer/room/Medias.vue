@@ -13,16 +13,16 @@
 </template>
 
 <script>
-import FileUploader from '@/components/layout/FileUploader';
-import Thumbnails   from '@/components/layout/Thumbnails';
-import { mapActions, mapGetters } from 'vuex';
+import FileUploader from '@/components/layout/FileUploader'
+import Thumbnails   from '@/components/layout/Thumbnails'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     components: {
         'file-uploader':    FileUploader,
         'thumbnails':       Thumbnails  
     },
     mounted() {
-        this.completeStep({ step: this.$config.MEDIAS_STEP, proceed: false});
+        this.completeStep({ step: this.$config.MEDIAS_STEP, proceed: false})
     },
     data() {
         return {
@@ -38,9 +38,9 @@ export default {
     watch: {
         hasUploadedMedias: function (hasMedias) {
             if (hasMedias) {
-                this.completeStep({ step: this.$config.MEDIAS_STEP, proceed: false});
+                this.completeStep({ step: this.$config.MEDIAS_STEP, proceed: false})
             } else {
-                this.revertStep(this.$config.MEDIAS_STEP);
+                this.revertStep(this.$config.MEDIAS_STEP)
             }
         }
     }

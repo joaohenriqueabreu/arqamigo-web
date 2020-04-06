@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['isApiLoaded'])
@@ -23,7 +23,7 @@ export default {
         @extend .full-width, .full-height;
         position:   absolute;
         top:        0;
-        left:       0;        
+        left:       0 ;       
         opacity:    0.7;
         z-index:    $above;
     }

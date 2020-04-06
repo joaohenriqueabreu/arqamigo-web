@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ProfessionalInfo from '@/components/professional/Info';
+import { mapGetters } from 'vuex'
+import ProfessionalInfo from '@/components/professional/Info'
 export default {    
     components: {
       'professional-info': ProfessionalInfo
@@ -65,31 +65,31 @@ export default {
     },        
     methods: {        
         openFeed: function (index) {
-            this.currentSlide = index;
-            this.slideToCurrent();
-            this.$modal.show('feed');
+            this.currentSlide = index
+            this.slideToCurrent()
+            this.$modal.show('feed')
         },
         slideToCurrent: function () {
             setTimeout(()=> {
                 // carousel known bug - workaround
-                this.$refs.feed.goToPage(this.currentSlide);
-                this.$refs.feed.dragging = true;
-            }, 100);
+                this.$refs.feed.goToPage(this.currentSlide)
+                this.$refs.feed.dragging = true
+            }, 100)
 
-            // $("#on-modal-open-heading").removeClass('hide');
+            // $("#on-modal-open-heading").removeClass('hide')
         },
         closeModal: function () {
-            // $("#on-modal-open-heading").addClass('hide');
+            // $("#on-modal-open-heading").addClass('hide')
         },
         navigateToRoom: function (url) {
-            window.location.href = url;
+            window.location.href = url
         }
     },
     computed: {
       ...mapGetters(['isProfessional', 'isCustomer']),
-      user()              { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional; },
-      otherUser()         { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional; },
-      getRoomRouteName()  { return this.isCustomer ? 'customer.rooms.edit' : 'professional.room'; }
+      user()              { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional },
+      otherUser()         { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional },
+      getRoomRouteName()  { return this.isCustomer ? 'customer.rooms.edit' : 'professional.room' }
     }    
 }
 </script>

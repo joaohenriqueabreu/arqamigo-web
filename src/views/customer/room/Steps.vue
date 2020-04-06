@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex'
 import { FadeTransition } from 'vue2-transitions'
 export default {
     components: {
@@ -99,7 +99,7 @@ export default {
         margin:     -5px;
         z-index:    $below;
         &.complete {
-            border-top-color: $brand;            
+            border-top-color: $brand;
         }
     }
 
@@ -113,14 +113,14 @@ export default {
         width:          30px;
         height:         30px;
         padding:        5px;
-        border-radius:  100px;        
+        border-radius:  100px;
         z-index:        $above;
     }
 
     .btn {  
         @extend .bg-white, .color-brand, .negative, .shadow;
         height: 50px;
-        width:  50px;        
+        width:  50px;       
 
         [data-icon] {
             background-color:   transparent;

@@ -5,23 +5,19 @@
     </div>
 </template>
 
-<style>
-
-</style>
-
 <script>
-    const MIN_PLACES_TRIGGER_LENGTH = 3;
+    const MIN_PLACES_TRIGGER_LENGTH = 3
     const PLACES_OPTIONS = {
         types: ['(cities)'],
         fields: ['address_component', 'geometry'],
         componentRestrictions: {country: "br"}
-    };
+    }
     export default {
         mounted () {            
             this.autocomplete = new window.google.maps.places.Autocomplete(
                 this.$refs.placesElement,
                 PLACES_OPTIONS
-            );
+            )
         },
         props: {
             placeChangedCallback: Function
@@ -37,25 +33,29 @@
         methods: {
             handleDeparture(evt) {                
                 if (this.$refs.placesElement.value.length > MIN_PLACES_TRIGGER_LENGTH && this.autocompleteStatus) {
-                    this.disableAutocomplete();
-                    this.autocomplete.addListener('place_changed', this.placeChanged);
+                    this.disableAutocomplete()
+                    this.autocomplete.addListener('place_changed', this.placeChanged)
                 }
             },            
             placeChanged() {                 
-                this.selectedPlace = JSON.stringify(this.autocomplete.getPlace());
-                this.placeChangedCallback(this.selectedPlace);               
+                this.selectedPlace = JSON.stringify(this.autocomplete.getPlace())
+                this.placeChangedCallback(this.selectedPlace)               
             },
             resetPlace() {
-                this.selectedPlace = null;
+                this.selectedPlace = null
             },
             disableAutocomplete() {
-                this.autocompleteStatus = false;
+                this.autocompleteStatus = false
             },
         },
         watch: {
             selectedPlace: function (place) {
-                this.$refs.formElement.value = place;        
+                this.$refs.formElement.value = place        
             }
         }
     }
 </script>
+
+<style>
+
+</style>

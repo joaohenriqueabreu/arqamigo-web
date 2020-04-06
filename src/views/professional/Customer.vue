@@ -63,10 +63,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import PrivateInfo from '@/components/customer/PrivateInfo';
-import RatingStars from '@/components/layout/RatingStars';
-import ConsultingCard from "@/components/consulting/Card";
+import { mapGetters, mapActions } from 'vuex'
+import PrivateInfo from '@/components/customer/PrivateInfo'
+import RatingStars from '@/components/layout/RatingStars'
+import ConsultingCard from "@/components/consulting/Card"
 
 export default {
     components: {
@@ -75,13 +75,13 @@ export default {
         'consulting-card': ConsultingCard
     },
     mounted() {    
-        this.loadCustomer(this.$route.params.id);        
+        this.loadCustomer(this.$route.params.id)        
     },
     methods: {
         ...mapActions(['loadCustomer']),
         random: () => Math.round(Math.random() * 10),
         introMessage() {
-            return encodeURI(`Olá ${this.customerName}, vamos continuar nosso contato do Reforma Já`);
+            return encodeURI(`Olá ${this.customerName}, vamos continuar nosso contato do Reforma Já`)
         }
     },
     computed: {

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import ConsultingCard from "@/components/consulting/Card";
+import { mapActions, mapGetters } from 'vuex'
+import ConsultingCard from "@/components/consulting/Card"
 
 export default {
     components: {
@@ -21,7 +21,7 @@ export default {
         ...mapGetters(["allConsultings"])
     },
     async created() {
-        await this.loadConsultings();
+        await this.loadConsultings()
     },    
 }
 </script>

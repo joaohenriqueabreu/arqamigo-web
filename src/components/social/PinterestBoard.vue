@@ -13,16 +13,7 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
-    .board {
-        min-height: 100vh;
-        min-width: 50vw;;
-    }
-</style>
-
 <script>
-      
-  
 export default {
     data: function () {
         return {
@@ -31,11 +22,11 @@ export default {
         }
     },
     mounted () {
-        let that = this;
+        let that = this
         this.$nextTick(function () {                
-            this.width  = this.$refs.parent.clientWidth;
-            this.height = this.$refs.parent.clientHeight;
-        });
+            this.width  = this.$refs.parent.clientWidth
+            this.height = this.$refs.parent.clientHeight
+        })
     },
     props: {
         board: String
@@ -44,3 +35,10 @@ export default {
     computed: { },
 }
 </script>
+
+<style lang="scss" scoped>
+    .board {
+        min-height: 100vh;
+        min-width: 50vw;
+    }
+</style>

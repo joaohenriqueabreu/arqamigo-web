@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
     export default {
         props: {    
             comment: Object,
@@ -50,12 +50,12 @@ import { mapGetters } from 'vuex';
          },
         computed: {
             ...mapGetters(['isCustomer', 'isProfessional']),
-            sentFromCustomer()      { return this.comment.sender.type === this.$config.SENDER_CUSTOMER; },
-            sentFromProfessional()  { return this.comment.sender.type === this.$config.SENDER_PROFESSIONAL; },
+            sentFromCustomer()      { return this.comment.sender.type === this.$config.SENDER_CUSTOMER },
+            sentFromProfessional()  { return this.comment.sender.type === this.$config.SENDER_PROFESSIONAL },
             getOtherUserType()      { return this.sentFromCustomer ? this.$config.SENDER_PROFESSIONAL : this.$config.SENDER_CUSTOMER },
-            getDirection()          { return this.sentFromCustomer ? 'left' : 'right'; },
-            getUserUrl()            { return `/${this.getOtherUserType}/${this.comment.sender.type}s/${this.comment.sender.id}`; },
-            showLink()              { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional); }
+            getDirection()          { return this.sentFromCustomer ? 'left' : 'right' },
+            getUserUrl()            { return `/${this.getOtherUserType}/${this.comment.sender.type}s/${this.comment.sender.id}` },
+            showLink()              { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional) }
         },
     }
 </script>

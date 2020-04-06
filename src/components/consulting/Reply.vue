@@ -19,7 +19,7 @@
                         <input type="text" v-model="getComment.content" name="content"/>
                     </div>   
                     <div class="col-sm-1">
-                        <submit-button ref="submit">
+                        <submit-button>
                             <font-awesome-icon icon="paper-plane"></font-awesome-icon>
                         </submit-button>                        
                     </div>
@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters }   from 'vuex';
-import FileUploader     from '@/components/layout/FileUploader';
-import Thumbnails       from '@/components/layout/Thumbnails';
+import { mapActions, mapGetters }   from 'vuex'
+import FileUploader     from '@/components/layout/FileUploader'
+import Thumbnails       from '@/components/layout/Thumbnails'
 
-const MAX_CHARACTERS = 1000;
+const MAX_CHARACTERS = 1000
 export default {
     components: {
         'file-uploader': FileUploader,
@@ -65,22 +65,21 @@ export default {
     methods: {
         ...mapActions(['replyComment']),
         reply() {
-            this.replyComment();
-            this.$refs.submit.disable();
+            this.replyComment()
         }
     },  
     computed: {
         ...mapGetters(['hasComment', 'getComment', 'hasUploadedMedias', 'getUploadedMedias']),
         charCount() {
-            return this.getComment.content.length + '/' + MAX_CHARACTERS;
+            return this.getComment.content.length + '/' + MAX_CHARACTERS
         },
 
         charCountColor() {
-            return this.getComment.content.length < MAX_CHARACTERS ? 'color-light-gray' : 'color-red';
+            return this.getComment.content.length < MAX_CHARACTERS ? 'color-light-gray' : 'color-red'
         },
 
-        hasTitle() { return this.getComment.title.length > 0; },
-        hasContent() { return this.getComment.content.length > 0; },
+        hasTitle() { return this.getComment.title.length > 0 },
+        hasContent() { return this.getComment.content.length > 0 },
     },
 }
 </script>
@@ -117,10 +116,10 @@ export default {
         .character-counter {
             position:       absolute;
             bottom:         10px;
-            right:          0px;      
+            right:          0px;
             color:          $lightGray;
             font-weight:    $bold;
-            font-size:      10px;      
+            font-size:      10px;    
         }
     }
 </style>

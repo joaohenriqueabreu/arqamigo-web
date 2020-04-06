@@ -14,18 +14,19 @@
                 </div>
             </slide>
             <slide class="vertical top center">
-                <div class="vertical middle center rounded-circle shadow" style="height:100px;width:100px">
+                <div class="vertical middle center rounded-circle shadow" style="height:100pxwidth:100px">
                     <router-link to="/professional/rooms">Ver mais</router-link>
                 </div>
             </slide>
         </carousel>
 
-        <modal name="feed" :adaptive="true" :clickToClose="true" @opened="slideToCurrent" @closed="closeModal" height="auto">
+        <modal name="feed" @opened="slideToCurrent" @closed="closeModal">
             <carousel :adjustableHeight="false" :autoplayHoverPause="true" :loop="true"
                       :perPage="1" paginationColor="white" paginationActiveColor="#f63088"
                       :paginationPosition="'top-overlay'" :speed="1000" :autoplayTimeout="7000"
                       :autoplay="true" ref="feed">
-                <slide v-for="room in rooms" :key="room.id" style="height: 400px;" @slideclick="navigateToRoom(room.id)">                                    
+                <!-- Using @slideclick to enable dragging slides (otherwise mousedown for draggin would trigger redirect) -->
+                <slide v-for="room in rooms" :key="room.id" style="height: 400px" @slideclick="navigateToRoom(room.id)">                                    
                     <div class="fill position-relative clickable">                        
                         <div class="story-pill p-3 m-2">                            
                             <small class="color-brand bold">{{ room.category.name }}</small>                            
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
     export default {
         props: {
@@ -55,25 +56,25 @@ import { mapGetters } from 'vuex';
         },        
         methods: {            
             openFeed: function (index) {
-                this.currentSlide = index;
-                this.slideToCurrent();
-                this.$modal.show('feed');
+                this.currentSlide = index
+                this.slideToCurrent()
+                this.$modal.show('feed')
             },
             slideToCurrent: function () {
                 setTimeout(()=> {
                     // carousel known bug - workaround
-                    this.$refs.feed.goToPage(this.currentSlide);
-                    this.$refs.feed.dragging = true;
-                }, 100);
+                    this.$refs.feed.goToPage(this.currentSlide)
+                    this.$refs.feed.dragging = true
+                }, 100)
 
-                // $("#on-modal-open-heading").removeClass('hide');
+                // $("#on-modal-open-heading").removeClass('hide')
             },
             closeModal: function () {
-                // $("#on-modal-open-heading").addClass('hide');
+                // $("#on-modal-open-heading").addClass('hide')
             },
             navigateToRoom: function (roomId) {    
                 // Need to use special slider function otherwise dragging will trigger redirect when router-link            
-                this.$router.push({ name: 'professional.room', params: { id: roomId }});
+                this.$router.push({ name: 'professional.room', params: { id: roomId }})
             }
         }
     }
@@ -117,7 +118,7 @@ import { mapGetters } from 'vuex';
 
     .VueCarousel-slide {
         img { 
-            height: 400px; 
+            height: 400px ;
             max-width: 100%;
         }    
     }

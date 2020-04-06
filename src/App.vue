@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex'
 import { FadeTransition }         from 'vue2-transitions'
-import Navbar                     from '@/components/menu/Navbar.vue';
-import Footer                     from '@/components/layout/Footer.vue';
+import Navbar                     from '@/components/menu/Navbar.vue'
+import Footer                     from '@/components/layout/Footer.vue'
 
 export default {
   name: 'app',
@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapGetters(['getNavbarStyle', 'getContainerStyle', 'isLoggedIn', 'hasMessage', 'getMessage'])
   }
-};
+}
 </script>
 
 <style lang='scss'>
@@ -49,8 +49,8 @@ export default {
   header {
     background:     $white;
     position:       fixed;
-    width:          100%;    
-    z-index:        $above;    
+    width:          100%;  
+    z-index:        $above;
 
     &.transparent, &.fancy {
       position:       relative;      
@@ -59,7 +59,7 @@ export default {
   }
 
   main {    
-    // @extend .vertical, .middle, .center;
+    // @extend .vertical, .middle, .center
     min-height:     60vh;    
     padding-top:    15vh;
     padding-bottom: 30vh;

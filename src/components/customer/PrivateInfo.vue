@@ -5,7 +5,7 @@
             <span v-for="char in getRandomChars()" :key="char" class="mr-1">*</span>
         </hover-overlay>
       </div>      
-      <modal :name="modalId" :adaptive="true" :clickToClose="true" height="auto">
+      <modal :name="modalId">
           <div class="p-5 vertical center">
             <p>
                 O cliente ainda não liberou o seu contato por isso essa informação continuará invisível por enquanto.
@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from 'uuid';
-const MAX_CHARS = 8;
-const MIN_CHARS = 5;
+import { v4 as uuidv4 } from 'uuid'
+const MAX_CHARS = 8
+const MIN_CHARS = 5
 export default { 
     data() {
         return {
@@ -29,11 +29,11 @@ export default {
         }
     },
     mounted() {
-        this.modalId = uuidv4();
+        this.modalId = uuidv4()
     },
     methods: {
         getRandomChars: () => (Math.round(Math.random() * 10) % MAX_CHARS) + MIN_CHARS,
-        openModal() { this.$modal.show(this.modalId); }
+        openModal() { this.$modal.show(this.modalId) }
     },
 }
 </script>
@@ -41,6 +41,6 @@ export default {
 <style lang="scss" scoped>
     span {
         font-weight: $bold;        
-        color: $lightGray;  
+        color: $lightGray;
     }
 </style>

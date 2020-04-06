@@ -24,17 +24,17 @@
 </template>
 
 <script>
-const MAX_RATE = 5;
+const MAX_RATE = 5
 export default {
     props: {
         rating: Object,
         short: { type: Boolean, default: false }        
     },
     computed: {
-        greaterThan() { return Math.round(this.rating.rate) > this.rating.rate; },        
-        filledStars() { return Math.floor(this.rating.rate); },
+        greaterThan() { return Math.round(this.rating.rate) > this.rating.rate },        
+        filledStars() { return Math.floor(this.rating.rate) },
         halfStar() { return Math.round(this.rating.rate) > this.filledStars },
-        noStars() { return MAX_RATE - (this.filledStars + this.halfStar); }
+        noStars() { return MAX_RATE - (this.filledStars + this.halfStar) }
     }
 }
 </script>

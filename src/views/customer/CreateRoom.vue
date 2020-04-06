@@ -19,7 +19,7 @@
         </div>              
         <div class="step vertical center middle pt-0" :key="$config.READY_STEP" v-show="showReadyStep">
             <h4 class="mb-4">Tudo pronto!</h4>          
-            <submit-button ref="submit">Criar</submit-button>                              
+            <submit-button>Criar</submit-button>                              
         </div>              
       </slide-transition>
       <div class="position-fixed full-width">        
@@ -30,18 +30,18 @@
 </template>
 
 <script>
-import MainStep                   from '@/views/customer/room/Main';
-import CategoriesStep             from '@/views/customer/room/Categories';
-import AreaStep                   from '@/views/customer/room/Area';
-import MediasStep                 from '@/views/customer/room/Medias';
-import DetailsStep                from '@/views/customer/room/Details';
-import CreateSteps                from '@/views/customer/room/Steps';
+import MainStep                   from '@/views/customer/room/Main'
+import CategoriesStep             from '@/views/customer/room/Categories'
+import AreaStep                   from '@/views/customer/room/Area'
+import MediasStep                 from '@/views/customer/room/Medias'
+import DetailsStep                from '@/views/customer/room/Details'
+import CreateSteps                from '@/views/customer/room/Steps'
 import { SlideYUpTransition }     from 'vue2-transitions'
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex'
 
 export default {  
   created() {
-    this.newRoom();
+    this.newRoom()
   },
   components: {
     'main-step':          MainStep,
@@ -55,22 +55,22 @@ export default {
   methods: {
     ...mapActions(['newRoom', 'createRoom', 'nextStep', 'prevStep']),
     showStep(id) {            
-      return this.getCreateStep === id;
+      return this.getCreateStep === id
     },
     submit() {
       if (this.isCategoriesStepCompleted && this.isAreaStepCompleted && this.isDetailsStepCompleted) {
-        this.createRoom();
+        this.createRoom()
       }
     }
   },
   computed: {
     ...mapGetters(['getCreateStep', 'getCreateStepIndex', 'isCategoriesStepCompleted', 'isAreaStepCompleted', 'isDetailsStepCompleted']),    
-    showMainStep()        { return this.getCreateStep === this.$config.MAIN_STEP; },    
-    showCategoriesStep()  { return this.getCreateStep === this.$config.CATEGORIES_STEP; },
-    showAreaStep()        { return this.getCreateStep === this.$config.AREA_STEP; },
-    showMediasStep()      { return this.getCreateStep === this.$config.MEDIAS_STEP; },
-    showDetailsStep()     { return this.getCreateStep === this.$config.DETAILS_STEP; },
-    showReadyStep()       { return this.getCreateStep === this.$config.READY_STEP; },
+    showMainStep()        { return this.getCreateStep === this.$config.MAIN_STEP },    
+    showCategoriesStep()  { return this.getCreateStep === this.$config.CATEGORIES_STEP },
+    showAreaStep()        { return this.getCreateStep === this.$config.AREA_STEP },
+    showMediasStep()      { return this.getCreateStep === this.$config.MEDIAS_STEP },
+    showDetailsStep()     { return this.getCreateStep === this.$config.DETAILS_STEP },
+    showReadyStep()       { return this.getCreateStep === this.$config.READY_STEP },
   }
 }
 </script>
@@ -78,7 +78,7 @@ export default {
 <style lang="scss" scoped>
   .position-fixed {    
     background: transparentize($lightPink, 0.7);
-    color:      $white;    
+    color:      $white;
     bottom:     0;
     left:       0;
     width:      100%;
@@ -87,7 +87,6 @@ export default {
   .step {
     position: relative;
     padding-top: 20vh;
-    // min-height: 50vh;
     width: 100%;
     .bottom {
       position: absolute;

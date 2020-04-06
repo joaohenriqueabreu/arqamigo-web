@@ -34,14 +34,14 @@
     </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from 'vuex'
 
-let cloudinary = window.cloudinary;    
+let cloudinary = window.cloudinary    
 
-const CLOUD_NAME = 'arquiamigo';
+const CLOUD_NAME = 'arquiamigo'
 const ALLOWED_MEDIA_FORMATS = [
     '3gp', 'png', 'jpg', 'jpeg', 'tiff', 'gif', 'avi', 'flv', 'wmv', 'mp4', 'mov', 'ogg', 'pdf'
-];
+]
 export default {
     data: function () {
         return {
@@ -86,40 +86,40 @@ export default {
                         'format':           result.info.format,
                         'url':              result.info.secure_url,
                         'thumbnail_url':    result.info.thumbnail_url
-                    };
+                    }
 
                     if (result.info.resource_type === this.$config.IMAGE_TYPE) {                            
-                        this.images.push(JSON.stringify([this.media]));
-                        if (this.docmode) { this.docs = this.images; }
+                        this.images.push(JSON.stringify([this.media]))
+                        if (this.docmode) { this.docs = this.images }
                     }
 
                     if (result.info.resource_type === this.$config.VIDEO_TYPE) {
-                        this.videos.push(JSON.stringify([this.media]));
-                        this.$parent.$emit(this.$config.VIDEO_UPLOADED, result.info);
+                        this.videos.push(JSON.stringify([this.media]))
+                        this.$parent.$emit(this.$config.VIDEO_UPLOADED, result.info)
                     }
                 }
 
                 if (result && result.event === "close" && this.images.length > 0) {
-                    this.uploadMedia(this.media);
+                    this.uploadMedia(this.media)
                 }                    
-            });
+            })
         },
 
         openVideoUploader: function () {
-            this.$modal.show('youtube-link');
+            this.$modal.show('youtube-link')
         },
     },
     computed: {
-        showCamera: function ()     { return this.camera    && ! this.docmode; },
-        showVideo: function ()      { return this.video     && ! this.docmode; },
-        showInstagram: function ()  { return this.instagram && ! this.docmode; },
+        showCamera: function ()     { return this.camera    && ! this.docmode },
+        showVideo: function ()      { return this.video     && ! this.docmode },
+        showInstagram: function ()  { return this.instagram && ! this.docmode },
         fileSources: function () {
-            let sources = ['local'];
-            if (this.showCamera)    { sources.push('camera'); }
-            if (this.showVideo)     { sources.push('video'); }
-            if (this.showInstagram) { sources.push('instagram'); }
+            let sources = ['local']
+            if (this.showCamera)    { sources.push('camera') }
+            if (this.showVideo)     { sources.push('video') }
+            if (this.showInstagram) { sources.push('instagram') }
 
-            return sources;
+            return sources
         }
     },
 }

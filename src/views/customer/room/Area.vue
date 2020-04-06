@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { required, numeric } from 'vuelidate/lib/validators';
+import { mapGetters, mapActions } from 'vuex'
+import { required, numeric } from 'vuelidate/lib/validators'
 export default {
   data() {
     return {
@@ -48,14 +48,14 @@ export default {
   methods: {
     ...mapActions(['completeStep', 'revertStep']),
     setHeight(value) { 
-      this.getRoom.area.height  = value;
-      this.validArea            = ! this.$v.$invalid;
-      this.$v.height.$touch();
+      this.getRoom.area.height  = value
+      this.validArea            = ! this.$v.$invalid
+      this.$v.height.$touch()
     },
     setWidth(value) { 
-      this.getRoom.area.width   = value;
-      this.validArea            = ! this.$v.$invalid;
-      this.$v.width.$touch();
+      this.getRoom.area.width   = value
+      this.validArea            = ! this.$v.$invalid
+      this.$v.width.$touch()
     },
   },
   computed: {
@@ -64,9 +64,9 @@ export default {
   watch: {
     validArea: function(valid) {
       if (valid) { 
-        this.completeStep({step: this.$config.AREA_STEP, proceed: false});        
+        this.completeStep({step: this.$config.AREA_STEP, proceed: false})        
       } else {
-        this.revertStep(this.$config.AREA_STEP);
+        this.revertStep(this.$config.AREA_STEP)
       }
     }
   }
