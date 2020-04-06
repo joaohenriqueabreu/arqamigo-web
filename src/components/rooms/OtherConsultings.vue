@@ -3,8 +3,8 @@
     <h6 class="p-2 color-brand bold">Outras dicas recebidas</h6>                
     <div class="mb-3"></div>
     <div v-for="consulting in consultings" :key="consulting.id" class="consulting-pill">
-        <router-link :to="{ name: 'customer.rooms.consulting', params: {id: consulting.id}}">
-        <div class="horizontal justify-content-between middle my-3 mx-1">
+        <!-- <router-link :to="{ name: 'customer.rooms.consulting', params: {id: consulting.id}}"> -->
+        <div class="horizontal justify-content-between middle my-3 mx-1" @click="reloadConsulting(consulting.id)">
             <div class="horizontal middle single-line">
             <avatar :src="consulting.professional.photo" :username="consulting.professional.name" class="mr-2"></avatar>
             <span>{{ consulting.professional.name }}</span>
@@ -14,15 +14,26 @@
             </div>                    
         </div>                                    
         <hr class="m-0" />
-        </router-link>                  
+        <!-- </router-link>                   -->
     </div>                                               
   </perfect-scrollbar>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
     consultings: Array
+  },
+  methods: {
+    ...mapActions(['loadConsulting']),
+    reloadConsulting(id) {
+      // update url
+      this.$router.push({name: this.$route.name, params: { id }})
+
+      // load new consulting
+      this.loadConsulting(id);
+    }
   }
 }
 </script>
