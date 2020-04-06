@@ -279,6 +279,7 @@ const store = new Vuex.Store({
       const roomRouteName = getters.isCustomer 
         ? 'customer.rooms.edit'
         : 'professional.rooms.consulting'
+        
       router.push({ name: roomRouteName, params: { id: id }})
     },
     loadConsulting({ commit }, id) {      
@@ -471,7 +472,7 @@ const store = new Vuex.Store({
     hasCustomer: state => typeof state.customer === 'object' && Object.keys(state.customer).length > 0,
     getCustomer: state => state.customer,
     hasPrivateAccessToCustomer: state => state.customer.has_private_access && typeof state.customer.private === 'object' && Object.keys(state.customer.private).length > 0,
-    hasConsultedWithProfessional: state => state.customer.has_consulted_with_professional && typeof state.customer.consultings === 'object' && Object.keys(state.customer.consultings.length > 0),
+    hasConsultedWithProfessional: state => state.customer.has_consulted_with_professional && typeof state.customer.consultings === 'object' && Object.keys(state.customer.consultings).length > 0,
     getCustomerConsultings: state => state.customer.consultings,
 
     hasProfessionals: state => state.professionals.length > 0,

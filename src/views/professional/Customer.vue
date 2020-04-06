@@ -58,6 +58,9 @@
         <div v-if="hasConsultedWithProfessional" class="full-width">
             <consulting-card v-for="consulting in getCustomerConsultings" :key="consulting.id" :consulting="consulting"></consulting-card>
         </div>
+        <div v-else class="horizontal middle center">
+            Nenhuma dica ainda
+        </div>
       </div>      
   </div>
 </template>

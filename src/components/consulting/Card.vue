@@ -5,7 +5,7 @@
           <div class="d-flex justify-content-between">
             <div class="horizontal">
                 <div class="position-relative">
-                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.room.id }}">
+                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.id }}">
                     <hover-overlay :rounded="true" icon="home">
                       <avatar :src="otherUser.photo" :username="'abc'"></avatar>
                     </hover-overlay>              
@@ -60,7 +60,7 @@ export default {
       'professional-info': ProfessionalInfo
     },
     props: {      
-      consulting: Object,
+      consulting: Object,      
       noTitle: { type: Boolean, default: false }
     },        
     methods: {        

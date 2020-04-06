@@ -60,8 +60,10 @@
           <submit-button>Atualizar</submit-button>
         </div>        
       </form>
-      <h4 class="mb-4">Dicas recebidas deste ambiente</h4> 
-      <consulting-card v-for="consulting in getRoom.consultings" noTitle :key="consulting.id" :consulting="consulting"></consulting-card>
+      <h4 class="mb-4">Últimas dicas recebidas deste ambiente</h4> 
+      <div v-for="consulting in getRoom.consultings" :key="consulting.id">
+        <consulting-card  noTitle  :consulting="consulting"></consulting-card>
+      </div>      
     </div>                
   </div>
 </template>

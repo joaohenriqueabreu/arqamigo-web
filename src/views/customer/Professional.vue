@@ -3,7 +3,7 @@
       <div v-if="hasProfessional" class="vertical">
           <div>
               <div class="mb-4"></div>
-              <router-link to="/rooms/create" 
+              <router-link to="/customer/rooms/create" 
                 class="p-4 rounded-pill shadow bg-brand color-white negative my-4">
                 Pedir dica a este profissional
             </router-link>
