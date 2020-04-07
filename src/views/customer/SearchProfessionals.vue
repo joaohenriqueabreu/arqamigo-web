@@ -3,13 +3,45 @@
     <div class="row mb-5">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
-        <form class="horizontal" @submit.prevent="search">
-          <div class="group text-left bg-white mr-1">            
-            <input type="text" v-model="term" name="term" placeholder="Buscar profissionais">
+        <form class="vertical" @submit.prevent="search">          
+          <div class="horizontal d-flex justify-content-between">
+            <div class="group text-left bg-white mr-1">            
+              <input type="text" v-model="term" name="term" placeholder="Buscar profissionais">
+            </div>
+            <div class="group text-left bg-white mr-1">            
+              <google-places></google-places>
+            </div>
+            <submit-button>
+              <font-awesome-icon icon="search"></font-awesome-icon>
+            </submit-button>     
           </div>
-          <submit-button>
-            <font-awesome-icon icon="search"></font-awesome-icon>
-          </submit-button>     
+          <!-- TODO later include more filters to allow customer to find professionals -->
+          <div class="horizontal middle center" v-if="!hideExtraFilters">
+            <transition name="fade">
+              <div key="hidingFilters" v-if="hideExtraFilters">
+                <span class="bold clickable" @click="hideExtraFilters = false">
+                  <small>Mais Opções <font-awesome-icon icon="angle-down"></font-awesome-icon></small>
+                </span>
+              </div>
+              <div key="showingFilters" v-else class="vertical">
+                <span class="bold clickable" @click="hideExtraFilters = true">
+                  <small>Esconder <font-awesome-icon icon="angle-up"></font-awesome-icon></small>
+                </span>
+                <div class="horizontal">
+                  <div class="group text-left bg-white mr-1">            
+                    <input type="text" v-model="term" name="term" placeholder="Buscar profissionais">
+                  </div>
+                  <div>
+                    <font-awesome-icon v-for="index in 5" :key="index" 
+                      :icon="getIcon(index)" 
+                      @click="filterByRate(index)"
+                      class="icon clickable">
+                    </font-awesome-icon>
+                  </div>
+                </div>                
+              </div>                            
+            </transition>
+          </div>
         </form>
       </div>
     </div>
@@ -42,14 +74,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ProfessionalInfo from '@/components/professional/Info'
+import ProfessionalInfo           from '@/components/professional/Info'
+import GooglePlaces               from '@/components/layout/GooglePlaces'
 export default {
   components: {
-    'professional-info': ProfessionalInfo
+    'professional-info': ProfessionalInfo,
+    'google-places':     GooglePlaces
   },
   data() {
     return {
-      term: ''
+      term:             '',
+      hideExtraFilters: true
     }
   },
   methods: {
@@ -64,6 +99,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>
