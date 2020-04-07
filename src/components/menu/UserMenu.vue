@@ -21,7 +21,7 @@
         <router-link :to="getUserProfileRoute" class="vertical center">
           <avatar :src="getProfileImgUrl" :username="getUsername" :size="200" class="mb-4"></avatar>                
           <div class="horizontal middle">
-            <h4 class="mr-2"><font-awesome-icon icon="edit"></font-awesome-icon></h4>
+            <h4 class="mr-3"><font-awesome-icon icon="edit"></font-awesome-icon></h4>
             <h4>{{ getUsername }}</h4>
           </div>          
         </router-link>
@@ -69,7 +69,6 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
   [data-icon] {  
     @extend .clickable;
     font-size:    $large;
-    margin-right: 30px !important;
   }
 
   [data-icon="times"] {

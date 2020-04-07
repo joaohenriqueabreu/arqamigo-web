@@ -104,15 +104,16 @@ const store = new Vuex.Store({
       state.status = false;
     },
     logout(state) {
-      state.token  = '';
-      state.status = false;
+      state.token  = ''
+      state.status = false
     },
     new_room(state) {
-      state.room          = {};
-      state.room.medias   = [];
-      state.room.category = {};
-      state.room.area     = {};
-      state.medias        = [];
+      state.room              = {}
+      state.room.medias       = []
+      state.room.category     = {}
+      state.room.area         = {}
+      state.medias            = []
+      state.withProfessional  = {}
     },
     set_rooms(state, rooms) {
       state.rooms = rooms;
