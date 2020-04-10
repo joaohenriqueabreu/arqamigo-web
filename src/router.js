@@ -200,8 +200,16 @@ let router = new Router({
             component: ProConsultings
           },
           {
-            path: 'rooms/consultings/:id',
+            path: 'rooms/consulting/:id',
             name: 'professional.rooms.consulting',
+            component: RoomConsulting,
+            meta: {
+              ...noContainer
+            }
+          },
+          {
+            path: 'rooms/consultings/new',
+            name: 'professional.rooms.consultings.new',
             component: RoomConsulting,
             meta: {
               ...noContainer

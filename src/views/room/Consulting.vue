@@ -31,9 +31,11 @@
                   {{ getConsulting.room.description }}           
                 </consulting-comment>
                 <div class="v-space-20"></div>
-                <consulting-comment v-for="comment in getConsulting.comments" :key="comment.id" :comment="comment">
-                  {{ comment.content }}           
-                </consulting-comment>
+                <div v-for="(comment, index) in consultingComments" :key="index">
+                  <consulting-comment :comment="comment">
+                    {{ comment.content }}           
+                  </consulting-comment>
+                </div>                
               </div>                
             </perfect-scrollbar>                         
             <div class="reply-area">
@@ -61,12 +63,18 @@ export default {
     'other-consultings':    OtherConsultings,
     'customer-actions':     CustomerActions
   },  
-  mounted() {      
-    this.loadConsulting(this.$route.params.id)
+  mounted() {        
+    // No id means, we are starting a new consulting
+    if (this.$route.params.id !== undefined) {
+      this.loadConsulting(this.$route.params.id);
+    } else {
+      this.newConsulting();
+    } 
+    
     this.newComment()           
   },
   methods: {
-    ...mapActions(['setPageSubtitle', 'loadRoom', 'loadConsulting', 'newComment'])
+    ...mapActions(['setPageSubtitle', 'loadRoom', 'loadConsulting', 'newComment', 'newConsulting'])
   },  
   computed: {
     ...mapGetters(['isCustomer', 'isProfessional', 'hasConsulting', 'getConsulting', 'hasRoom', 'getRoom']),
@@ -81,8 +89,11 @@ export default {
           type:   this.$config.SENDER_CUSTOMER
         }
       }
+    },
+    consultingComments() {
+      return this.getConsulting.comments;
     }
-  }
+  },  
 }
 </script>
 

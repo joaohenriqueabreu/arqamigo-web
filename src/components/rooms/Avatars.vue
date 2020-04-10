@@ -26,7 +26,7 @@
                       :paginationPosition="'top-overlay'" :speed="1000" :autoplayTimeout="7000"
                       :autoplay="true" ref="feed">
                 <!-- Using @slideclick to enable dragging slides (otherwise mousedown for draggin would trigger redirect) -->
-                <slide v-for="room in rooms" :key="room.id" style="height: 400px" @slideclick="navigateToRoom(room.id)">                                    
+                <slide v-for="room in rooms" :key="room.id" style="height: 400px" @slideclick="startConsulting(room)">                                    
                     <div class="fill position-relative clickable">                        
                         <div class="story-pill p-3 m-2">                            
                             <small class="color-brand bold">{{ room.category.name }}</small>                            
@@ -55,7 +55,7 @@ import { mapGetters, mapActions } from 'vuex'
             }
         },        
         methods: {            
-            ...mapActions(['navigateToRoom']),
+            ...mapActions(['setRoom']),
             openFeed: function (index) {
                 this.currentSlide = index
                 this.slideToCurrent()
@@ -72,6 +72,10 @@ import { mapGetters, mapActions } from 'vuex'
             },
             closeModal: function () {
                 // $("#on-modal-open-heading").addClass('hide')
+            },
+            startConsulting: function (room) {
+                this.setRoom(room);
+                this.$router.push({ name: 'professional.rooms.consultings.new' });
             },            
         }
     }

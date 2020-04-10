@@ -3,7 +3,7 @@
       <div v-if="hasProfessional" class="vertical">
           <div>
             <div class="mb-4"></div>
-            <button class="p-4 rounded-pill shadow bg-brand color-white negative my-4" @click.prevent="newConsulting(getProfessional)">
+            <button class="p-4 rounded-pill shadow bg-brand color-white negative my-4" @click.prevent="newRoomWithProfessional(getProfessional)">
                 Pedir dica a este profissional
             </button>
           </div>
@@ -91,7 +91,7 @@ export default {
         this.loadProfessional(this.$route.params.id)
     },
     methods: {
-        ...mapActions(['loadProfessional', 'newConsulting']),        
+        ...mapActions(['loadProfessional', 'newRoomWithProfessional']),        
     },
     computed: {
         ...mapGetters(['hasProfessional', 'getProfessional'])

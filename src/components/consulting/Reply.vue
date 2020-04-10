@@ -1,6 +1,5 @@
 <template>
     <div>           
-        <!-- <form v-on:submit.prevent="reply" v-bind:style="{'width': largura}">      -->
         <form v-on:submit.prevent="reply">     
             <div class="text-container">
                 <div v-if="hasUploadedMedias > 0" class="row mb-3"> 
@@ -14,9 +13,8 @@
                     <div class="col-sm-1">
                         <file-uploader singlebtn class="shadow horizontal middle center rounded-pill p-2 bg-brand color-white"></file-uploader>
                     </div>
-                    <!-- TODO Investigate why cant we use 10 here -->
                     <div class="col-sm-10">                        
-                        <input type="text" v-model="getComment.content" name="content"/>
+                        <input type="text" v-model="content" name="content"/>
                     </div>   
                     <div class="col-sm-1">
                         <submit-button>
@@ -42,8 +40,7 @@ export default {
         'thumbnails': Thumbnails  
     },
     data: function () {
-        return {
-            title:      '',
+        return {            
             content:    '',
             medias:     [],
             images:     [],
@@ -59,13 +56,15 @@ export default {
         displaySend:   Boolean,
         placeholder:   String,
         sender:        String,        
-        largura:         String
+        largura:       String
     },
     mounted() { },      
     methods: {
-        ...mapActions(['replyComment']),
+        ...mapActions(['replyConsulting', 'setCommentContent']),
         reply() {
-            this.replyComment()
+             this.setCommentContent(this.content);
+             this.replyConsulting();
+             this.content = '';
         }
     },  
     computed: {

@@ -19,6 +19,7 @@ const ROOMS_DAYS_THRESHOLD  = 365;
 const ROOM_STEPS            = ['main', 'categories', 'area', 'details', 'ready']
 
 const store = new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
   state: {
     // Layout states
     apiLoaded: true,
@@ -142,6 +143,12 @@ const store = new Vuex.Store({
     set_room_location(state, location) {
       state.room.location = location;
     },
+    new_consulting(state) {
+      state.consulting              = {};
+      state.consulting.professional = state.user;
+      state.consulting.room         = state.room;
+      state.consulting.comments     = [];
+    },
     set_consulting(state, consulting) {
       state.consulting = consulting;            
     },
@@ -172,6 +179,7 @@ const store = new Vuex.Store({
     new_comment(state) {
       state.comment = {
         id: 0,
+        content: '',
         sender: {
           type: state.token,
           name: state.user.name,
@@ -180,6 +188,9 @@ const store = new Vuex.Store({
         medias: []
       };
       state.medias  = [];
+    },
+    set_comment_content(state, content) {
+      state.comment.content = content;
     },
     upload_media(state, media) {
       state.medias.push(media);
@@ -282,9 +293,12 @@ const store = new Vuex.Store({
         router.push('/customer/rooms/created');
       });
     }, 
-    newConsulting({commit}, professional) {
+    newRoomWithProfessional({commit}, professional) {
       commit('set_with_professional', professional)
       router.push({ name: 'customer.professionals.consultings.create', params: { id: professional.id }})
+    },
+    setRoom({commit}, room) {
+      commit('set_room', room);
     },
     setRoomLocation({commit}, payload) {
       // TODO only grab necessary google places data
@@ -293,9 +307,12 @@ const store = new Vuex.Store({
     navigateToRoom({ commit, getters }, id) {
       const roomRouteName = getters.isCustomer 
         ? 'customer.rooms.edit'
-        : 'professional.rooms.consulting'
+        : 'professional.rooms.consulting';
         
-      router.push({ name: roomRouteName, params: { id: id }})
+      router.push({ name: roomRouteName, params: { id: id }});
+    },
+    newConsulting({ commit }) {      
+      commit('new_consulting');      
     },
     loadConsulting({ commit }, id) {      
       commit('start_api');          
@@ -361,13 +378,16 @@ const store = new Vuex.Store({
     newComment({ commit }) {
       commit('new_comment');
     },
+    setCommentContent({commit}, content) {
+      commit('set_comment_content', content);
+    },
     uploadMedia({ commit }, media) {
       commit('upload_media', media)
     },
     removeMedia({ commit }, index) {      
       commit('remove_media', index);
     },
-    replyComment({ commit, getters }, comment) {
+    replyConsulting({ commit, getters }, comment) {
       commit('start_api');
       api.post('comments', { comment: getters.getComment, medias: getters.getUploadedMedias }).then(res => {
         commit('comment_sent', res.data.id);

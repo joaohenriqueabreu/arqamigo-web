@@ -4,23 +4,23 @@ import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 
 import '@/assets/styles/main.scss';
 
-import Vue from 'vue';
-import store from '@/store.js';
+import Vue    from 'vue';
+import store  from '@/store.js';
 import router from '@/router.js';
 import config from '@/assets/js/config.js';
-import icons from '@/assets/js/icons.js';
-import utils from '@/plugins/utils.js';
+import icons  from '@/assets/js/icons.js';
+import utils  from '@/plugins/utils.js';
 
 // UI componentes
-import Bootstrap from 'bootstrap-vue';
-import Carousel from 'vue-carousel';
-import Modal from 'vue-js-modal';
-import Avatar from 'vue-avatar';
-import SweetAlert from 'vue-sweetalert2';
-import Vuelidate from 'vuelidate';
-import VueCsrf from 'vue-csrf';
-import VueMask from 'v-mask';
-import VueSmoothScroll from 'vue2-smooth-scroll';
+import Bootstrap        from 'bootstrap-vue';
+import Carousel         from 'vue-carousel';
+import Modal            from 'vue-js-modal';
+import Avatar           from 'vue-avatar';
+import SweetAlert       from 'vue-sweetalert2';
+import Vuelidate        from 'vuelidate';
+import VueCsrf          from 'vue-csrf';
+import VueMask          from 'v-mask';
+import VueSmoothScroll  from 'vue2-smooth-scroll';
 import PerfectScrollbar from 'vue2-perfect-scrollbar';
 
 // Global components
