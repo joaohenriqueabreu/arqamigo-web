@@ -43,10 +43,10 @@ export default {
             console.log('this is an error');
           }
         },
-        async ValidityState({commit}) {          
+        async validate({commit}) {          
             const token = localStorage.token;
             if (token === undefined || token.length === 0) { throw 'Invalid token'; }
-            const respose = await api.get('validate', localStorage.token);            
+            const respose = await api.get(`validate/${token}`);            
             commit('login_success', respose.data);          
         },
         logout({commit}, user) {

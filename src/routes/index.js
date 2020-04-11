@@ -1,6 +1,6 @@
-import Vue                                  from 'vue';
-import { mapState, mapActions, mapGetters } from 'vuex';
-import Router                               from 'vue-router';
+import Vue              from 'vue';
+import store            from '@/store/index';
+import Router           from 'vue-router';
 
 import Home             from '@/views/info/Home';
 import About            from '@/views/info/About';
@@ -34,13 +34,6 @@ import Profile          from '@/views/auth/Profile';
 import Unauthorized     from '@/views/error/404';
 
 Vue.use(Router);
-
-const state = mapState({
-  auth: state => state.auth
-});
-
-const getters = mapGetters(['isAdmin', 'isCustomer', 'isProfessional', 'isMenuOpened']);
-const actions = mapActions(['validate', 'setPageSubtitle', 'closeMenu', 'changeNavbarStyle']);
 
 const authMiddleware = {
   requiresAuth: true    
@@ -107,6 +100,14 @@ let router = new Router({
           ...preventAuthMiddleware,
           ...fancyNavbar
         }        
+      },
+      {
+        path: '/logout',
+        name: 'logout',
+        component: Login,
+        meta: {
+          ...preventAuthMiddleware
+        }
       },
       {
         path: '/register',
@@ -288,8 +289,7 @@ let router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  // store.dispatch('setPageSubtitle', '');
-  this.setPageSubtitle('');
+  store.dispatch('setPageSubtitle', '');
 
   // When route changes, close menu if opened  
   if (store.getters.isMenuOpened) {
@@ -298,15 +298,16 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.matched.some(page => page.meta.requiresAuth)) {  
     console.log('requires auth');
-    console.log(store);
     // Page might have been refreshed, check user status from store and then fetch user from server if necessary
-    if (store.auth.user === undefined || store.auth.user === null || store.auth.user.empty) {
+    /// TODO use vue-mc state
+    if (store.state.auth.user === undefined || store.state.auth.user === null || store.state.auth.user.id === null) {
       try {
         console.log('trying to validate token from server')
         await store.dispatch('validate'); 
       } catch {
         // Any errors redirect to login
-        next({ name: 'login'});
+        next('/login');
+        return;
       } 
     }
 

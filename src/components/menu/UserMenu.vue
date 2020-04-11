@@ -32,7 +32,7 @@
           <professional-menu v-if="isProfessional"></professional-menu>
           <div class="v-space-20"></div>    
           <div>
-            <a class="clickable" @click="logout">            
+            <a class="clickable" @click="internalLogout()">            
               <h6>
                 <font-awesome-icon class="mr-3" icon="sign-out-alt"></font-awesome-icon>
                 Sair
@@ -56,6 +56,10 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
     },
     methods: {          
       ...mapActions(['toggleMenu', 'logout']),
+      internalLogout() {
+        this.logout();
+        this.$router.push('/logout');
+      }
     },
     computed: {
       ...mapState({
