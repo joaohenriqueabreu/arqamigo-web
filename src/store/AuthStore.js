@@ -1,6 +1,6 @@
 import User from '@/models/User';
 import router from '@/routes/index';
-import api from './Api';
+import http from '@/services/http';
 
 export default {
     state: {
@@ -34,7 +34,7 @@ export default {
     actions: {
         async login({commit}, payload) {
           try {
-            const response = await api.post('login', payload);            
+            const response = await http.post('login', payload);            
             const user     = response.data;            
 
             localStorage.setItem('token', user.token);            
@@ -46,7 +46,7 @@ export default {
         async validate({commit}) {          
             const token = localStorage.token;
             if (token === undefined || token.length === 0) { throw 'Invalid token'; }
-            const respose = await api.get(`validate/${token}`);            
+            const respose = await http.post('validate');            
             commit('login_success', respose.data);          
         },
         logout({commit}, user) {

@@ -1,6 +1,6 @@
 import Comment              from '@/models/Comment';
 import CommentCollection    from '@/collections/CommentsCollection';
-import api                      from './Api';
+import http                      from '@/services/http';
 
 export default {
     state: {

@@ -1,7 +1,7 @@
 import Room             from '@/models/Room';
 import RoomsCollection  from '@/collections/RoomsCollection';
 import config           from '@/assets/js/config';
-import api                      from './Api';
+import http                      from '@/services/http';
 import router from '@/routes/index';
 
 export default {
@@ -77,11 +77,11 @@ export default {
             commit('new_room');
           },
           loadRooms({ commit }) {      
-            return api.get('/rooms').then(res => commit('set_rooms', res.data));          
+            return http.get('/rooms').then(res => commit('set_rooms', res.data));          
           },
           loadRoom({commit}, id) {
             commit('start_api');          
-            api.get(`/rooms/${id}`).then(res => {        
+            http.get(`/rooms/${id}`).then(res => {        
               commit('set_room', res.data);
               commit('set_medias', res.data.medias);
               commit('api_loaded');
@@ -90,7 +90,7 @@ export default {
           createRoom({commit, getters}) {
             commit('start_api');          
             commit('prepare_room_for_saving');
-            api.post('rooms', { room: getters.getRoom }).then(res => {        
+            http.post('rooms', { room: getters.getRoom }).then(res => {        
               commit('new_room');
               commit('api_loaded');
               router.push('/customer/rooms/created');

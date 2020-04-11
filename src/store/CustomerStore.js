@@ -1,6 +1,6 @@
 import Customer           from '@/models/Customer';
 import CustomerCollection from '@/collections/CustomersCollection';
-import api                from './Api';
+import http                from '@/services/http';
 import router from '@/routes/index';
 
 export default {
@@ -18,24 +18,24 @@ export default {
     },
     actions: {
         loadCustomers({ commit, getters }) {
-            api.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data));
+            http.get(`/professional/${getters.getUser.id}/customers`).then(res => commit('set_customers', res.data));
           },
           loadCustomer({ commit, getters }, id) {
             commit('start_api');
-            api.get(`/customers/${id}`).then(res => {
+            http.get(`/customers/${id}`).then(res => {
               commit('set_customer', res.data);
               commit('api_loaded');
             });
           },
           async authorizeProfessional({commit}, professional) {
             commit('start_api');
-            api.post(`customers/professionals/${professional.id}/authorize`).then(res => {        
+            http.post(`customers/professionals/${professional.id}/authorize`).then(res => {        
               commit('api_loaded');
             });
           },
           async blockProfessional({commit}, professional) {
             commit('start_api');
-            api.post(`customers/professionals/${professional.id}/block`).then(res => {
+            http.post(`customers/professionals/${professional.id}/block`).then(res => {
               commit('api_loaded');
               router.push('/customer');
               commit('set_message', 'Profissional bloqueado');

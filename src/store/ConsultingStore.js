@@ -1,6 +1,6 @@
 import Consulting               from '@/models/Consulting';
 import ConsultingsCollection    from '@/collections/ConsultingsCollection';
-import api                      from './Api';
+import http                      from '@/services/http';
 import router from '@/routes/index';
 
 export default {
@@ -28,7 +28,7 @@ export default {
           },
           loadConsulting({ commit }, id) {      
             commit('start_api');          
-            api.get(`/consultings/${id}`).then(res => {
+            http.get(`/consultings/${id}`).then(res => {
               commit('set_page_subtitle', res.data.title);
               commit('set_consulting', res.data);
               commit('set_room', res.data.room);
@@ -37,14 +37,14 @@ export default {
           },
           loadConsultings({ commit, getters }) {
             commit('start_api');          
-            api.get('/consultings').then(res => {        
+            http.get('/consultings').then(res => {        
               commit('set_consultings', res.data);
               commit('api_loaded');
             });
           },
           replyConsulting({ commit, getters }, comment) {
             commit('start_api');
-            api.post('comments', { comment: getters.getComment, medias: getters.getUploadedMedias }).then(res => {
+            http.post('comments', { comment: getters.getComment, medias: getters.getUploadedMedias }).then(res => {
               commit('comment_sent', res.data.id);
               commit('new_comment');
               commit('api_loaded');
@@ -52,7 +52,7 @@ export default {
           },
           async closeConsulting({commit}, payload) {
             commit('start_api');
-            api.post(`customers/consultings/${payload.consulting.id}/close`, { feedback: payload.feedback }).then(res => {
+            http.post(`customers/consultings/${payload.consulting.id}/close`, { feedback: payload.feedback }).then(res => {
               commit('api_loaded');
               router.push('/customer'); 
               return;

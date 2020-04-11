@@ -1,6 +1,6 @@
 import Professional             from '@/models/Professional';
 import ProfessionalsCollections from '@/collections/ProfessionalsCollection';
-import api                      from './Api';
+import http                      from '@/services/http';
 
 export default {
     state: {
@@ -24,7 +24,7 @@ export default {
     actions: {
         searchProfessionals({ commit }, term) {
             commit('start_api');          
-            api.get(`/professionals?term=${term}`
+            http.get(`/professionals?term=${term}`
             //   { url: '/customer/professionals/',
             //   data: term
             // })
@@ -35,7 +35,7 @@ export default {
           },
           loadProfessional({ commit }, id) {
             commit('start_api');
-            api.get(`professionals/${id}`).then(res => {
+            http.get(`professionals/${id}`).then(res => {
               commit('set_professional', res.data);
               commit('api_loaded');
             });

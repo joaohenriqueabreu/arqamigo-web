@@ -297,7 +297,8 @@ router.beforeEach(async (to, from, next) => {
   }    
 
   if (to.matched.some(page => page.meta.requiresAuth)) {  
-    console.log('requires auth');
+    console.log('requires auth');    
+
     // Page might have been refreshed, check user status from store and then fetch user from server if necessary
     /// TODO use vue-mc state
     if (store.state.auth.user === undefined || store.state.auth.user === null || store.state.auth.user.id === null) {
@@ -332,14 +333,7 @@ router.beforeEach(async (to, from, next) => {
         next('/404')
         return
       }          
-    }
-
-    console.log('requires auth');
-    if (! store.getters.isLoggedIn) {
-      console.log('is logged in');
-      next('/404')
-      return
-    }
+    }    
     
     if (to.path === '/dash') {        
       next(getDashRedirect())
