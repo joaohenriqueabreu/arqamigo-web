@@ -4,12 +4,14 @@ import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 
 import '@/assets/styles/main.scss';
 
-import Vue    from 'vue';
-import store  from '@/store.js';
-import router from '@/router.js';
-import config from '@/assets/js/config.js';
-import icons  from '@/assets/js/icons.js';
-import utils  from '@/plugins/utils.js';
+import Vue          from 'vue';
+import store        from '@/store/index.js';
+import router       from '@/routes/index.js';
+import models       from '@/models/index.js';
+import collectins   from '@/collections/index.js';
+import config       from '@/assets/js/config.js';
+import icons        from '@/assets/js/icons.js';
+import utils        from '@/plugins/utils.js';
 
 // UI componentes
 import Bootstrap        from 'bootstrap-vue';

@@ -1,16 +1,17 @@
 <template>
   <div class="horizontal">
     <div class="horizontal middle center">
-      <router-link :to="getUserDashRoute">
-        <font-awesome-icon icon="home" class="icon"></font-awesome-icon>
+      <router-link :to="{ name: getUserDashRoute }">
+        <font-awesome-icon icon="home" class="icon mr-3"></font-awesome-icon>
       </router-link>            
-      <font-awesome-icon icon="coffee" class="icon"></font-awesome-icon>                   
+      <font-awesome-icon icon="coffee" class="icon mr-3"></font-awesome-icon>                   
     </div>        
     <span class="clickable" @click="toggleMenu">      
       <hover-overlay :rounded="true" icon="bars">
-        <avatar :src="getProfileImgUrl" :username="getUsername"></avatar>  
+        <avatar :src="profileImgUrl" :username="username"></avatar>  
       </hover-overlay>
     </span> 
+    
     <div class="fs-menu" v-bind:class="{ open: isMenuOpened }">
       <div class="close">                
         <span class="clickable margin-30" @click="toggleMenu">
@@ -18,11 +19,11 @@
         </span>
       </div>
       <div class="text-center vertical center">
-        <router-link :to="getUserProfileRoute" class="vertical center">
-          <avatar :src="getProfileImgUrl" :username="getUsername" :size="200" class="mb-4"></avatar>                
+        <router-link :to="{ name: getUserProfileRoute }" class="vertical center">
+          <avatar :src="profileImgUrl" :username="username" :size="200" class="mb-4"></avatar>                
           <div class="horizontal middle">
             <h4 class="mr-3"><font-awesome-icon icon="edit"></font-awesome-icon></h4>
-            <h4>{{ getUsername }}</h4>
+            <h4>{{ username }}</h4>
           </div>          
         </router-link>
         <div class="v-space-20"></div>
@@ -45,22 +46,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import CustomerMenu from '@/components/menu/CustomerMenu'
 import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
   export default {    
-    methods: {          
-      ...mapActions(['toggleMenu']),  
-      logout: function () {
-        this.$store.dispatch('logout')        
-      },          
-    },
     components: {
       'customer-menu':      CustomerMenu,
       'professional-menu':  ProfessionalMenu
     },
+    methods: {          
+      ...mapActions(['toggleMenu', 'logout']),
+    },
     computed: {
-      ...mapGetters(['getProfileImgUrl', 'getUserDashRoute', 'getUsername', 'getUserProfileRoute', 'isMenuOpened', 'isCustomer', 'isProfessional'])
+      ...mapState({
+        profileImgUrl: state => state.auth.user.photo,
+        username: state => state.auth.user.public_name,
+      }),
+      ...mapGetters(['getUserDashRoute', 'getUserProfileRoute', 'isMenuOpened', 'isCustomer', 'isProfessional'])
     }
   }
 </script>

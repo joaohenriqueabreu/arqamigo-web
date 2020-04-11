@@ -1,12 +1,12 @@
 <template>
-  <div class="skeleton" v-bind:class="[getNavbarStyle]">
-    <header v-bind:class="[getNavbarStyle]">
+  <div class="skeleton" v-bind:class="[navbarStyle]">
+    <header v-bind:class="[navbarStyle]">
       <top-navbar></top-navbar>
     </header>    
-    <main v-bind:class="[getContainerStyle, getNavbarStyle]">
+    <main v-bind:class="[containerStyle, navbarStyle]">
       <fade-transition :duration="500">
         <div v-if="hasMessage" class="full-width bg-brand color-white p-4 shadow horizontal center middle">
-          {{ getMessage }}
+          {{ message }}
         </div>
         <router-view></router-view>
       </fade-transition>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapState }   from 'vuex'
 import { FadeTransition }         from 'vue2-transitions'
 import Navbar                     from '@/components/menu/Navbar.vue'
 import Footer                     from '@/components/layout/Footer.vue'
@@ -31,7 +31,12 @@ export default {
     'fade-transition':  FadeTransition
   },
   computed: {
-    ...mapGetters(['getNavbarStyle', 'getContainerStyle', 'isLoggedIn', 'hasMessage', 'getMessage'])
+    ...mapState({
+      navbarStyle: state => state.layout.navbarStyle,
+      containerStyle: state => state.layout.containerStyle,
+      message: state => state.app.message,
+    }),
+    ...mapGetters(['isLoggedIn', 'hasMessage'])
   }
 }
 </script>

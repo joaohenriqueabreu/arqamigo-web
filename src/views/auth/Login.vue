@@ -17,7 +17,7 @@
                 <input type="password" v-model="password" name="password">
               </div>      
               <div class="form-group">
-                <button type="submit" @click.prevent="customerLogin">Entrar</button>                                                  
+                <button type="submit" @click.prevent="internalLogin('customer')">Entrar</button>                                                  
                 <div class="mb-1"></div>
                 <router-link to="forgot-password"><small class="bold">Esqueceu sua senha?</small></router-link>
               </div>                         
@@ -26,15 +26,15 @@
                 <small>Ou se preferir, utilize uma de suas redes socias para entrar</small>
                 <div class="mb-2"></div>
                 <div class="horizontal center">
-                  <button @click.prevent="professionalLogin" class="facebook mr-2">
+                  <button @click.prevent="internalLogin('professional')" class="facebook mr-2">
                     <font-awesome-icon :icon="['fab', 'facebook']"></font-awesome-icon>
                     Facebook
                   </button>                  
-                  <button @click.prevent="professionalLogin" class="google mr-2">
+                  <button @click.prevent="internalLogin('professional')" class="google mr-2">
                     <font-awesome-icon :icon="['fab', 'google']"></font-awesome-icon>
                     Google
                   </button>
-                  <button @click.prevent="professionalLogin" class="linkedin">
+                  <button @click.prevent="internalLogin('professional')" class="linkedin">
                     <font-awesome-icon :icon="['fab', 'linkedin']"></font-awesome-icon>
                     Linkedin
                   </button>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
   export default {
     data(){
       return {
@@ -58,17 +58,13 @@ import {mapGetters} from 'vuex'
       }
     },  
     methods: {
-      customerLogin: function () {
-        this.login('customer')
-      },
-      professionalLogin: function () {
-        this.login('professional')
-      },
-      login: function (user) {
-       this.$store.dispatch('login', user)
+      ...mapActions(['login']),
+      async internalLogin(userType) {        
+        await this.login({email: this.email, password: this.password, type: userType});         
+        this.$router.push({name: this.getUserDashRoute });
       }
     },
-    computed: mapGetters(['isLoggedIn'])
+    computed: mapGetters(['isLoggedIn', 'getUserDashRoute'])
   }
 </script>
 

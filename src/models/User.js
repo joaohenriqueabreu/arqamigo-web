@@ -1,15 +1,22 @@
-import { Model } from 'vue-mc';
+import { Model }    from 'vue-mc';
+import Media        from './Media';
+import Location     from './Location';
 
-class User extends Model 
+export default class User extends Model 
 {
     defaults() {
         return {
-            id:         null,
-            name:       '',            
-            password:   '',
-            email:      '',
+            id:             null,
+            public_name:    '',                        
+            token:          '',
             private:    {
-                phone:  '',
+                first_name: '',
+                last_name:  '',
+                photo:      new Media(),
+                location:   new Location(),
+                phone:      '',
+                password:   '',
+                email:      '',            
             }
         }
     }

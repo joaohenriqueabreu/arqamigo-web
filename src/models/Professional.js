@@ -1,10 +1,11 @@
-import { Model } from 'vue-mc';
-import User      from './User';
-import Location  from './Location';
-import Media     from './Media';
-import Rating    from './Rating';
+import { Model }            from 'vue-mc';
+import User                 from './User';
+import Location             from './Location';
+import Media                from './Media';
+import MediasCollection     from '@/collections/MediasCollection';
+import RatingsCollection    from '@/collections/RatingsCollection';
 
-module.exports = class Professional extends Model 
+export default class Professional extends Model 
 {
     defaults() {
         return {
@@ -13,10 +14,10 @@ module.exports = class Professional extends Model
             name:                   '',
             company_name:           '',
             is_verified:            '',
-            location:               new Location(),
-            zipcode:                '',
+            location:               new Location(),            
             photo:                  new Media(),
-            rating:                 new Rating(),       
+            medias:                 new MediasCollection(),
+            ratings:                new RatingsCollection(),                             
             pinterest_token:        '',
             pintereste_board_url:   '',
         }

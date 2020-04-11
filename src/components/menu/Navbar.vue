@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar" v-bind:class="[getNavbarStyle]" role="navigation">    
+    <nav class="navbar" v-bind:class="[navbarStyle]" role="navigation">    
       <aside class="float-left">
         <router-link to="/" class="navbar-brand horizontal-center align-left">
           <h1 class="color-brand">Reforma Aí</h1>
@@ -13,14 +13,11 @@
         <guest-menu v-else></guest-menu>
       </aside>    
     </nav>  
-    <!-- <nav class="alt shadow subtitle vertical center middle" v-if="hasPageSubtitle">
-      <h2>{{ getPageSubtitle }}</h2>      
-    </nav> -->
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import UserMenu from './UserMenu.vue'
 import GuestMenu from './GuestMenu.vue'
 
@@ -33,7 +30,8 @@ export default {
     'guest-menu': GuestMenu,
   },
   computed: {
-    ...mapGetters(['isLoggedIn','hasPageSubtitle', 'getPageSubtitle', 'getNavbarStyle'])
+    ...mapState({ navbarStyle: state => state.layout.navbarStyle }),
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

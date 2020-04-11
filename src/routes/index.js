@@ -1,6 +1,6 @@
-import Vue              from 'vue';
-import Router           from 'vue-router';
-import store            from '@/store';
+import Vue                                  from 'vue';
+import { mapState, mapActions, mapGetters } from 'vuex';
+import Router                               from 'vue-router';
 
 import Home             from '@/views/info/Home';
 import About            from '@/views/info/About';
@@ -34,6 +34,13 @@ import Profile          from '@/views/auth/Profile';
 import Unauthorized     from '@/views/error/404';
 
 Vue.use(Router);
+
+const state = mapState({
+  auth: state => state.auth
+});
+
+const getters = mapGetters(['isAdmin', 'isCustomer', 'isProfessional', 'isMenuOpened']);
+const actions = mapActions(['validate', 'setPageSubtitle', 'closeMenu', 'changeNavbarStyle']);
 
 const authMiddleware = {
   requiresAuth: true    
@@ -118,6 +125,11 @@ let router = new Router({
             path: '',
             name: 'customer.dash',
             component: CustomerDash,            
+          },
+          {
+            path: 'profile',
+            name: 'customer.profile',
+            component: ProProfile
           },
           {
             path: 'professionals',
@@ -275,8 +287,9 @@ let router = new Router({
     ],
 });
 
-router.beforeEach((to, from, next) => {
-  store.dispatch('setPageSubtitle', '');
+router.beforeEach(async (to, from, next) => {
+  // store.dispatch('setPageSubtitle', '');
+  this.setPageSubtitle('');
 
   // When route changes, close menu if opened  
   if (store.getters.isMenuOpened) {
@@ -285,6 +298,18 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some(page => page.meta.requiresAuth)) {  
     console.log('requires auth');
+    console.log(store);
+    // Page might have been refreshed, check user status from store and then fetch user from server if necessary
+    if (store.auth.user === undefined || store.auth.user === null || store.auth.user.empty) {
+      try {
+        console.log('trying to validate token from server')
+        await store.dispatch('validate'); 
+      } catch {
+        // Any errors redirect to login
+        next({ name: 'login'});
+      } 
+    }
+
     if (to.matched.some(page => page.meta.requiresAdminAuth)) {
       if (! store.getters.isAdmin) {
         next('/404')
