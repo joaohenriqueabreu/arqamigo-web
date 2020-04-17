@@ -4,7 +4,9 @@
       <router-link :to="{ name: getUserDashRoute }">
         <font-awesome-icon icon="home" class="icon mr-3"></font-awesome-icon>
       </router-link>            
-      <font-awesome-icon icon="coffee" class="icon mr-3"></font-awesome-icon>                   
+      <router-link :to="{ name: getUserConsultingsRoute }">
+        <font-awesome-icon icon="coffee" class="icon mr-3"></font-awesome-icon>                   
+      </router-link>
     </div>        
     <span class="clickable" @click="toggleMenu">      
       <hover-overlay :rounded="true" icon="bars">
@@ -67,7 +69,7 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
         profileImgUrl: state => state.auth.user.photo,
         username: state => state.auth.user.public_name,
       }),
-      ...mapGetters('auth', ['getUserDashRoute', 'getUserProfileRoute', 'isCustomer', 'isProfessional']),
+      ...mapGetters('auth', ['getUserDashRoute', 'getUserConsultingsRoute', 'getUserProfileRoute', 'isCustomer', 'isProfessional']),      
       ...mapGetters('app', ['isMenuOpened'])
     }
   }

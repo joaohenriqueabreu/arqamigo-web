@@ -9,16 +9,15 @@
             </hover-overlay>              
           </router-link>              
           <div class="h-space-10"></div>
-          <div class="vertical middle">
+          <div class="vertical center middle">
             <h6>{{ room.category.name }}</h6>
             <h6 v-if="isProfessional">{{ room.location }}</h6>
           </div>
         </div>
-        <hover-overlay icon="home" :rounded="true">
-          <router-link v-if="room.num_consultings > 0" :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}" class="vertical middle center rounded-circle py-3 px-4 color-brand bg-white clickable shadow bold">
-            {{ room.num_consultings }}
-          </router-link> 
-        </hover-overlay>        
+        <div class="horizontal middle center color-brand bold">
+          <font-awesome-icon icon="coffee" class="icon mr-2"></font-awesome-icon>
+          <span title="Número de dicas recebidas">{{ room.num_consultings }}</span>
+        </div>                
       </div>
       <router-link :to="{ name: `${isCustomer ? 'customer.rooms.edit' : 'professional.room' }`, params: { id: room.id }}">
         <img class="card-img-top" :src="room.photo">              

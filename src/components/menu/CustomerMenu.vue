@@ -9,8 +9,15 @@
     <div class="v-space-20"></div>
     <router-link to="/customer/rooms">
       <h6>
-        <font-awesome-icon class="mr-3" icon="coffee"></font-awesome-icon>
+        <font-awesome-icon class="mr-3" icon="home"></font-awesome-icon>
         Meus ambientes
+      </h6>
+    </router-link>  
+    <div class="v-space-20"></div>
+    <router-link to="/customer/rooms">
+      <h6>
+        <font-awesome-icon class="mr-3" icon="coffee"></font-awesome-icon>
+        Dicas recebidas
       </h6>
     </router-link>      
     <div class="v-space-20"></div>

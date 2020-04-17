@@ -72,7 +72,9 @@ export default {
       isConnectedToPinterest: (state, getters) => getters.isProfessional && state.user.pinterest_token !== undefined && state.user.pinterest_token.length > 0,    
       hasPinterestBoard: (state, getters) => getters.isProfessional && getters.isConnectedToPinterest && state.user.pinterest_board !== undefined && state.user.pinterest_board.length > 0,
       getPinterestBoard: state => state.user.pinterest_board,
+
       getUserProfileRoute: (state, getters) => getters.isProfessional ? 'professional.profile' : 'customer.profile',    
       getUserDashRoute: (state, getters) => getters.isProfessional ? 'professional.dash' : 'customer.dash',    
+      getUserConsultingsRoute: (state, getters) => getters.isProfessional ? 'professional.consultings' : 'customer.consultings',    
     }
 }
