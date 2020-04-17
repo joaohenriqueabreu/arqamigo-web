@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import { required, minLength }    from 'vuelidate/lib/validators'
-import { mapGetters, mapActions } from 'vuex'
-import GooglePlaces               from '@/components/layout/GooglePlaces'
+import { required, minLength }    from 'vuelidate/lib/validators';
+import { mapGetters, mapActions, mapState } from 'vuex';
+import GooglePlaces               from '@/components/layout/GooglePlaces';
 export default {
   components: {
     'google-places': GooglePlaces
@@ -51,29 +51,29 @@ export default {
     // location:    { required },
   },
   methods: {
-    ...mapActions(['completeStep', 'revertStep', 'setRoomLocation']),
+    ...mapActions('room', ['completeStep', 'revertStep', 'setRoomLocation']),
     setTitle(value) {
-      this.getRoom.title = value
-      this.validDetails  = ! this.$v.$invalid
-      this.$v.title.$touch()
+      this.room.title = value;
+      this.validDetails  = ! this.$v.$invalid;
+      this.$v.title.$touch();
     },
     setDescription(value) {    
-      console.log(value.length)
-      console.log(this.$v.description.$model)
-      this.getRoom.description  = value
-      this.validDetails         = ! this.$v.$invalid
-      this.$v.description.$touch()
+      console.log(value.length);
+      console.log(this.$v.description.$model);
+      this.room.description  = value;
+      this.validDetails         = ! this.$v.$invalid;
+      this.$v.description.$touch();
     },
   },
   computed:{
-    ...mapGetters(['getRoom'])
+    ...mapState({room: state => state.room.room})
   },
   watch: {
     validDetails: function(valid) {
       if (valid) { 
-        this.completeStep({step: this.$config.DETAILS_STEP, proceed: false})        
+        this.completeStep({step: this.$config.DETAILS_STEP, proceed: false}) ;       
       } else {
-        this.revertStep(this.$config.DETAILS_STEP)
+        this.revertStep(this.$config.DETAILS_STEP);
       }    
     }
   }

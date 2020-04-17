@@ -30,10 +30,10 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['completeStep', 'revertStep'])
+        ...mapActions('room', ['completeStep', 'revertStep'])
     },
     computed: {
-        ...mapGetters(['hasUploadedMedias']),
+        ...mapGetters('media', ['hasUploadedMedias']),
     },
     watch: {
         hasUploadedMedias: function (hasMedias) {

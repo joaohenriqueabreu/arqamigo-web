@@ -1,45 +1,57 @@
 import Comment              from '@/models/Comment';
 import CommentCollection    from '@/collections/CommentsCollection';
-import http                      from '@/services/http';
+import http                 from '@/services/http';
 
 export default {
+  namespaced: true,
     state: {
-        comment:    new Comment(),
-        comments:   new CommentCollection(),
+      comment:    new Comment(),
+      comments:   [],
     },
     mutations: {
-        new_comment(state) {
-            state.comment = {
-              id: 0,
-              content: '',
-              sender: {
-                type: state.token,
-                name: state.user.name,
-                photo: state.user.profile_img_url,
-              },        
-              medias: []
-            };
-            state.medias  = [];
-          },
-          set_comment_content(state, content) {
-            state.comment.content = content;
-          },
-          comment_sent(state, id) {  
-            state.comment.id      = id;
-            state.comment.medias  = state.medias;          
-            state.consulting.comments.push(state.comment);
-          },
+      new_comment(state, sender) {
+        state.comment = new Comment({                            
+          sender: {
+            type:   sender.type,
+            name:   sender.name,
+            photo:  sender.photo,
+          },                      
+        });            
+      },
+      set_comment(state, commentData) {
+        state.comment = new Comment(commentData);
+      },
+      set_comments(state, commentsData) {
+        state.comments = [];
+        commentsData.forEach(commentData => {
+          state.comments.push(commentData);
+        });
+      },
+      set_comment_content(state, content) {
+        state.comment.content = content;
+      },
+      comment_sent(state, id) {  
+        state.comment.id      = id;
+        state.comment.medias  = state.medias;          
+        state.consulting.comments.push(state.comment);
+      },
     },
     actions: {
-        newComment({ commit }) {
-            commit('new_comment');
-          },
-          setCommentContent({commit}, content) {
-            commit('set_comment_content', content);
-          },
+      newComment({ commit, rootState }) {
+        commit('new_comment', rootState.auth.user);
+        this.dispatch('media/clearMedias');
+      },
+      setComments({commit}, commentsData) {
+        commit('set_comments', commentsData);
+      },
+      commentSent({commit}, commentId) {
+        commit('comment_sent', commentId)
+      },
+      setCommentContent({commit}, content) {
+        commit('set_comment_content', content);
+      },          
     },
     getters: {
-        hasComment: state => typeof state.comment === 'object' && Object.keys(state.comment).length > 0,
-        getComment: state => state.comment,
+      hasComment: state => state.comment.id !== null      
     }
 }

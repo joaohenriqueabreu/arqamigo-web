@@ -39,14 +39,16 @@ export default {
         'room-card':          RoomCard
     },
     methods: {
-      ...mapActions(['loadConsultings', 'loadRooms']),
+      ...mapActions('consulting', ['loadConsultings']),
+      ...mapActions('room', ['loadRooms'])
     },
-    created: async function () {
-      await this.loadConsultings()
-      await this.loadRooms()
+    created: function () {
+      this.loadConsultings()
+      this.loadRooms()
     },
     computed: {            
-        ...mapGetters(['mainConsultings', 'recentRooms', 'allRooms', 'otherRooms'])
+        ...mapGetters('consulting', ['mainConsultings']),
+        ...mapGetters('room', ['recentRooms', 'allRooms', 'otherRooms'])
     },
 }
 </script>

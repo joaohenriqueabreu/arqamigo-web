@@ -24,19 +24,21 @@ import Navbar                     from '@/components/menu/Navbar.vue'
 import Footer                     from '@/components/layout/Footer.vue'
 
 export default {
-  name: 'app',
   components: {
     'top-navbar':       Navbar,
     'bottom-footer':    Footer,
     'fade-transition':  FadeTransition
   },
   computed: {
-    ...mapState({
-      navbarStyle: state => state.layout.navbarStyle,
-      containerStyle: state => state.layout.containerStyle,
-      message: state => state.app.message,
+    ...mapState('layout', {
+      navbarStyle:    state => state.navbarStyle,
+      containerStyle: state => state.containerStyle,      
     }),
-    ...mapGetters(['isLoggedIn', 'hasMessage'])
+    ...mapState('app', {
+      message: state => state.message,
+    }),
+    ...mapGetters('app', ['hasMessage']),
+    ...mapGetters('auth', ['isLoggedIn'])
   }
 }
 </script>

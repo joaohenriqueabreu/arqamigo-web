@@ -1,13 +1,16 @@
 import Room             from '@/models/Room';
 import RoomsCollection  from '@/collections/RoomsCollection';
 import config           from '@/assets/js/config';
-import http                      from '@/services/http';
-import router from '@/routes/index';
+// TODO create an interceptor for axios and move startApi and closeApi there
+import http             from '@/services/http';
+import router           from '@/routes/index';
+
 
 export default {
+  namespaced: true,
     state: {
         room:           new Room(),
-        rooms:          new RoomsCollection(),    
+        rooms:          [],    
         currentStep:    config.MAIN_STEP, 
         roomSteps:      [
             {step: config.MAIN_STEP, completed: true}, 
@@ -27,11 +30,14 @@ export default {
             state.medias            = []
             state.withProfessional  = {}
         },
-        set_rooms(state, rooms) {
-            state.rooms = rooms;
+        set_rooms(state, roomsData) {          
+          state.rooms = [];
+          roomsData.forEach((roomData) => {            
+            state.rooms.push(new Room(roomData));
+          });
         },
-        set_room(state, room) {
-            state.room = room;
+        set_room(state, roomData) {
+            state.room = new Room(roomData); 
         },
         prepare_room_for_saving(state) {
             state.room.medias = state.medias;      
@@ -76,23 +82,29 @@ export default {
         newRoom({commit}) {
             commit('new_room');
           },
-          loadRooms({ commit }) {      
-            return http.get('/rooms').then(res => commit('set_rooms', res.data));          
+          async loadRooms({ commit }) {             
+            const response = await http.get('/rooms');
+            commit('set_rooms', response.data);          
           },
-          loadRoom({commit}, id) {
-            commit('start_api');          
-            http.get(`/rooms/${id}`).then(res => {        
-              commit('set_room', res.data);
-              commit('set_medias', res.data.medias);
-              commit('api_loaded');
-            });
+          async loadRoom({ commit }, id) {               
+            const response = await http.get(`/rooms/${id}`);
+            commit('set_room', response.data);            
+
+            this.dispatch('media/setMedias', response.data.medias);
+            this.dispatch('consulting/setConsultings', response.data.consultings);                    
           },
-          createRoom({commit, getters}) {
-            commit('start_api');          
+          async loadRoomConsultings({commit}, id) {
+            const response = await http.get(`/rooms/${id}`);
+            commit('set_room', response.data);            
+            this.dispatch('consulting/setConsultings', response.data.consultings);   
+          },
+          async saveRoom({commit, state}) {            
+            http.put(`/rooms/${state.room.id}`, state.room);            
+          },
+          createRoom({commit, state}) {               
             commit('prepare_room_for_saving');
-            http.post('rooms', { room: getters.getRoom }).then(res => {        
-              commit('new_room');
-              commit('api_loaded');
+            http.post('rooms', { room: state.room }).then(res => {        
+              commit('new_room');              
               router.push('/customer/rooms/created');
             });
           }, 
@@ -135,36 +147,35 @@ export default {
           },
     },
     getters: {
-        allRooms: state => state.rooms,
-    // recentRooms: state => state.rooms.filter(room => {
-    //   let roomDt  = new Date(room.created_dt);
-    //   let now     = new Date();
-    //   let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
-    //   return diff <= ROOMS_DAYS_THRESHOLD;
-    // }),
-    recentRooms: state => state.rooms.slice(0, 5),
-    // otherRooms: state => state.rooms.filter(room => {
-    //   let roomDt  = new Date(room.created_dt);
-    //   let now     = new Date();
-    //   let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
-    //   return diff > ROOMS_DAYS_THRESHOLD;
-    // }),
-    otherRooms: state => state.rooms.slice(5, state.rooms.length),
+      allRooms: state => state.rooms,
+      // recentRooms: state => state.rooms.filter(room => {
+      //   let roomDt  = new Date(room.created_dt);
+      //   let now     = new Date();
+      //   let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
+      //   return diff <= ROOMS_DAYS_THRESHOLD;
+      // }),
+      recentRooms: state => state.rooms.slice(0, 5),
+      // otherRooms: state => state.rooms.filter(room => {
+      //   let roomDt  = new Date(room.created_dt);
+      //   let now     = new Date();
+      //   let diff    = Math.ceil((now - roomDt) / (MS_IN_DAY));      
+      //   return diff > ROOMS_DAYS_THRESHOLD;
+      // }),
+      otherRooms: state => state.rooms.slice(5, state.rooms.length),
 
-    hasRoom: state => typeof state.room === 'object' && Object.keys(state.room).length > 0,
-    getRoom: state => state.room,
+      hasRoom: state => state.room.id !== null,      
 
-    // Room creation steps
-    getCreateStep: state => state.currentStep,    
-    getCreateStepIndex: state => config.ROOM_STEPS.indexOf(state.currentStep),
+      // Room creation steps
+      getCreateStep: state => state.currentStep,    
+      getCreateStepIndex: state => config.ROOM_STEPS.indexOf(state.currentStep),
 
-    // Need to do one-by-one to trigger bindings
-    isMainStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.MAIN_STEP)].completed,    
-    isCategoriesStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.CATEGORIES_STEP)].completed,
-    isAreaStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.AREA_STEP)].completed,
-    isMediasStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.MEDIAS_STEP)].completed,
-    isDetailsStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.DETAILS_STEP)].completed,
-    isReadyStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.READY_STEP)].completed,    
-    isCurrentStepComplete: (state, getters) => state.roomSteps[getters.getCreateStepIndex].completed,
+      // Need to do one-by-one to trigger bindings
+      isMainStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.MAIN_STEP)].completed,    
+      isCategoriesStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.CATEGORIES_STEP)].completed,
+      isAreaStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.AREA_STEP)].completed,
+      isMediasStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.MEDIAS_STEP)].completed,
+      isDetailsStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.DETAILS_STEP)].completed,
+      isReadyStepCompleted: state => state.roomSteps[config.ROOM_STEPS.indexOf(config.READY_STEP)].completed,    
+      isCurrentStepComplete: (state, getters) => state.roomSteps[getters.getCreateStepIndex].completed,
     }
 }

@@ -20,7 +20,7 @@ export default {
         large: { type: Boolean, default: false },        
     },
     methods: {
-        ...mapActions(['removeMedia']),
+        ...mapActions('media', ['removeMedia']),
         maximize(url) {
             this.$swal(url)
         },
@@ -29,7 +29,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getUploadedMedias'])
+        ...mapGetters('media', ['getUploadedMedias'])
     }
 }
 </script>

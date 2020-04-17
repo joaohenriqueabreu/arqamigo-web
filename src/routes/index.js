@@ -1,5 +1,8 @@
 import Vue              from 'vue';
 import store            from '@/store/index';
+import appStore         from '@/store/AppStore';
+import authStore        from '@/store/AuthStore';
+import layoutStore      from '@/store/LayoutStore';
 import Router           from 'vue-router';
 
 import Home             from '@/views/info/Home';
@@ -18,7 +21,7 @@ import RoomsList            from '@/views/customer/RoomsList';
 import CreateRoom           from '@/views/customer/CreateRoom';
 import RoomCreated          from '@/views/customer/RoomCreated';
 import CustomerConsultings  from '@/views/customer/Consultings';
-import EditRoom             from '@/views/customer/Room';
+import RoomEdit             from '@/views/customer/RoomEdit';
 import ShowProfessional     from '@/views/customer/Professional';
 
 import ProfessionalDash from '@/views/professional/Dashboard';
@@ -139,7 +142,7 @@ let router = new Router({
           },
           {
             path: 'professionals/:id',
-            name: 'customer.professional.show',
+            name: 'customer.professionals.show',
             component: ShowProfessional
           },
           {
@@ -174,7 +177,7 @@ let router = new Router({
           {
             path:'rooms/:id',
             name: 'customer.rooms.edit',
-            component: EditRoom,
+            component: RoomEdit,
             meta: {
               ...altNavbar
             }            
@@ -230,12 +233,12 @@ let router = new Router({
           },
           {
             path: 'customers',
-            name: 'professional.customers',
+            name: 'professional.customers.index',
             component: CustomerIndex,
           },
           {
             path: 'customers/:id',
-            name: 'professional.customer',
+            name: 'professional.customers.show',
             component: ShowCustomer
           },
           {
@@ -288,12 +291,12 @@ let router = new Router({
     ],
 });
 
-router.beforeEach(async (to, from, next) => {
-  store.dispatch('setPageSubtitle', '');
+router.beforeEach(async (to, from, next) => {  
+  store.dispatch('layout/setPageSubtitle', '');
 
   // When route changes, close menu if opened  
-  if (store.getters.isMenuOpened) {
-      store.dispatch('closeMenu');  
+  if (store.getters['app/isMenuOpened']) {
+      store.dispatch('app/closeMenu');  
   }    
 
   if (to.matched.some(page => page.meta.requiresAuth)) {  
@@ -303,17 +306,19 @@ router.beforeEach(async (to, from, next) => {
     /// TODO use vue-mc state
     if (store.state.auth.user === undefined || store.state.auth.user === null || store.state.auth.user.id === null) {
       try {
-        console.log('trying to validate token from server')
-        await store.dispatch('validate'); 
-      } catch {
+        console.log('trying to validate token from server');
+        const response = await store.dispatch('auth/validate'); 
+        console.log(response);
+      } catch (err) {
         // Any errors redirect to login
+        console.log(err);
         next('/login');
         return;
       } 
     }
 
     if (to.matched.some(page => page.meta.requiresAdminAuth)) {
-      if (! store.getters.isAdmin) {
+      if (! store.getters['auth/isAdmin']) {
         next('/404')
         return
       }      
@@ -321,7 +326,7 @@ router.beforeEach(async (to, from, next) => {
 
     if (to.matched.some(page => page.meta.requiresCustomerAuth)) {
       console.log('requires customer auth');
-      if (! store.getters.isCustomer) {
+      if (! store.getters['auth/isCustomer']) {
         next('/404')
         return
       }      
@@ -329,7 +334,7 @@ router.beforeEach(async (to, from, next) => {
     
     if (to.matched.some(page => page.meta.requiresProfessionalAuth)) {
       console.log('requires pros auth');
-      if (! store.getters.isProfessional) {
+      if (! store.getters['auth/isProfessional']) {
         next('/404')
         return
       }          
@@ -349,14 +354,14 @@ router.beforeEach(async (to, from, next) => {
   // }
   
   // Set default navbarStyle (or change)
-  store.dispatch('changeNavbarStyle', '');
+  store.dispatch('layout/changeNavbarStyle', '');
   if (to.meta.navbarStyle !== undefined) { 
-    store.dispatch('changeNavbarStyle', to.meta.navbarStyle);
+    store.dispatch('layout/changeNavbarStyle', to.meta.navbarStyle);
   }
 
-  store.dispatch('changeContainerStyle', 'container');
+  store.dispatch('layout/changeContainerStyle', 'container');
   if (to.meta.containerStyle !== undefined) { 
-    store.dispatch('changeContainerStyle', to.meta.containerStyle);
+    store.dispatch('layout/changeContainerStyle', to.meta.containerStyle);
   }
 
   next() 
@@ -364,15 +369,15 @@ router.beforeEach(async (to, from, next) => {
 
 const getDashRedirect = function () {
   // TODO use switch
-  if (store.getters.isAdmin) {
+  if (store.getters['auth/isAdmin']) {
     return('/admin/dash')    
   }
 
-  if (store.getters.isCustomer) {
+  if (authStore.getters['auth/isCustomer']) {
     return('/customer')    
   }
 
-  if (store.getters.isProfessional) {
+  if (authStore.getters['auth/isProfessional']) {
     return('/professional')    
   }  
 }

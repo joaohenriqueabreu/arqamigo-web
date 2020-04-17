@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     ...mapState({ navbarStyle: state => state.layout.navbarStyle }),
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters('auth', ['isLoggedIn'])
   }
 }
 </script>

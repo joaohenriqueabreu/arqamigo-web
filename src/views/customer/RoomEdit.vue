@@ -1,11 +1,11 @@
 <template>
   <div class="vertical"> 
     <div v-if="hasRoom">
-      <form @submit.prevent="update" class="mb-4">
+      <form @submit.prevent="save" class="mb-4">
         <h4 class="my-3">Atualizar ambiente</h4>
         <div class="group text-left bg-white mb-5">
           <label for="title">Título</label>
-          <input type="title" v-model="getRoom.title" name="title">
+          <input type="title" v-model="room.title" name="title">
           <font-awesome-icon icon="edit" class="color-light-gray right"></font-awesome-icon>
         </div>
         <h4 class="mb-0">Medias</h4>
@@ -25,11 +25,11 @@
           <h4 class="mb-3">Detalhes do ambiente</h4>
           <div class="group text-left bg-white mb-3">
             <label for="description">Descrição</label>
-            <textarea rows="3" v-model="getRoom.description" name="description"></textarea>            
+            <textarea rows="3" v-model="room.description" name="description"></textarea>            
           </div>
           <div class="group text-left bg-white mb-3">
             <label for="location">Local</label>
-            <input type="location" v-model="getRoom.location" name="location">
+            <input type="location" v-model="room.location" name="location">
             <font-awesome-icon icon="map-marker-alt" class="color-light-gray right"></font-awesome-icon>
           </div>
           <h4 class="mt-4 mb-2">Medidas</h4>            
@@ -39,7 +39,7 @@
               <div class="col-sm-5">
                 <div class="group text-left bg-white mb-3">
                   <label for="length">Comprimento (m)</label>
-                  <input type="length" v-model="getRoom.area.height" name="length">
+                  <input type="text" v-model="room.area.height" name="length">
                   <font-awesome-icon icon="ruler-horizontal" class="color-light-gray right"></font-awesome-icon>
                 </div>
               </div>
@@ -49,7 +49,7 @@
               <div class="col-sm-5">
                 <div class="group text-left bg-white mb-3">
                   <label for="width">Largura (m)</label>
-                  <input type="width" v-model="getRoom.area.width" name="width">
+                  <input type="text" v-model="room.area.width" name="width">
                   <font-awesome-icon icon="ruler-vertical" class="color-light-gray right"></font-awesome-icon>
                 </div>
               </div>
@@ -61,36 +61,39 @@
         </div>        
       </form>
       <h4 class="mb-4">Últimas dicas recebidas deste ambiente</h4> 
-      <div v-for="consulting in getRoom.consultings" :key="consulting.id">
-        <consulting-card  noTitle  :consulting="consulting"></consulting-card>
+      <div v-for="(consulting, index) in latestConsultings" :key="index">
+        <consulting-card noTitle :consulting="consulting"></consulting-card>
       </div>      
     </div>                
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Thumbnails from '@/components/layout/Thumbnails'
 import FileUploader from '@/components/layout/FileUploader'
 import ConsultingCard from '@/components/consulting/Card'
 
 export default {
   async created() {
-    await this.loadRoom(this.$route.params.id)
+    await this.loadRoom(this.$route.params.id);    
   },
   components: {
-    'thumbnails': Thumbnails,
-    'file-uploader': FileUploader,
-    'consulting-card': ConsultingCard
+    'thumbnails':       Thumbnails,
+    'file-uploader':    FileUploader,
+    'consulting-card':  ConsultingCard
   },
   methods: {
-    ...mapActions(['loadRoom']),
-    update() {
-      this.$swal("updating room")      
-    }
+    ...mapActions('room', ['loadRoom', 'saveRoom'])  ,
+    async save() {
+      await this.saveRoom();
+      this.$router.push({name: 'customer.dashboard'});
+    }  
   },
   computed: {
-    ...mapGetters(['hasRoom', 'getRoom'])
+    ...mapState({ room: state => state.room.room }),
+    ...mapGetters('room', ['hasRoom']),
+    ...mapGetters('consulting', ['latestConsultings'])
   }
 }
 </script>

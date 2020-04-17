@@ -89,7 +89,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['isConnectedToPinterest', 'hasPinterestBoard', 'getPinterestBoard']),
+        ...mapGetters('professional', ['isConnectedToPinterest', 'hasPinterestBoard', 'getPinterestBoard']),
         hasBoard: function () {
             return this.$$nextTick(this.hasPinterestBoard)
         }

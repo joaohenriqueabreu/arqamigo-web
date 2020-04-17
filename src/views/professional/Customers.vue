@@ -15,10 +15,10 @@ export default {
         'customer-cards': CustomerCards
     },
     methods: {
-        ...mapActions(['loadCustomers'])
+        ...mapActions('customer', ['loadCustomers'])
     },
     computed: {
-        ...mapGetters(['consultedCustomers', 'interestedCustomers'])
+        ...mapGetters('customer', ['consultedCustomers', 'interestedCustomers'])
     },
     created: function () {
         this.loadCustomers()

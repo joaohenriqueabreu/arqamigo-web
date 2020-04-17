@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import { required, numeric } from 'vuelidate/lib/validators'
 export default {
   data() {
@@ -46,20 +46,20 @@ export default {
     width:  { required, numeric }
   },
   methods: {
-    ...mapActions(['completeStep', 'revertStep']),
+    ...mapActions('room', ['completeStep', 'revertStep']),
     setHeight(value) { 
-      this.getRoom.area.height  = value
-      this.validArea            = ! this.$v.$invalid
-      this.$v.height.$touch()
+      this.room.area.height  = value;
+      this.validArea         = ! this.$v.$invalid;
+      this.$v.height.$touch();
     },
     setWidth(value) { 
-      this.getRoom.area.width   = value
-      this.validArea            = ! this.$v.$invalid
-      this.$v.width.$touch()
+      this.room.area.width = value;
+      this.validArea       = ! this.$v.$invalid;
+      this.$v.width.$touch();
     },
   },
   computed: {
-    ...mapGetters(['getRoom'])    
+    ...mapState({ room: state => state.room.room })    
   },
   watch: {
     validArea: function(valid) {

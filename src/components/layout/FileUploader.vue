@@ -61,7 +61,7 @@ export default {
         label:      { type: String},
     },
     methods: {
-        ...mapActions(['uploadMedia']),
+        ...mapActions('media', ['uploadMedia']),
         openImageUploader: function (source) {
             cloudinary.openUploadWidget({
                 cloud_name:             CLOUD_NAME,

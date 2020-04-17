@@ -32,7 +32,7 @@ export default {
         rounded: { type: Boolean, default: true }
     },
     computed: {
-      ...mapGetters(['getProfileImgUrl', 'getUsername'])
+      ...mapGetters('auth', ['getProfileImgUrl', 'getUsername'])
     }
 }
 </script>

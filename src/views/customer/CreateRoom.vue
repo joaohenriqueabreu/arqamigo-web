@@ -53,7 +53,7 @@ export default {
     'slide-transition':   SlideYUpTransition 
   },       
   methods: {
-    ...mapActions(['newRoom', 'createRoom', 'nextStep', 'prevStep']),
+    ...mapActions('room', ['newRoom', 'createRoom', 'nextStep', 'prevStep']),
     showStep(id) {            
       return this.getCreateStep === id
     },
@@ -64,7 +64,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCreateStep', 'getCreateStepIndex', 'isCategoriesStepCompleted', 'isAreaStepCompleted', 'isDetailsStepCompleted']),    
+    ...mapGetters('room', ['getCreateStep', 'getCreateStepIndex', 'isCategoriesStepCompleted', 'isAreaStepCompleted', 'isDetailsStepCompleted']),    
     showMainStep()        { return this.getCreateStep === this.$config.MAIN_STEP },    
     showCategoriesStep()  { return this.getCreateStep === this.$config.CATEGORIES_STEP },
     showAreaStep()        { return this.getCreateStep === this.$config.AREA_STEP },

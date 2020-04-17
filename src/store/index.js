@@ -19,7 +19,7 @@ const ROOMS_DAYS_THRESHOLD  = 365;
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
+  // strict: process.env.NODE_ENV !== 'production',
   modules: {
     app:                AppStore,
     auth:               AuthStore,

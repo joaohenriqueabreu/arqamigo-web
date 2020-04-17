@@ -7,10 +7,12 @@ export default class Consulting extends Model
 {
     defaults() {
         return {
-            id:             null,
-            room:           new Room(),
-            professional:   new Professional(),            
-            comments:       new CommentsCollection(),            
+            id:                 null,
+            room:               new Room(),
+            professional:       new Professional(),            
+            comments:           new CommentsCollection(),            
+            created_at:         Date.now(),
+            last_commented_at:  Date.now(),            
         }
     }
 }

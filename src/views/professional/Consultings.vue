@@ -15,10 +15,10 @@ export default {
         'consulting-card': ConsultingCard
     },
     methods: {
-        ...mapActions(["loadConsultings"])
+        ...mapActions('consulting', ['loadConsultings'])
     },
     computed: {            
-        ...mapGetters(["allConsultings"])
+        ...mapGetters('consulting', ['allConsultings'])
     },
     created: function () {
         this.loadConsultings()

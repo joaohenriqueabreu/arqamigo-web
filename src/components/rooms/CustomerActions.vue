@@ -61,7 +61,8 @@ export default {
         consulting: Object
     },
     methods: {
-        ...mapActions(['authorizeProfessional', 'closeConsulting', 'blockProfessional']),
+        ...mapActions('customer', ['authorizeProfessional', 'blockProfessional']),
+        ...mapActions('consulting', ['closeConsulting']),
         async authorize() {            
             await this.authorizeProfessional(this.consulting.professional)
             this.$modal.hide('authorize')
@@ -91,7 +92,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['getFeedback'])
+        ...mapGetters('rating', ['getFeedback'])
     }
 }
 </script>

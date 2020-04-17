@@ -3,42 +3,37 @@ import ProfessionalsCollections from '@/collections/ProfessionalsCollection';
 import http                      from '@/services/http';
 
 export default {
+  namespaced: true,
     state: {
         professional:   new Professional(),
-        professionals:  new ProfessionalsCollections(),
+        professionals:  [],
     },
     mutations: {
-        set_professionals(state, professionals) {      
-            state.professionals = professionals;
-          },
-          set_professional(state, professional) {
-            state.professional = professional;
-          },
-          set_pinterest_token(state, token) {      
-            state.user.pinterest_token = token;            
-          },
-          set_pinterest_board(state, board) {      
-            state.user.pinterest_board = board;            
-          },
+        set_professionals(state, professionalsData) {      
+            state.professionals = [];
+            professionalsData.forEach((professionalData) => {              
+              state.professionals.push(new Professional(professionalData));
+            });
+        },
+        set_professional(state, professionalData) {
+          state.professional = new Professional(professionalData);          
+        },
+        set_pinterest_token(state, token) {      
+          state.user.pinterest_token = token;            
+        },
+        set_pinterest_board(state, board) {      
+          state.user.pinterest_board = board;            
+        },
     },
     actions: {
-        searchProfessionals({ commit }, term) {
-            commit('start_api');          
-            http.get(`/professionals?term=${term}`
-            //   { url: '/customer/professionals/',
-            //   data: term
-            // })
-            ).then(res => {            
-              commit('set_professionals', res.data);
-              commit('api_loaded');
+        searchProfessionals({ commit }, term) {       
+            http.get(`/professionals?term=${term}`).then(res => {            
+              commit('set_professionals', res.data);              
             });
           },
-          loadProfessional({ commit }, id) {
-            commit('start_api');
-            http.get(`professionals/${id}`).then(res => {
-              commit('set_professional', res.data);
-              commit('api_loaded');
-            });
+          async loadProfessional({ commit }, id) {            
+            const response = await http.get(`professionals/${id}`);            
+            commit('set_professional', response.data);                          
           },
           setPinterestToken({ commit }, token) {
             const board = 'https://www.pinterest.com/joaohenriqueabreu/endgame/';
@@ -52,9 +47,9 @@ export default {
           },
     },
     getters: {
-        hasProfessionals: state => state.professionals.length > 0,
-    hasProfessional: state => typeof state.professional === 'object' && Object.keys(state.professional).length > 0,
-    allProfessionals: state => state.professionals,
-    getProfessional: state => state.professional,
+      hasProfessionals: state => state.professionals.length > 0,
+      hasProfessional: state => state.professional.id !== null,
+      allProfessionals: state => state.professionals,
+      getProfessional: state => state.professional,
     }
 }

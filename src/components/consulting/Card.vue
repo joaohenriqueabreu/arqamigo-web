@@ -5,9 +5,9 @@
           <div class="d-flex justify-content-between">
             <div class="horizontal">
                 <div class="position-relative">
-                  <router-link :to="{ name: getRoomRouteName, params: {id: consulting.id }}">
+                  <router-link :to="getAvatarRoute">
                     <hover-overlay :rounded="true" icon="home">
-                      <avatar :src="otherUser.photo" :username="'abc'"></avatar>
+                      <avatar :src="getAvatarImg" :username="getAvatarUsername"></avatar>
                     </hover-overlay>              
                   </router-link>
                 </div>                          
@@ -40,7 +40,7 @@
               </div>
             </div>
             <div>
-              <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.rooms.consulting`, params: { id: consulting.room.id }}">
+              <router-link :to="{ name: `${isCustomer ? 'customer' : 'professional'}.rooms.consulting`, params: { id: consulting.id }}">
               <hover-overlay :rounded="true" icon="coffee">
                 <div class="rounded-circle vertical center middle shadow p-3">{{ consulting.num_comments }}</div>
               </hover-overlay>              
@@ -86,10 +86,16 @@ export default {
         }
     },
     computed: {
-      ...mapGetters(['isProfessional', 'isCustomer']),
+      ...mapGetters('auth', ['isProfessional', 'isCustomer']),
       user()              { return this.isCustomer ? this.consulting.room.customer : this.consulting.professional },
       otherUser()         { return this.isProfessional ? this.consulting.room.customer : this.consulting.professional },
-      getRoomRouteName()  { return this.isCustomer ? 'customer.rooms.edit' : 'professional.room' }
+      getRoomRouteName()  { return this.isCustomer ? 'customer.rooms.edit' : 'professional.room' },
+      getAvatarImg()      { return this.isCustomer ? this.consulting.professional.photo : this.consulting.room.customer.photo },      
+      getAvatarUsername() { return this.isCustomer ? this.consulting.professional.name : this.consulting.room.customer.name },      
+      getAvatarRoute()    { return this.isCustomer 
+        ? { name: 'customer.professionals.show', params: {id: this.consulting.professional.id }}
+        : { name: 'professional.customers.show', params: {id: this.consulting.room.customer.id }}
+      },
     }    
 }
 </script>

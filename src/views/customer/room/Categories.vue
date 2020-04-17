@@ -16,14 +16,14 @@
                 <img :src="category.url" class="full-width full-height">            
               </hover-overlay>                        
           </div>  
-          <input type="hidden" v-model="getRoom.category.id" name="category_id">        
+          <input type="hidden" v-model="room.category.id" name="category_id">        
       </div>
   </div>
 </template>
 
 <script>
-import baseCategories from '@/assets/images/categories/categories.js'
-import { mapActions, mapGetters } from 'vuex'
+import baseCategories from '@/assets/images/categories/categories.js';
+import { mapState, mapActions } from 'vuex';
 export default {
     data() {
         return {
@@ -34,31 +34,31 @@ export default {
         }
     },  
     methods: {
-        ...mapActions(['completeStep', 'revertStep']),
+        ...mapActions('room', ['completeStep', 'revertStep']),
         filterCategories() { 
-            let self = this           
+            let self = this;           
             // Need to refresh categories in every search            
-            this.categories = baseCategories
+            this.categories = baseCategories;
             this.categories = this.categories.filter(category => {                
-                return category.name.toLowerCase().includes(self.term.toLowerCase())
+                return category.name.toLowerCase().includes(self.term.toLowerCase());
             })
         },
         selectCategory(index) {                        
-            this.clearSelection()            
-            const item = this.$refs.hover.filter(hoverItem => hoverItem.id === index)            
-            item[0].select()
-            this.categoryId = index
-            this.completeStep({step: this.$config.CATEGORIES_STEP, proceed: true})                        
+            this.clearSelection();
+            const item = this.$refs.hover.filter(hoverItem => hoverItem.id === index);            
+            item[0].select();
+            this.categoryId = index;
+            this.completeStep({step: this.$config.CATEGORIES_STEP, proceed: true});
         },
         clearSelection() {
-            this.revertStep(this.$config.CATEGORIES_STEP)            
+            this.revertStep(this.$config.CATEGORIES_STEP);            
             for(let i = 0; i < this.categories.length; i++) { 
-                this.$refs.hover[i].unselect() 
+                this.$refs.hover[i].unselect(); 
             }
         }
     },
     computed: {
-        ...mapGetters(['getRoom'])
+        ...mapState({room: state => state.room.room })
     }    
 }
 </script>

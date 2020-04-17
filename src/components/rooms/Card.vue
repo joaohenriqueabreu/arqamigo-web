@@ -18,7 +18,7 @@
           <router-link v-if="room.num_consultings > 0" :to="{ name: `${isCustomer ? 'customer' : 'professional' }.room`, params: { id: room.id }}" class="vertical middle center rounded-circle py-3 px-4 color-brand bg-white clickable shadow bold">
             {{ room.num_consultings }}
           </router-link> 
-        </hover-overlay>       
+        </hover-overlay>        
       </div>
       <router-link :to="{ name: `${isCustomer ? 'customer.rooms.edit' : 'professional.room' }`, params: { id: room.id }}">
         <img class="card-img-top" :src="room.photo">              
@@ -44,7 +44,7 @@ export default {
     room: Object
   },
   computed: {
-    ...mapGetters(['isCustomer', 'isProfessional'])
+    ...mapGetters('auth', ['isCustomer', 'isProfessional'])
   }
 
 }

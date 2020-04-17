@@ -6,13 +6,15 @@
       </div>
       <div class="vertical mb-5">
         <h4 class="mb-3">Últimas Dicas recebidas</h4>
-        <consulting-card v-for="consulting in mainConsultings" :key="consulting.id" :consulting="consulting"></consulting-card>
+        <div v-for="(consulting, index) in latestConsultings" :key="index">
+          <consulting-card :consulting="consulting"></consulting-card>
+        </div>        
         <router-link to="/customer/consultings">Ver mais</router-link>
       </div>
       <div>
         <h4>Meus ambientes</h4>
         <div class="row">
-          <div class="col-sm-4 mb-4 d-flex align-items-stretch" v-for="room in allRooms" :key="room.id">
+          <div class="col-sm-4 mb-4 d-flex align-items-stretch" v-for="(room, index) in allRooms" :key="index">
             <room-card :room="room"></room-card>
           </div>
         </div>
@@ -27,18 +29,20 @@ import RoomCard                   from "@/components/rooms/Card"
 
 export default {
   components: {
-    'consulting-card': ConsultingCard,
-    'room-card': RoomCard
+    'consulting-card':  ConsultingCard,
+    'room-card':        RoomCard
   },
-  async created() {
-    await this.loadConsultings()    
-    await this.loadRooms()
+  created() {
+    this.loadConsultings()    
+    this.loadRooms()
   },
   methods: {
-    ...mapActions(['loadConsultings', 'loadRooms']),    
+    ...mapActions('consulting', ['loadConsultings']),    
+    ...mapActions('room', ['loadRooms'])
   },
   computed: {
-    ...mapGetters(['allConsultings','mainConsultings', 'allRooms'])
+    ...mapGetters('consulting', ['latestConsultings']),
+    ...mapGetters('room', ['allRooms'])
   }
 }
 </script>

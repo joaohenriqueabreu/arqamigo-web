@@ -40,24 +40,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-    export default {
-        props: {    
-            comment: Object,
-        },
-        methods: {
+import { mapGetters } from 'vuex';
+import Comment        from '@/models/Comment';
+export default {
+    props: {    
+        comment: Comment,
+    },
+    methods: {
 
-         },
-        computed: {
-            ...mapGetters(['isCustomer', 'isProfessional']),
-            sentFromCustomer()      { return this.comment.sender.type === this.$config.SENDER_CUSTOMER },
-            sentFromProfessional()  { return this.comment.sender.type === this.$config.SENDER_PROFESSIONAL },
-            getOtherUserType()      { return this.sentFromCustomer ? this.$config.SENDER_PROFESSIONAL : this.$config.SENDER_CUSTOMER },
-            getDirection()          { return this.sentFromCustomer ? 'left' : 'right' },
-            getUserUrl()            { return `/${this.getOtherUserType}/${this.comment.sender.type}s/${this.comment.sender.id}` },
-            showLink()              { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional) }
         },
-    }
+    computed: {
+        ...mapGetters('auth', ['isCustomer', 'isProfessional']),
+        sentFromCustomer()      { return this.comment.sender.type === this.$config.SENDER_CUSTOMER },
+        sentFromProfessional()  { return this.comment.sender.type === this.$config.SENDER_PROFESSIONAL },
+        getOtherUserType()      { return this.sentFromCustomer ? this.$config.SENDER_PROFESSIONAL : this.$config.SENDER_CUSTOMER },
+        getDirection()          { return this.sentFromCustomer ? 'left' : 'right' },
+        getUserUrl()            { return `/${this.getOtherUserType}/${this.comment.sender.type}s/${this.comment.sender.id}` },
+        showLink()              { return (this.isCustomer && ! this.sentFromCustomer) || (this.isProfessional && ! this.sentFromProfessional) }
+    },
+}
 </script>
 
 <style lang="scss" scoped>

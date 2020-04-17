@@ -1,4 +1,5 @@
 export default {
+    namespaced: true,
     state: {
         apiLoaded: true,
         showMenu: false,
@@ -24,13 +25,19 @@ export default {
             setTimeout(() => state.message = undefined, 5000);      
         },
     },
-    actions: {
+    actions: { 
+        startApi({ commit }) {
+            commit('start_api');
+        },
+        apiLoaded({ commit }) {
+            commit('api_loaded');
+        },
         toggleMenu({ commit }) {
             commit('toggle_menu');
-          },
-          closeMenu({ commit }) {
+        },
+        closeMenu({ commit }) {
             commit('close_menu');
-          },
+        },
     },
     getters: {
         isApiLoaded: state => state.apiLoaded,

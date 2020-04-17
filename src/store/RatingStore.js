@@ -1,6 +1,7 @@
 import Rating from '@/models/Rating';
 
 export default {
+  namespaced: true,
     state: {
         rating: new Rating()
     },

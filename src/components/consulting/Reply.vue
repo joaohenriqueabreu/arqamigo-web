@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters }   from 'vuex'
+import { mapActions, mapGetters, mapState }   from 'vuex'
 import FileUploader     from '@/components/layout/FileUploader'
 import Thumbnails       from '@/components/layout/Thumbnails'
 
@@ -60,7 +60,7 @@ export default {
     },
     mounted() { },      
     methods: {
-        ...mapActions(['replyConsulting', 'setCommentContent']),
+        ...mapActions('comment', ['replyConsulting', 'setCommentContent']),
         reply() {
              this.setCommentContent(this.content);
              this.replyConsulting();
@@ -68,17 +68,19 @@ export default {
         }
     },  
     computed: {
-        ...mapGetters(['hasComment', 'getComment', 'hasUploadedMedias', 'getUploadedMedias']),
+        ...mapState({comment: state => state.comment.comment}),
+        ...mapGetters('comment', ['hasComment']),
+        ...mapGetters('media', ['hasUploadedMedias', 'getUploadedMedias']),
         charCount() {
-            return this.getComment.content.length + '/' + MAX_CHARACTERS
+            return this.comment.content.length + '/' + MAX_CHARACTERS
         },
 
         charCountColor() {
-            return this.getComment.content.length < MAX_CHARACTERS ? 'color-light-gray' : 'color-red'
+            return this.comment.content.length < MAX_CHARACTERS ? 'color-light-gray' : 'color-red'
         },
 
-        hasTitle() { return this.getComment.title.length > 0 },
-        hasContent() { return this.getComment.content.length > 0 },
+        hasTitle() { return this.comment.title.length > 0 },
+        hasContent() { return this.comment.content.length > 0 },
     },
 }
 </script>

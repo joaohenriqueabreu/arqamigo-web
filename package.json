@@ -17,6 +17,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "axios": "^0.19.2",
     "cloudinary-vue": "^1.0.0",
+    "consign": "^0.1.6",
     "core-js": "^3.4.4",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",

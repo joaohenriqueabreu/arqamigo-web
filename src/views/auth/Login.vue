@@ -49,22 +49,24 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
   export default {
     data(){
       return {
-        email : "",
-        password : ""
+        email :     "",
+        password :  ""
       }
     },  
     methods: {
-      ...mapActions(['login']),
+      ...mapActions('auth', ['login']),
       async internalLogin(userType) {        
-        await this.login({email: this.email, password: this.password, type: userType});         
-        this.$router.push({name: this.getUserDashRoute });
+        await this.login({ email: this.email, password: this.password, type: userType });         
+        this.$router.push({ name: this.getUserDashRoute });
       }
     },
-    computed: mapGetters(['isLoggedIn', 'getUserDashRoute'])
+    computed: {
+      ...mapGetters('auth', ['isLoggedIn', 'getUserDashRoute'])
+    }
   }
 </script>
 

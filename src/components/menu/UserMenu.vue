@@ -55,7 +55,8 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
       'professional-menu':  ProfessionalMenu
     },
     methods: {          
-      ...mapActions(['toggleMenu', 'logout']),
+      ...mapActions('auth', ['logout']),
+      ...mapActions('app', ['toggleMenu']),
       internalLogout() {
         this.logout();
         this.$router.push('/logout');
@@ -66,7 +67,8 @@ import ProfessionalMenu from '@/components/menu/ProfessionalMenu'
         profileImgUrl: state => state.auth.user.photo,
         username: state => state.auth.user.public_name,
       }),
-      ...mapGetters(['getUserDashRoute', 'getUserProfileRoute', 'isMenuOpened', 'isCustomer', 'isProfessional'])
+      ...mapGetters('auth', ['getUserDashRoute', 'getUserProfileRoute', 'isCustomer', 'isProfessional']),
+      ...mapGetters('app', ['isMenuOpened'])
     }
   }
 </script>

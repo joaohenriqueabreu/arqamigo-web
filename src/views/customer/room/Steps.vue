@@ -75,10 +75,10 @@ export default {
         'fade-transition': FadeTransition
     },
     methods: {
-        ...mapActions(['nextStep', 'prevStep', 'goToStep'])
+        ...mapActions('room', ['nextStep', 'prevStep', 'goToStep'])
     },
     computed: {
-        ...mapGetters([
+        ...mapGetters('room', [
             'getCreateStep','getCreateStepIndex', 'isCurrentStepComplete', 
             'isMainStepCompleted', 'isCategoriesStepCompleted', 'isAreaStepCompleted', 
             'isMediasStepCompleted', 'isDetailsStepCompleted', 'isReadyStepCompleted'

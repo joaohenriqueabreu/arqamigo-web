@@ -1,73 +1,82 @@
-import Consulting               from '@/models/Consulting';
-import ConsultingsCollection    from '@/collections/ConsultingsCollection';
-import http                      from '@/services/http';
-import router from '@/routes/index';
+import Consulting   from '@/models/Consulting';
+import Professional from '@/models/Professional';
+import Room         from '@/models/Room';
+import Comment      from '@/models/Comment';
+import http         from '@/services/http';
+import router       from '@/routes/index';
 
 export default {
-    state: {
-        consulting:     new Consulting(),
-        consultings:    new ConsultingsCollection(),            
-    },
-    mutations: {
-        new_consulting(state) {
-            state.consulting              = {};
-            state.consulting.professional = state.user;
-            state.consulting.room         = state.room;
-            state.consulting.comments     = [];
-          },
-          set_consulting(state, consulting) {
-            state.consulting = consulting;            
-          },
-          set_consultings(state, consultings) {
-            state.consultings = consultings;
-          },
-    },
-    actions: {
-        newConsulting({ commit }) {      
-            commit('new_consulting');      
-          },
-          loadConsulting({ commit }, id) {      
-            commit('start_api');          
-            http.get(`/consultings/${id}`).then(res => {
-              commit('set_page_subtitle', res.data.title);
-              commit('set_consulting', res.data);
-              commit('set_room', res.data.room);
-              commit('api_loaded');
-            });
-          },
-          loadConsultings({ commit, getters }) {
-            commit('start_api');          
-            http.get('/consultings').then(res => {        
-              commit('set_consultings', res.data);
-              commit('api_loaded');
-            });
-          },
-          replyConsulting({ commit, getters }, comment) {
-            commit('start_api');
-            http.post('comments', { comment: getters.getComment, medias: getters.getUploadedMedias }).then(res => {
-              commit('comment_sent', res.data.id);
-              commit('new_comment');
-              commit('api_loaded');
-            });
-          },
-          async closeConsulting({commit}, payload) {
-            commit('start_api');
-            http.post(`customers/consultings/${payload.consulting.id}/close`, { feedback: payload.feedback }).then(res => {
-              commit('api_loaded');
-              router.push('/customer'); 
-              return;
-            })
-          },
-          async rateConsulting({commit}, consulting, rate) {
-
+  namespaced: true,
+  state: {
+      consulting:   new Consulting(),
+      consultings:  [],                          
+  },
+  mutations: {
+      new_consulting(state) {
+          state.consulting              = {};
+          state.consulting.professional = new Professional(state.user);
+          state.consulting.room         = new Room(state.room);
+          state.consulting.comments     = [];
         },
-    },
-    getters: {
-        hasConsulting: state => typeof state.consulting === 'object' && Object.keys(state.consulting).length > 0,
-        getConsulting: state => state.consulting,
-    
-        // Consultings getters
-        allConsultings: state => state.consultings,  
-        mainConsultings: state => state.consultings.slice(0, 3),      
-    }
+        set_consulting(state, consultingData) {
+          state.consulting          = new Consulting(consultingData);
+          state.consulting.room     = new Room(consultingData.room);
+          state.consulting.comments = [];
+          consultingData.comments.forEach(commentData => {
+            state.consulting.comments.push(new Comment(commentData));
+          });            
+        },
+        set_consultings(state, consultingsData) {            
+          state.consultings = [];
+          consultingsData.forEach((consultingData) => {                            
+            state.consultings.push(new Consulting(consultingData));                            
+          });            
+        },
+        sort_consultings_by_last_comment(state) {
+          state.consultings.sort((consulting1, consulting2) => {
+            return (new Date(consulting1.last_commented_at)) - (new Date(consulting2.last_commented_at));
+          });            
+        }
+  },
+  actions: {
+      newConsulting({ commit }) {      
+          commit('new_consulting');      
+        },
+        async loadConsulting({ commit }, id) {             
+          const response = await http.get(`/consultings/${id}`);          
+          commit('set_consulting', response.data);
+          
+          this.dispatch('layout/setPageSubtitle', response.data.title);
+          this.dispatch('room/setRoom', response.data.room);
+          this.dispatch('comment/setComments', response.data.comments);   
+          this.dispatch('comment/newComment');                           
+        },
+        async loadConsultings({ commit }) {                              
+          const response = await http.get('consultings');          
+          commit('set_consultings', response.data);
+          commit('sort_consultings_by_last_comment');
+        },
+        async replyConsulting({ commit, rootState }, comment) {
+          // TODO move to commentStore
+          const response = await http.post('comments', { comment: rootState.comment.comment, medias: rootState.media.medias });
+          this.dispatch('comment/commentSent', response.data.id);
+          this.dispatch('comment/newComment');          
+        },
+        async closeConsulting({ commit }, payload) {          
+          await http.post(`customers/consultings/${payload.consulting.id}/close`, { feedback: payload.feedback })
+          router.push('/customer'); 
+          return;          
+        },
+        setConsultings({commit}, consultingsData) {
+          commit('set_consultings', consultingsData);
+        },
+        async rateConsulting({commit}, consulting, rate) {
+
+      },
+  },
+  getters: {
+      hasConsulting: state => state.consulting.id !== null,                    
+      latestConsultings: state => state.consultings.splice(0, 6),
+      otherConsultings: state => state.consultings.filter(otherConsulting => otherConsulting.id !== state.consulting.id)        
+  }
 }

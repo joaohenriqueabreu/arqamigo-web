@@ -55,7 +55,7 @@ import { mapGetters, mapActions } from 'vuex'
             }
         },        
         methods: {            
-            ...mapActions(['setRoom']),
+            ...mapActions('room', ['setRoom']),
             openFeed: function (index) {
                 this.currentSlide = index
                 this.slideToCurrent()

@@ -88,13 +88,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['searchProfessionals']),
+    ...mapActions('professional', ['searchProfessionals']),
     async search() {      
       await this.searchProfessionals(this.term)
     }
   },
   computed: {
-    ...mapGetters(['hasProfessionals', 'allProfessionals'])
+    ...mapGetters('professional', ['hasProfessionals', 'allProfessionals'])
   }
 }
 </script>

@@ -63,7 +63,8 @@ export default {
 
     },
     methods: {
-        ...mapActions(['rateConsulting', 'setFeedback', 'setRating']),
+        ...mapActions('consulting', ['rateConsulting']),
+        ...mapActions('rating', ['setFeedback', 'setRating']),
         getIcon(index) {            
             return index <= this.rating ? FILLED_STAR_ICON : EMPTY_STAR_ICON
         },
@@ -77,7 +78,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(['getFeedback']),
+        ...mapGetters('rating', ['getFeedback']),
         getMaxRate() { return MAX_RATE }
     }
 }

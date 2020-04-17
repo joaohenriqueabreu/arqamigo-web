@@ -3,6 +3,7 @@ import router from '@/routes/index';
 import http from '@/services/http';
 
 export default {
+  namespaced: true,
     state: {
         token: localStorage.getItem('token') || '',
         user : new User()

@@ -3,7 +3,7 @@
       <div class="row m-0">
         <div class="col-sm-3 p-0" v-if="isCustomer && hasRoom">          
             <div class="pro-consultings pt-2">
-              <other-consultings :consultings="getRoom.consultings"></other-consultings>
+              <other-consultings :room="room"></other-consultings>
             </div>          
         </div>
         <div class="p-0 position-relative" v-bind:class="isCustomer ? 'col-sm-9' : 'col-sm-12'">          
@@ -11,24 +11,24 @@
             <perfect-scrollbar>
               <div class="mx-3 mb-5">
                 <div class="vertical center">
-                  <h2 class="mb-3">{{ getConsulting.room.title }}</h2>                           
+                  <h2 class="mb-3">{{ consulting.room.title }}</h2>                           
                   <div v-if="isCustomer" class="horizontal middle center full-width">
-                    <customer-actions :consulting="getConsulting"></customer-actions>
+                    <customer-actions :consulting="consulting"></customer-actions>
                   </div>                    
                 </div>        
                 <hr class="mb-2">                  
-                <div v-if="isProfessional && getConsulting.room.customer.has_private_access"> 
-                  <private-access-alert :customer="getConsulting.room.customer"></private-access-alert>
+                <div v-if="isProfessional && consulting.room.customer.has_private_access"> 
+                  <private-access-alert :customer="consulting.room.customer"></private-access-alert>
                 </div>  
                 <div class="mb-4"></div>
                 <consulting-comment :comment="genConsultingAsComment" class="position-relative">          
-                  <font-awesome-icon icon="home" class="icon mr-1"></font-awesome-icon> {{ getConsulting.room.category.name }} <br> 
-                  <font-awesome-icon icon="ruler" class="icon mr-1"></font-awesome-icon> <b>{{ getConsulting.room.width }}{{ $config.UNIT_OF_MEASURE }} x {{ getConsulting.room.length }}{{ $config.UNIT_OF_MEASURE }}</b><br>           
-                  <font-awesome-icon icon="map-marker-alt" class="icon mr-2"></font-awesome-icon> {{ getConsulting.room.location }}
+                  <font-awesome-icon icon="home" class="icon mr-1"></font-awesome-icon> {{ consulting.room.category.name }} <br> 
+                  <font-awesome-icon icon="ruler" class="icon mr-1"></font-awesome-icon> <b>{{ consulting.room.width }}{{ $config.UNIT_OF_MEASURE }} x {{ consulting.room.length }}{{ $config.UNIT_OF_MEASURE }}</b><br>           
+                  <font-awesome-icon icon="map-marker-alt" class="icon mr-2"></font-awesome-icon> {{ consulting.room.location }}
                 </consulting-comment>
                 <div class="v-space-20"></div>
                 <consulting-comment :comment="genConsultingAsComment">
-                  {{ getConsulting.room.description }}           
+                  {{ consulting.room.description }}           
                 </consulting-comment>
                 <div class="v-space-20"></div>
                 <div v-for="(comment, index) in consultingComments" :key="index">
@@ -48,12 +48,14 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import ConsultingComment  from '@/components/consulting/Comment'
-import CommentReply       from '@/components/consulting/Reply'
-import OtherConsultings   from '@/components/rooms/OtherConsultings'
-import CustomerActions    from '@/components/rooms/CustomerActions'
-import PrivateAccessAlert from '@/components/professional/PrivateAccessBanner'
+import { mapState, mapGetters, mapActions } from 'vuex';
+import ConsultingComment  from '@/components/consulting/Comment';
+import CommentReply       from '@/components/consulting/Reply';
+import CustomerActions    from '@/components/rooms/CustomerActions';
+import PrivateAccessAlert from '@/components/professional/PrivateAccessBanner';
+import Comment            from '@/models/Comment';
+
+import OtherConsultings   from '@/views/customer/consulting/OtherConsultings';
 
 export default {
   components: {
@@ -63,35 +65,36 @@ export default {
     'other-consultings':    OtherConsultings,
     'customer-actions':     CustomerActions
   },  
-  mounted() {        
+  created() {        
     // No id means, we are starting a new consulting
     if (this.$route.params.id !== undefined) {
       this.loadConsulting(this.$route.params.id);
     } else {
       this.newConsulting();
-    } 
-    
-    this.newComment()           
+    }           
   },
   methods: {
-    ...mapActions(['setPageSubtitle', 'loadRoom', 'loadConsulting', 'newComment', 'newConsulting'])
+    ...mapActions('layout', ['setPageSubtitle']),    
+    ...mapActions('consulting', ['loadConsulting', 'newConsulting'])
   },  
   computed: {
-    ...mapGetters(['isCustomer', 'isProfessional', 'hasConsulting', 'getConsulting', 'hasRoom', 'getRoom']),
+    ...mapState({ consulting: state => state.consulting.consulting, room: state => state.room.room }),
+    ...mapGetters('auth', ['isCustomer', 'isProfessional']),
+    ...mapGetters('room', ['hasRoom']),
+    ...mapGetters('consulting', ['hasConsulting', 'otherConsultings']),
     genConsultingAsComment() {
-      return {
-        id: 0,
+      return new Comment({        
         sender: {
-          id:     this.getConsulting.room.customer.id,
-          name:   this.getConsulting.room.customer.name,
-          photo:  this.getConsulting.room.customer.photo,
-          date:   this.getConsulting.room.created_at,
+          id:     this.consulting.room.customer.id,
+          name:   this.consulting.room.customer.name,
+          photo:  this.consulting.room.customer.photo,
+          date:   this.consulting.room.created_at,
           type:   this.$config.SENDER_CUSTOMER
         }
-      }
+      })
     },
     consultingComments() {
-      return this.getConsulting.comments;
+      return this.consulting.comments;
     }
   },  
 }
