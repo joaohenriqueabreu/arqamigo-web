@@ -1,6 +1,5 @@
 import Vue      from 'vue'
 import Vuex     from 'vuex'
-import utils    from '@/plugins/utils';
 
 import AppStore             from './AppStore';
 import AuthStore            from './AuthStore';
@@ -13,9 +12,6 @@ import ProfessionalStore    from './ProfessionalStore';
 import RoomStore            from './RoomStore';
 import ConsultingStore      from './ConsultingStore';
 import CommentStore         from './CommentStore';
-
-const MS_IN_DAY             = 1000 * 60 * 60 * 24;
-const ROOMS_DAYS_THRESHOLD  = 365;
 
 Vue.use(Vuex);
 export default new Vuex.Store({

@@ -5,6 +5,8 @@ import config           from '@/assets/js/config';
 import http             from '@/services/http';
 import router           from '@/routes/index';
 
+const MS_IN_DAY             = 1000 * 60 * 60 * 24;
+const ROOMS_DAYS_THRESHOLD  = 365;
 
 export default {
   namespaced: true,

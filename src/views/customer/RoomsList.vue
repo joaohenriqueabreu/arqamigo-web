@@ -2,7 +2,7 @@
   <div>
     <h4>Meus ambientes</h4>
     <div class="row">
-        <div class="col-sm-4 mb-4 d-flex align-items-stretch" v-for="room in allRooms" :key="room.id">
+        <div class="col-sm-4 mb-4 d-flex align-items-stretch" v-for="(room, index) in allRooms" :key="index">
             <room-card :room="room"></room-card>
         </div>
     </div>
@@ -20,10 +20,10 @@ export default {
         await this.loadRooms()
     },
     methods: {
-        ...mapActions(['loadRooms'])
+        ...mapActions('room', ['loadRooms'])
     },
     computed: {
-        ...mapGetters(['allRooms'])
+        ...mapGetters('room', ['allRooms'])
     }
 }
 </script>
